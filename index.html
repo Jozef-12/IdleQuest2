@@ -31,20 +31,6 @@
           <span class="insight-subtext">Spend in the market</span>
         </div>
         <div class="insight">
-          <span class="insight-label">Pickaxe</span>
-          <span class="insight-value" id="top-pickaxe-name">Worn Pickaxe</span>
-          <span class="insight-subtext">
-            Swing: <span id="top-swing-duration">4</span> s
-          </span>
-        </div>
-        <div class="insight">
-          <span class="insight-label">Fishing Rod</span>
-          <span class="insight-value" id="top-rod-name">Worn Rod</span>
-          <span class="insight-subtext">
-            Cast: <span id="top-cast-duration">5</span> s
-          </span>
-        </div>
-        <div class="insight">
           <span class="insight-label">Mining</span>
           <span class="insight-value" id="top-mining-level">1</span>
           <span class="insight-subtext">
@@ -79,6 +65,18 @@
             Next in <span id="top-cooking-xp">150</span> xp
           </span>
         </div>
+      </div>
+      <div class="top-bar__actions">
+        <button
+          id="skill-overview-button"
+          class="ghost-button"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="skill-overview"
+        >
+          <span class="ghost-button__icon" aria-hidden="true">📊</span>
+          <span class="ghost-button__label">Skill Overview</span>
+        </button>
       </div>
       <div class="top-bar__activity" id="active-training" aria-live="polite">
         <div class="top-bar__activity-header">
@@ -159,9 +157,6 @@
         </div>
         <button class="tab-button" type="button" data-tab-target="inventory">
           Inventory
-        </button>
-        <button class="tab-button" type="button" data-tab-target="skills">
-          Skills
         </button>
         <button class="tab-button" type="button" data-tab-target="market">
           Market
@@ -542,19 +537,6 @@
         </div>
       </section>
 
-      <section class="tab-content" data-tab-panel="skills">
-        <div class="panel-grid single">
-          <article class="card skills">
-            <h2>Skills</h2>
-            <p class="tab-intro">
-              Long sessions hone your abilities. Earn progress to unlock passive boosts
-              and shiny new tools.
-            </p>
-            <ul class="skill-list" id="skill-list"></ul>
-          </article>
-        </div>
-      </section>
-
       <section class="tab-content" data-tab-panel="market">
         <div class="panel-grid single">
           <article class="card market">
@@ -701,6 +683,43 @@
         recipes.
       </p>
     </footer>
+
+    <div
+      id="skill-overview"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="skill-overview-title"
+      hidden
+    >
+      <div class="modal__backdrop" data-skill-modal-close></div>
+      <div class="modal__panel" role="document">
+        <header class="modal__header">
+          <div>
+            <h2 id="skill-overview-title">Skill Progression</h2>
+            <p class="modal__subtitle">Track your growth and currently equipped tools.</p>
+          </div>
+          <button
+            type="button"
+            class="modal__close"
+            data-skill-modal-close
+            aria-label="Close skill overview"
+          >
+            ✖
+          </button>
+        </header>
+        <div class="modal__content">
+          <section class="modal__section">
+            <h3>Skills</h3>
+            <ul class="skill-list" id="skill-list"></ul>
+          </section>
+          <section class="modal__section">
+            <h3>Current Loadout</h3>
+            <ul class="skill-loadout" id="skill-loadout"></ul>
+          </section>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
