@@ -71,6 +71,61 @@ body {
   align-items: stretch;
 }
 
+.top-bar__activity {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.85rem 1.1rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(243, 201, 105, 0.25);
+  background: rgba(9, 13, 24, 0.8);
+  box-shadow: inset 0 0 0 1px rgba(15, 18, 30, 0.65);
+}
+
+.top-bar__activity[data-active="true"] {
+  border-color: rgba(243, 201, 105, 0.6);
+  box-shadow: 0 10px 26px rgba(243, 201, 105, 0.2);
+}
+
+.top-bar__activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-label {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.68rem;
+  color: rgba(243, 201, 105, 0.75);
+}
+
+.activity-skill {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.activity-progress {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(243, 201, 105, 0.2);
+  overflow: hidden;
+}
+
+.activity-progress__bar {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(243, 201, 105, 0.95), rgba(215, 165, 66, 0.95));
+  transition: width 0.12s ease-in;
+}
+
+.activity-status {
+  font-size: 0.82rem;
+  color: rgba(237, 241, 255, 0.65);
+}
+
 .insight {
   flex: 1 1 160px;
   min-width: 150px;
@@ -253,7 +308,8 @@ body {
   color: var(--accent);
 }
 
-.card.smithing h3 {
+.card.smithing h3,
+.card.market h3 {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-size: 0.85rem;
@@ -440,17 +496,70 @@ body {
   background: rgba(8, 11, 20, 0.9);
   border-radius: 0.85rem;
   border: 1px solid rgba(243, 201, 105, 0.25);
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.smithing-grid {
+.inventory-entry .item-name {
+  flex: 1;
+}
+
+.inventory-action {
+  padding: 0.4rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(243, 201, 105, 0.45);
+  background: rgba(243, 201, 105, 0.1);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.inventory-action:hover,
+.inventory-action:focus-visible {
+  background: rgba(243, 201, 105, 0.2);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.smithy-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.smithy-controls label {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(243, 201, 105, 0.75);
+}
+
+.smithy-controls select {
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(243, 201, 105, 0.35);
+  background: rgba(8, 11, 20, 0.85);
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.smithy-views {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.smithing-grid section {
+.smithy-view {
   display: grid;
   gap: 1rem;
+}
+
+.smithy-view[hidden] {
+  display: none !important;
 }
 
 .action-list {
@@ -468,11 +577,52 @@ body {
   border: 1px solid rgba(243, 201, 105, 0.22);
 }
 
+.market-grid {
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.action-buttons button {
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(243, 201, 105, 0.4);
+  background: rgba(243, 201, 105, 0.08);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.action-buttons button:hover,
+.action-buttons button:focus-visible {
+  background: rgba(243, 201, 105, 0.18);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.action-list__empty {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: rgba(237, 241, 255, 0.55);
+  font-style: italic;
+  border-radius: 0.85rem;
+  border: 1px dashed rgba(243, 201, 105, 0.2);
+}
+
 .action-list__summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.1rem;
+  flex-wrap: wrap;
 }
 
 .action-list__summary h4 {

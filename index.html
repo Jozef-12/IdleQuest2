@@ -17,7 +17,7 @@
       </div>
       <div class="top-bar__insights" role="status" aria-live="polite">
         <div class="insight">
-          <span class="insight-label">Resource</span>
+          <span class="insight-label">Focus</span>
           <span class="insight-value">
             <span id="top-resource-name">Stone</span>
           </span>
@@ -26,10 +26,22 @@
           </span>
         </div>
         <div class="insight">
+          <span class="insight-label">Coins</span>
+          <span class="insight-value" id="top-coins">0</span>
+          <span class="insight-subtext">Spend in the market</span>
+        </div>
+        <div class="insight">
           <span class="insight-label">Pickaxe</span>
-          <span class="insight-value" id="top-pickaxe-name">Standard Pickaxe</span>
+          <span class="insight-value" id="top-pickaxe-name">Worn Pickaxe</span>
           <span class="insight-subtext">
             Swing: <span id="top-swing-duration">4</span> s
+          </span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Fishing Rod</span>
+          <span class="insight-value" id="top-rod-name">Worn Rod</span>
+          <span class="insight-subtext">
+            Cast: <span id="top-cast-duration">5</span> s
           </span>
         </div>
         <div class="insight">
@@ -40,6 +52,20 @@
           </span>
         </div>
         <div class="insight">
+          <span class="insight-label">Woodcutting</span>
+          <span class="insight-value" id="top-woodcutting-level">1</span>
+          <span class="insight-subtext">
+            Next in <span id="top-woodcutting-xp">150</span> xp
+          </span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Fishing</span>
+          <span class="insight-value" id="top-fishing-level">1</span>
+          <span class="insight-subtext">
+            Next in <span id="top-fishing-xp">150</span> xp
+          </span>
+        </div>
+        <div class="insight">
           <span class="insight-label">Smithing</span>
           <span class="insight-value" id="top-smithing-level">1</span>
           <span class="insight-subtext">
@@ -47,12 +73,24 @@
           </span>
         </div>
         <div class="insight">
-          <span class="insight-label">Woodcutting</span>
-          <span class="insight-value" id="top-woodcutting-level">1</span>
+          <span class="insight-label">Cooking</span>
+          <span class="insight-value" id="top-cooking-level">1</span>
           <span class="insight-subtext">
-            Next in <span id="top-woodcutting-xp">150</span> xp
+            Next in <span id="top-cooking-xp">150</span> xp
           </span>
         </div>
+      </div>
+      <div class="top-bar__activity" id="active-training" aria-live="polite">
+        <div class="top-bar__activity-header">
+          <span class="activity-label">Active Training</span>
+          <span class="activity-skill" id="active-training-skill">Idle</span>
+        </div>
+        <div class="activity-progress">
+          <div class="activity-progress__bar" id="active-training-bar"></div>
+        </div>
+        <span class="activity-status" id="active-training-status"
+          >No skill in progress</span
+        >
       </div>
       <nav class="top-tabs" aria-label="Game views">
         <div class="tab-dropdown" data-dropdown>
@@ -96,6 +134,22 @@
             <button
               class="tab-button tab-button--menu"
               type="button"
+              data-tab-target="harbor"
+              role="menuitem"
+            >
+              Harbor
+            </button>
+            <button
+              class="tab-button tab-button--menu"
+              type="button"
+              data-tab-target="galley"
+              role="menuitem"
+            >
+              Galley
+            </button>
+            <button
+              class="tab-button tab-button--menu"
+              type="button"
               data-tab-target="smithing"
               role="menuitem"
             >
@@ -108,6 +162,9 @@
         </button>
         <button class="tab-button" type="button" data-tab-target="skills">
           Skills
+        </button>
+        <button class="tab-button" type="button" data-tab-target="market">
+          Market
         </button>
         <button class="tab-button" type="button" data-tab-target="log">
           Activity
@@ -123,7 +180,7 @@
             <dl>
               <div class="stat-row">
                 <dt>Pickaxe</dt>
-                <dd id="pickaxe-name">Standard Pickaxe</dd>
+                <dd id="pickaxe-name">Worn Pickaxe</dd>
               </div>
               <div class="stat-row">
                 <dt>Mining Skill</dt>
@@ -262,6 +319,147 @@
         </div>
       </section>
 
+      <section class="tab-content" data-tab-panel="harbor">
+        <div class="panel-grid">
+          <article class="card stats">
+            <h2>Angler</h2>
+            <dl>
+              <div class="stat-row">
+                <dt>Rod</dt>
+                <dd id="rod-name">Worn Rod</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Fishing Skill</dt>
+                <dd>
+                  Level <span id="fishing-level">1</span>
+                  <span class="stat-note">(<span id="fishing-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Next Level</dt>
+                <dd>
+                  <span id="fishing-xp-to-next">150</span> xp to level
+                  <span class="stat-note">max 99</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Fishing Spot</dt>
+                <dd>
+                  <span id="current-spot-name">Shallow Pond</span>
+                  <span class="stat-note">(<span id="current-spot-yield">1-2</span>
+                  per cast)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Effective Speed</dt>
+                <dd><span id="cast-duration">5</span> s per cast</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="card action">
+            <h2>Harbor Jetty</h2>
+            <div class="resource-selector">
+              <label for="spot-select">Choose your waters</label>
+              <select id="spot-select"></select>
+              <p id="spot-requirement" class="resource-requirement" aria-live="polite"></p>
+              <p id="spot-description" class="resource-description"></p>
+            </div>
+            <div class="progress-shell" aria-live="polite">
+              <div id="fishing-progress-bar" class="progress-bar"></div>
+              <span id="fishing-progress-label" class="progress-label">Idle</span>
+            </div>
+            <div class="actions">
+              <button id="fish-button" class="primary">Start Fishing</button>
+              <label class="toggle">
+                <input type="checkbox" id="fish-auto-continue" checked />
+                <span>Auto-continue</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="card primer">
+            <h2>Dockside Briefing</h2>
+            <p class="tab-intro">
+              Keep bait handy and upgrade your rod for quicker catches. Rare crates
+              sometimes float in with the fish—open them in your inventory for a
+              surprise haul.
+            </p>
+            <ul class="primer-list">
+              <li>Fishing consumes bait. Stock up in the market.</li>
+              <li>Better rods improve cast speed and catch size.</li>
+              <li>Cook fresh fish in the galley for hearty meals.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-content" data-tab-panel="galley">
+        <div class="panel-grid">
+          <article class="card stats">
+            <h2>Galley</h2>
+            <dl>
+              <div class="stat-row">
+                <dt>Cooking Skill</dt>
+                <dd>
+                  Level <span id="cooking-level">1</span>
+                  <span class="stat-note">(<span id="cooking-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Next Level</dt>
+                <dd>
+                  <span id="cooking-xp-to-next">150</span> xp to level
+                  <span class="stat-note">max 99</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Current Recipe</dt>
+                <dd id="current-recipe-name">Pan-seared Minnow</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Prep Time</dt>
+                <dd><span id="cook-duration">3</span> s per dish</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="card action">
+            <h2>Campfire Kitchen</h2>
+            <div class="resource-selector">
+              <label for="recipe-select">Choose a recipe</label>
+              <select id="recipe-select"></select>
+              <p id="recipe-requirement" class="resource-requirement" aria-live="polite"></p>
+              <p id="recipe-description" class="resource-description"></p>
+            </div>
+            <div class="progress-shell" aria-live="polite">
+              <div id="cooking-progress-bar" class="progress-bar"></div>
+              <span id="cooking-progress-label" class="progress-label">Idle</span>
+            </div>
+            <div class="actions">
+              <button id="cook-button" class="primary">Start Cooking</button>
+              <label class="toggle">
+                <input type="checkbox" id="cook-auto-continue" checked />
+                <span>Auto-continue</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="card primer">
+            <h2>Cooking Tips</h2>
+            <p class="tab-intro">
+              Cooked meals sell for more coins and restore morale. Keep the fire hot
+              and ingredients ready.
+            </p>
+            <ul class="primer-list">
+              <li>Each recipe requires raw fish from the harbor.</li>
+              <li>Improve cooking level to unlock complex dishes.</li>
+              <li>Auto-continue stops when you run out of ingredients.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section class="tab-content" data-tab-panel="smithing">
         <div class="panel-grid single">
           <article class="card smithing">
@@ -269,18 +467,31 @@
             <p class="tab-intro">
               Refine ore into bars and forge new equipment for the crew.
             </p>
-            <div class="smithing-grid">
-              <section>
+            <div class="smithy-controls">
+              <label for="smithy-category">Workshop focus</label>
+              <select id="smithy-category">
+                <option value="smelt">Smelt Bars</option>
+                <option value="pickaxe">Forge Pickaxes</option>
+                <option value="axe">Forge Axes</option>
+                <option value="rod">Craft Rods</option>
+              </select>
+            </div>
+            <div class="smithy-views">
+              <section class="smithy-view" data-smithy-view="smelt">
                 <h3>Smelt Bars</h3>
                 <ul class="action-list" id="smelting-list"></ul>
               </section>
-              <section>
+              <section class="smithy-view" data-smithy-view="pickaxe" hidden>
                 <h3>Forge Pickaxes</h3>
                 <ul class="action-list" id="pickaxe-forge-list"></ul>
               </section>
-              <section>
+              <section class="smithy-view" data-smithy-view="axe" hidden>
                 <h3>Forge Axes</h3>
                 <ul class="action-list" id="axe-forge-list"></ul>
+              </section>
+              <section class="smithy-view" data-smithy-view="rod" hidden>
+                <h3>Craft Fishing Rods</h3>
+                <ul class="action-list" id="rod-forge-list"></ul>
               </section>
             </div>
           </article>
@@ -316,6 +527,27 @@
               and shiny new tools.
             </p>
             <ul class="skill-list" id="skill-list"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-content" data-tab-panel="market">
+        <div class="panel-grid single">
+          <article class="card market">
+            <h2>Camp Market</h2>
+            <p class="tab-intro">
+              Trade your haul for coins and pick up essentials you can't craft.
+            </p>
+            <div class="market-grid">
+              <section>
+                <h3>Sell Goods</h3>
+                <ul class="action-list" id="market-sell-list"></ul>
+              </section>
+              <section>
+                <h3>Buy Supplies</h3>
+                <ul class="action-list" id="market-buy-list"></ul>
+              </section>
+            </div>
           </article>
         </div>
       </section>
