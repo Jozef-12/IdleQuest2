@@ -17,16 +17,27 @@
       </div>
       <div class="top-bar__insights" role="status" aria-live="polite">
         <div class="insight">
-          <span class="insight-label">Stone</span>
-          <span class="insight-value" id="stone-ledger">0</span>
+          <span class="insight-label">Resource</span>
+          <span class="insight-value">
+            <span id="top-resource-name">Stone</span>
+          </span>
+          <span class="insight-subtext">
+            Owned: <span id="top-resource-count">0</span>
+          </span>
         </div>
         <div class="insight">
           <span class="insight-label">Pickaxe</span>
           <span class="insight-value" id="top-pickaxe-name">Standard Pickaxe</span>
+          <span class="insight-subtext">
+            Swing: <span id="top-swing-duration">4</span> s
+          </span>
         </div>
         <div class="insight">
-          <span class="insight-label">Swing</span>
-          <span class="insight-value"><span id="top-swing-duration">4</span> s</span>
+          <span class="insight-label">Mining Level</span>
+          <span class="insight-value" id="top-mining-level">1</span>
+          <span class="insight-subtext">
+            Next in <span id="top-mining-xp">100</span> xp
+          </span>
         </div>
       </div>
       <nav class="top-tabs" aria-label="Game views">
@@ -56,18 +67,41 @@
                 <dd id="pickaxe-name">Standard Pickaxe</dd>
               </div>
               <div class="stat-row">
-                <dt>Mining Speed</dt>
-                <dd><span id="swing-duration">4</span> s per swing</dd>
+                <dt>Mining Skill</dt>
+                <dd>
+                  Level <span id="mining-level">1</span>
+                  <span class="stat-note">(<span id="mining-xp">0</span> xp)</span>
+                </dd>
               </div>
               <div class="stat-row">
-                <dt>Yield</dt>
-                <dd>Up to <span id="yield-range">2</span> stone chunks</dd>
+                <dt>Next Level</dt>
+                <dd>
+                  <span id="xp-to-next">100</span> xp to level
+                  <span class="stat-note">max 99</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Current Seam</dt>
+                <dd>
+                  <span id="current-stone-name">Stone</span>
+                  <span class="stat-note">(<span id="current-stone-yield">1-2</span> per swing)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Effective Speed</dt>
+                <dd><span id="swing-duration">4</span> s per swing</dd>
               </div>
             </dl>
           </article>
 
           <article class="card action">
             <h2>Quarry Face</h2>
+            <div class="resource-selector">
+              <label for="stone-select">Choose your seam</label>
+              <select id="stone-select"></select>
+              <p id="resource-requirement" class="resource-requirement" aria-live="polite"></p>
+              <p id="resource-description" class="resource-description"></p>
+            </div>
             <div class="progress-shell" aria-live="polite">
               <div id="progress-bar" class="progress-bar"></div>
               <span id="progress-label" class="progress-label">Idle</span>
@@ -103,12 +137,15 @@
             <p class="tab-intro">
               Everything you have pulled from the quarry lives here.
             </p>
-            <ul class="inventory-list">
-              <li>
-                <span class="item-name">Stone Chunks</span>
-                <span class="item-qty" id="stone-count">0</span>
-              </li>
-            </ul>
+            <ul class="inventory-list" id="inventory-list"></ul>
+          </article>
+          <article class="card saves">
+            <h2>Save Slots</h2>
+            <p class="tab-intro">
+              Capture and resume up to five expeditions. Saves include your skills and
+              inventory.
+            </p>
+            <ul class="save-slot-list" id="save-slot-list" aria-live="polite"></ul>
           </article>
         </div>
       </section>
