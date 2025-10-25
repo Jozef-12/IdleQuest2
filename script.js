@@ -1705,7 +1705,16 @@ function createSaveData() {
 function applySaveData(data) {
   Object.assign(state.inventory, createInitialInventory(), data.inventory || {});
 
-  const savedSkills = data.skills || {};
+  let savedSkills = data.skills;
+  if (!savedSkills || typeof savedSkills !== "object") {
+    savedSkills = {};
+    if (data.miningSkill && typeof data.miningSkill === "object") {
+      savedSkills.mining = {
+        level: data.miningSkill.level,
+        xp: data.miningSkill.xp,
+      };
+    }
+  }
   ["mining", "smithing", "woodcutting"].forEach((skillId) => {
     const target = getSkill(skillId);
     const saved = savedSkills[skillId] || {};
@@ -1741,9 +1750,13 @@ function applySaveData(data) {
     TREES[0];
   state.currentTreeId = unlockedTree.id;
 
+  let autoContinue = data.autoContinue;
+  if (typeof autoContinue === "boolean") {
+    autoContinue = { mining: autoContinue, woodcutting: autoContinue };
+  }
   state.autoContinue = {
-    mining: data.autoContinue?.mining ?? true,
-    woodcutting: data.autoContinue?.woodcutting ?? true,
+    mining: autoContinue?.mining ?? true,
+    woodcutting: autoContinue?.woodcutting ?? true,
   };
   if (elements.autoContinueMining) {
     elements.autoContinueMining.checked = state.autoContinue.mining;
