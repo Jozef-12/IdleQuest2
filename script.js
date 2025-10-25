@@ -223,8 +223,8 @@ const TREES = [
 
 const PICKAXES = [
   {
-    id: "standard",
-    name: "Standard Pickaxe",
+    id: "worn_pickaxe",
+    name: "Worn Pickaxe",
     miningLevelRequirement: 1,
     smithingLevelRequirement: 1,
     speedMultiplier: 1,
@@ -357,6 +357,229 @@ const AXES = [
   },
 ];
 
+const FISHING_SPOTS = [
+  {
+    id: "shallow_pond",
+    name: "Shallow Pond",
+    fishId: "minnow",
+    fishName: "Minnow",
+    description: "A calm pond perfect for first casts.",
+    levelRequirement: 1,
+    yield: [1, 2],
+    baseCastDurationMs: 5200,
+    baitCost: 1,
+    xp: 35,
+    rareChance: 0.04,
+  },
+  {
+    id: "river_run",
+    name: "River Run",
+    fishId: "river_trout",
+    fishName: "River Trout",
+    description: "Swift water filled with lively trout.",
+    levelRequirement: 7,
+    yield: [1, 2],
+    baseCastDurationMs: 6200,
+    baitCost: 1,
+    xp: 55,
+    rareChance: 0.06,
+  },
+  {
+    id: "highland_lake",
+    name: "Highland Lake",
+    fishId: "lake_salmon",
+    fishName: "Lake Salmon",
+    description: "A clear lake where salmon leap at dusk.",
+    levelRequirement: 16,
+    yield: [1, 3],
+    baseCastDurationMs: 7200,
+    baitCost: 2,
+    xp: 85,
+    rareChance: 0.08,
+  },
+  {
+    id: "midnight_grotto",
+    name: "Midnight Grotto",
+    fishId: "shadow_eel",
+    fishName: "Shadow Eel",
+    description: "A hidden cove where bioluminescent eels drift.",
+    levelRequirement: 28,
+    yield: [1, 2],
+    baseCastDurationMs: 8200,
+    baitCost: 2,
+    xp: 120,
+    rareChance: 0.12,
+  },
+];
+
+const FISHING_RODS = [
+  {
+    id: "worn_rod",
+    name: "Worn Rod",
+    fishingLevelRequirement: 1,
+    smithingLevelRequirement: 1,
+    speedMultiplier: 1,
+    yieldMultiplier: 1,
+    cost: {},
+    xp: 0,
+  },
+  {
+    id: "oak_rod",
+    name: "Oak Rod",
+    fishingLevelRequirement: 5,
+    smithingLevelRequirement: 6,
+    speedMultiplier: 1.12,
+    yieldMultiplier: 1.1,
+    cost: { birch_log: 4, copper_bar: 2 },
+    xp: 95,
+  },
+  {
+    id: "reinforced_rod",
+    name: "Reinforced Rod",
+    fishingLevelRequirement: 14,
+    smithingLevelRequirement: 18,
+    speedMultiplier: 1.25,
+    yieldMultiplier: 1.22,
+    cost: { iron_bar: 4, willow_log: 3 },
+    xp: 180,
+  },
+  {
+    id: "seafarer_rod",
+    name: "Seafarer Rod",
+    fishingLevelRequirement: 26,
+    smithingLevelRequirement: 30,
+    speedMultiplier: 1.45,
+    yieldMultiplier: 1.35,
+    cost: { silver_bar: 4, maple_log: 4, leather_wrap: 2 },
+    xp: 260,
+  },
+  {
+    id: "mythril_rod",
+    name: "Mythril Rod",
+    fishingLevelRequirement: 40,
+    smithingLevelRequirement: 44,
+    speedMultiplier: 1.65,
+    yieldMultiplier: 1.5,
+    cost: { gold_bar: 4, emerald_inlay: 2, leather_wrap: 4 },
+    xp: 360,
+  },
+];
+
+const COOKING_RECIPES = [
+  {
+    id: "pan_seared_minnow",
+    name: "Pan-seared Minnow",
+    rawId: "minnow",
+    cookedId: "cooked_minnow",
+    levelRequirement: 1,
+    baseDurationMs: 3600,
+    xp: 45,
+    description: "Quick and crispy, a camp favorite.",
+  },
+  {
+    id: "herbed_trout",
+    name: "Herbed Trout",
+    rawId: "river_trout",
+    cookedId: "cooked_trout",
+    levelRequirement: 6,
+    baseDurationMs: 4200,
+    xp: 70,
+    description: "Trout grilled with wild herbs.",
+  },
+  {
+    id: "glazed_salmon",
+    name: "Glazed Salmon",
+    rawId: "lake_salmon",
+    cookedId: "cooked_salmon",
+    levelRequirement: 15,
+    baseDurationMs: 5200,
+    xp: 110,
+    description: "Lake salmon finished with sweet glaze.",
+  },
+  {
+    id: "shadow_eel_stew",
+    name: "Shadow Eel Stew",
+    rawId: "shadow_eel",
+    cookedId: "cooked_eel",
+    levelRequirement: 24,
+    baseDurationMs: 6200,
+    xp: 160,
+    description: "A rich stew that glows faintly at night.",
+  },
+];
+
+const RARE_BOX_REWARDS = [
+  { id: "silver", min: 2, max: 4 },
+  { id: "gold", min: 1, max: 3 },
+  { id: "emerald", min: 1, max: 2 },
+  { id: "diamond", min: 1, max: 1 },
+  { id: "silver_bar", min: 1, max: 2 },
+  { id: "gold_bar", min: 1, max: 2 },
+  { id: "emerald_inlay", min: 1, max: 1 },
+  { id: "diamond_edge", min: 1, max: 1 },
+];
+
+const MARKET_SELL_VALUES = {
+  stone: 2,
+  copper: 4,
+  iron: 6,
+  silver: 10,
+  gold: 18,
+  emerald: 28,
+  diamond: 45,
+  spruce_log: 3,
+  birch_log: 4,
+  oak_log: 5,
+  willow_log: 7,
+  maple_log: 9,
+  ash_log: 12,
+  yew_log: 16,
+  elder_log: 24,
+  redwood_log: 40,
+  copper_bar: 15,
+  iron_bar: 22,
+  silver_bar: 40,
+  gold_bar: 65,
+  emerald_inlay: 120,
+  diamond_edge: 190,
+  minnow: 6,
+  river_trout: 10,
+  lake_salmon: 16,
+  shadow_eel: 26,
+  cooked_minnow: 14,
+  cooked_trout: 22,
+  cooked_salmon: 34,
+  cooked_eel: 50,
+  worn_pickaxe_item: 0,
+  worn_hatchet_item: 0,
+  worn_rod_item: 0,
+  anglers_cache: 0,
+};
+
+const MARKET_BUY_ITEMS = [
+  {
+    id: "fishing_bait",
+    name: "Fishing Bait",
+    description: "Essential for every cast.",
+    cost: 3,
+    quantity: 5,
+  },
+  {
+    id: "leather_wrap",
+    name: "Leather Wrap",
+    description: "Used to craft premium rods.",
+    cost: 18,
+    quantity: 1,
+  },
+  {
+    id: "camp_spice",
+    name: "Camp Spice Pouch",
+    description: "Adds flavor to cooked meals for bonus coin value.",
+    cost: 22,
+    quantity: 1,
+  },
+];
+
 const RESOURCE_REGISTRY = {};
 
 function registerResource(id, name) {
@@ -366,6 +589,19 @@ function registerResource(id, name) {
 STONES.forEach((stone) => registerResource(stone.id, stone.name));
 SMELTING_RECIPES.forEach((recipe) => registerResource(recipe.id, recipe.name));
 TREES.forEach((tree) => registerResource(tree.logId, tree.logName));
+FISHING_SPOTS.forEach((spot) => registerResource(spot.fishId, spot.fishName));
+COOKING_RECIPES.forEach((recipe) => {
+  registerResource(recipe.rawId, getResourceName(recipe.rawId) || recipe.rawId);
+  registerResource(recipe.cookedId, recipe.name);
+});
+FISHING_RODS.forEach((rod) => registerResource(`${rod.id}_item`, rod.name));
+registerResource("fishing_bait", "Fishing Bait");
+registerResource("leather_wrap", "Leather Wrap");
+registerResource("camp_spice", "Camp Spice Pouch");
+registerResource("anglers_cache", "Angler's Cache");
+registerResource("worn_pickaxe_item", "Worn Pickaxe");
+registerResource("worn_hatchet_item", "Worn Hatchet");
+registerResource("worn_rod_item", "Worn Rod");
 
 const INVENTORY_GROUPS = [
   {
@@ -379,6 +615,31 @@ const INVENTORY_GROUPS = [
   {
     title: "Bars & Components",
     resources: SMELTING_RECIPES.map((recipe) => recipe.id),
+  },
+  {
+    title: "Fish & Bait",
+    resources: [
+      "fishing_bait",
+      ...FISHING_SPOTS.map((spot) => spot.fishId),
+    ],
+  },
+  {
+    title: "Cooked Meals",
+    resources: COOKING_RECIPES.map((recipe) => recipe.cookedId),
+  },
+  {
+    title: "Supplies & Curios",
+    resources: ["camp_spice", "leather_wrap", "anglers_cache"],
+  },
+  {
+    title: "Equipment",
+    resources: [
+      "worn_pickaxe_item",
+      "worn_hatchet_item",
+      "worn_rod_item",
+      ...FISHING_RODS.filter((rod) => rod.cost && Object.keys(rod.cost).length)
+        .map((rod) => `${rod.id}_item`),
+    ],
   },
 ];
 
@@ -409,6 +670,16 @@ const SKILL_DEFINITIONS = [
     name: "Woodcutting",
     description: "Harvest logs swiftly from the surrounding woods.",
   },
+  {
+    id: "fishing",
+    name: "Fishing",
+    description: "Cast lines for fresh catches and rare crates.",
+  },
+  {
+    id: "cooking",
+    name: "Cooking",
+    description: "Prepare meals that keep the camp thriving.",
+  },
 ];
 
 function getSkillDefinition(skillId) {
@@ -432,9 +703,11 @@ const state = {
   equipment: {
     pickaxeId: PICKAXES[0].id,
     axeId: AXES[0].id,
+    rodId: FISHING_RODS[0].id,
   },
   ownedPickaxes: new Set([PICKAXES[0].id]),
   ownedAxes: new Set([AXES[0].id]),
+  ownedRods: new Set([FISHING_RODS[0].id]),
   mining: {
     active: false,
     startTime: 0,
@@ -447,25 +720,62 @@ const state = {
     timerId: null,
     currentDurationMs: 0,
   },
+  fishing: {
+    active: false,
+    startTime: 0,
+    timerId: null,
+    currentDurationMs: 0,
+    currentSpotId: null,
+  },
+  cooking: {
+    active: false,
+    startTime: 0,
+    timerId: null,
+    currentDurationMs: 0,
+    currentRecipeId: null,
+  },
   inventory: createInitialInventory(),
+  coins: 0,
   autoContinue: {
     mining: true,
     woodcutting: true,
+    fishing: true,
+    cooking: true,
   },
   log: [],
   logLimit: 12,
   currentStoneId: STONES[0].id,
   currentTreeId: TREES[0].id,
+  currentSpotId: FISHING_SPOTS[0].id,
+  currentRecipeId: COOKING_RECIPES[0].id,
   skills: {
     mining: createSkillState(),
     smithing: createSkillState(),
     woodcutting: createSkillState(),
+    fishing: createSkillState(),
+    cooking: createSkillState(),
   },
+  activeTraining: null,
+  trainingLabel: "",
 };
 
 state.miningSkill = state.skills.mining;
 state.smithingSkill = state.skills.smithing;
 state.woodcuttingSkill = state.skills.woodcutting;
+state.fishingSkill = state.skills.fishing;
+state.cookingSkill = state.skills.cooking;
+
+state.inventory.worn_pickaxe_item = 1;
+state.inventory.worn_hatchet_item = 1;
+state.inventory.worn_rod_item = 1;
+state.inventory.fishing_bait = 10;
+state.inventory.camp_spice = state.inventory.camp_spice || 0;
+state.inventory.leather_wrap = state.inventory.leather_wrap || 0;
+state.inventory.anglers_cache = state.inventory.anglers_cache || 0;
+state.coins = 45;
+
+state.fishing.currentSpotId = state.currentSpotId;
+state.cooking.currentRecipeId = state.currentRecipeId;
 
 function getSkill(skillId) {
   return state.skills[skillId];
@@ -479,6 +789,10 @@ function getEquippedPickaxe() {
 
 function getEquippedAxe() {
   return AXES.find((axe) => axe.id === state.equipment.axeId) || AXES[0];
+}
+
+function getEquippedRod() {
+  return FISHING_RODS.find((rod) => rod.id === state.equipment.rodId) || FISHING_RODS[0];
 }
 
 let saveSlots = Array(SAVE_SLOT_COUNT).fill(null);
@@ -522,6 +836,34 @@ function init() {
   elements.woodcuttingXp = document.getElementById("woodcutting-xp");
   elements.woodcuttingXpToNext = document.getElementById("woodcutting-xp-to-next");
 
+  elements.rodName = document.getElementById("rod-name");
+  elements.fishingLevel = document.getElementById("fishing-level");
+  elements.fishingXp = document.getElementById("fishing-xp");
+  elements.fishingXpToNext = document.getElementById("fishing-xp-to-next");
+  elements.currentSpotName = document.getElementById("current-spot-name");
+  elements.currentSpotYield = document.getElementById("current-spot-yield");
+  elements.castDuration = document.getElementById("cast-duration");
+  elements.spotSelect = document.getElementById("spot-select");
+  elements.spotRequirement = document.getElementById("spot-requirement");
+  elements.spotDescription = document.getElementById("spot-description");
+  elements.fishButton = document.getElementById("fish-button");
+  elements.fishProgressBar = document.getElementById("fishing-progress-bar");
+  elements.fishProgressLabel = document.getElementById("fishing-progress-label");
+  elements.autoContinueFishing = document.getElementById("fish-auto-continue");
+
+  elements.cookingLevel = document.getElementById("cooking-level");
+  elements.cookingXp = document.getElementById("cooking-xp");
+  elements.cookingXpToNext = document.getElementById("cooking-xp-to-next");
+  elements.currentRecipeName = document.getElementById("current-recipe-name");
+  elements.cookDuration = document.getElementById("cook-duration");
+  elements.recipeSelect = document.getElementById("recipe-select");
+  elements.recipeRequirement = document.getElementById("recipe-requirement");
+  elements.recipeDescription = document.getElementById("recipe-description");
+  elements.cookButton = document.getElementById("cook-button");
+  elements.cookingProgressBar = document.getElementById("cooking-progress-bar");
+  elements.cookingProgressLabel = document.getElementById("cooking-progress-label");
+  elements.autoContinueCooking = document.getElementById("cook-auto-continue");
+
   elements.topResourceName = document.getElementById("top-resource-name");
   elements.topResourceCount = document.getElementById("top-resource-count");
   elements.topPickaxeName = document.getElementById("top-pickaxe-name");
@@ -532,6 +874,18 @@ function init() {
   elements.topSmithingXp = document.getElementById("top-smithing-xp");
   elements.topWoodcuttingLevel = document.getElementById("top-woodcutting-level");
   elements.topWoodcuttingXp = document.getElementById("top-woodcutting-xp");
+  elements.topCoins = document.getElementById("top-coins");
+  elements.topRodName = document.getElementById("top-rod-name");
+  elements.topCastDuration = document.getElementById("top-cast-duration");
+  elements.topFishingLevel = document.getElementById("top-fishing-level");
+  elements.topFishingXp = document.getElementById("top-fishing-xp");
+  elements.topCookingLevel = document.getElementById("top-cooking-level");
+  elements.topCookingXp = document.getElementById("top-cooking-xp");
+
+  elements.activeTraining = document.getElementById("active-training");
+  elements.activeTrainingSkill = document.getElementById("active-training-skill");
+  elements.activeTrainingBar = document.getElementById("active-training-bar");
+  elements.activeTrainingStatus = document.getElementById("active-training-status");
 
   elements.inventoryList = document.getElementById("inventory-list");
   elements.skillList = document.getElementById("skill-list");
@@ -541,6 +895,11 @@ function init() {
   elements.smeltingList = document.getElementById("smelting-list");
   elements.pickaxeForgeList = document.getElementById("pickaxe-forge-list");
   elements.axeForgeList = document.getElementById("axe-forge-list");
+  elements.rodForgeList = document.getElementById("rod-forge-list");
+  elements.smithyCategory = document.getElementById("smithy-category");
+
+  elements.marketSellList = document.getElementById("market-sell-list");
+  elements.marketBuyList = document.getElementById("market-buy-list");
 
   elements.tabButtons = document.querySelectorAll("[data-tab-target]");
   elements.tabPanels = document.querySelectorAll("[data-tab-panel]");
@@ -565,8 +924,24 @@ function init() {
     });
   }
 
+  if (elements.autoContinueFishing) {
+    elements.autoContinueFishing.checked = state.autoContinue.fishing;
+    elements.autoContinueFishing.addEventListener("change", (event) => {
+      state.autoContinue.fishing = event.target.checked;
+    });
+  }
+
+  if (elements.autoContinueCooking) {
+    elements.autoContinueCooking.checked = state.autoContinue.cooking;
+    elements.autoContinueCooking.addEventListener("change", (event) => {
+      state.autoContinue.cooking = event.target.checked;
+    });
+  }
+
   elements.mineButton?.addEventListener("click", toggleMining);
   elements.chopButton?.addEventListener("click", toggleWoodcutting);
+  elements.fishButton?.addEventListener("click", toggleFishing);
+  elements.cookButton?.addEventListener("click", toggleCooking);
 
   elements.tabButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -615,89 +990,124 @@ function init() {
     updateTreeDetails();
   });
 
+  elements.spotSelect?.addEventListener("change", (event) => {
+    state.currentSpotId = event.target.value;
+    state.fishing.currentSpotId = event.target.value;
+    renderSpotOptions();
+    updateSpotDetails();
+  });
+
+  elements.recipeSelect?.addEventListener("change", (event) => {
+    state.currentRecipeId = event.target.value;
+    state.cooking.currentRecipeId = event.target.value;
+    renderRecipeOptions();
+    updateRecipeDetails();
+  });
+
+  elements.inventoryList?.addEventListener("click", handleInventoryAction);
+
   elements.saveSlotList?.addEventListener("click", handleSaveSlotAction);
 
   elements.smeltingList?.addEventListener("click", handleSmithingAction);
   elements.pickaxeForgeList?.addEventListener("click", handleSmithingAction);
   elements.axeForgeList?.addEventListener("click", handleSmithingAction);
+  elements.rodForgeList?.addEventListener("click", handleSmithingAction);
 
-  loadSaveSlots();
-  renderStoneOptions();
-  renderTreeOptions();
-  updateResourceDetails();
-  updateTreeDetails();
-  renderInventory();
-  renderLog();
-  updateMiningStats();
-  updateWoodcuttingStats();
-  updateSkillDisplays();
-  renderSmithingOptions();
-  updateTopReadouts();
-  renderSaveSlots();
+  elements.marketSellList?.addEventListener("click", handleMarketAction);
+  elements.marketBuyList?.addEventListener("click", handleMarketAction);
 
-  refreshEquipmentLabels();
+  elements.smithyCategory?.addEventListener("change", () => {
+    switchSmithyCategory(elements.smithyCategory.value);
+  });
+
+    loadSaveSlots();
+    renderStoneOptions();
+    renderTreeOptions();
+    renderSpotOptions();
+    renderRecipeOptions();
+    updateResourceDetails();
+    updateTreeDetails();
+    updateSpotDetails();
+    updateRecipeDetails();
+    renderInventory();
+    renderLog();
+    updateMiningStats();
+    updateWoodcuttingStats();
+    updateFishingStats();
+    updateCookingStats();
+    updateSkillDisplays();
+    renderSmithingOptions();
+    renderMarket();
+    updateTopReadouts();
+    renderSaveSlots();
+
+    refreshEquipmentLabels();
 
   const initialTab =
     document.querySelector(".tab-button.active")?.dataset.tabTarget || "quarry";
   switchTab(initialTab);
 }
 
-function toggleMining() {
-  if (state.mining.active) {
-    cancelMiningCycle("You take a breather and pause your swing.");
-    return;
+  function toggleMining() {
+    if (state.mining.active) {
+      cancelMiningCycle("You take a breather and pause your swing.");
+      return;
+    }
+
+    startMiningCycle();
   }
 
-  startMiningCycle();
-}
+  function startMiningCycle() {
+    if (state.mining.active) return;
 
-function startMiningCycle() {
-  if (state.mining.active) return;
+    const stone = getCurrentStone();
+    if (!stone) return;
 
-  const stone = getCurrentStone();
-  if (!stone) return;
+    const miningSkill = getSkill("mining");
+    if (miningSkill.level < stone.levelRequirement) {
+      pushLog(
+        `That seam feels beyond you. Mining ${stone.name} requires level ${stone.levelRequirement}.`
+      );
+      return;
+    }
 
-  const miningSkill = getSkill("mining");
-  if (miningSkill.level < stone.levelRequirement) {
-    pushLog(
-      `That seam feels beyond you. Mining ${stone.name} requires level ${stone.levelRequirement}.`
-    );
-    return;
+    const pickaxe = getEquippedPickaxe();
+    if (miningSkill.level < pickaxe.miningLevelRequirement) {
+      pushLog(
+        `${pickaxe.name} feels unwieldy. You need mining level ${pickaxe.miningLevelRequirement} to swing it properly.`
+      );
+      return;
+    }
+
+    ensureExclusiveTraining("mining");
+    beginTraining("mining");
+    state.mining.active = true;
+    state.mining.startTime = performance.now();
+    state.mining.currentDurationMs = getEffectiveSwingDuration(stone);
+    elements.mineButton.textContent = "Stop Mining";
+    elements.mineButton.disabled = false;
+    updateProgressLabel("Working");
+    setTrainingStatus("mining", "Working");
+    tickMining();
   }
 
-  const pickaxe = getEquippedPickaxe();
-  if (miningSkill.level < pickaxe.miningLevelRequirement) {
-    pushLog(
-      `${pickaxe.name} feels unwieldy. You need mining level ${pickaxe.miningLevelRequirement} to swing it properly.`
-    );
-    return;
-  }
-
-  state.mining.active = true;
-  state.mining.startTime = performance.now();
-  state.mining.currentDurationMs = getEffectiveSwingDuration(stone);
-  elements.mineButton.textContent = "Stop Mining";
-  elements.mineButton.disabled = false;
-  updateProgressLabel("Working");
-  tickMining();
-}
-
-function cancelMiningCycle(message) {
-  state.mining.active = false;
+  function cancelMiningCycle(message) {
+    state.mining.active = false;
   state.mining.currentDurationMs = 0;
   if (state.mining.timerId) {
     cancelAnimationFrame(state.mining.timerId);
     state.mining.timerId = null;
   }
 
-  elements.progressBar.style.width = "0%";
-  elements.mineButton.textContent = "Start Mining";
-  elements.mineButton.disabled = false;
-  updateProgressLabel("Idle");
-  if (message) {
-    pushLog(message);
+    elements.progressBar.style.width = "0%";
+    elements.mineButton.textContent = "Start Mining";
+    elements.mineButton.disabled = false;
+    updateProgressLabel("Idle");
+    clearTrainingIndicator("mining");
+    if (message) {
+      pushLog(message);
+    }
   }
-}
 
 function tickMining() {
   if (!state.mining.active) return;
@@ -708,7 +1118,9 @@ function tickMining() {
     const progress = Math.min(1, duration ? elapsed / duration : 0);
 
     elements.progressBar.style.width = `${progress * 100}%`;
-    updateProgressLabel(`${Math.round(progress * 100)}%`);
+    const label = `${Math.round(progress * 100)}%`;
+    updateProgressLabel(label);
+    setTrainingProgress("mining", progress, label);
 
     if (progress >= 1) {
       completeMiningCycle();
@@ -719,38 +1131,40 @@ function tickMining() {
   });
 }
 
-function completeMiningCycle() {
-  state.mining.active = false;
-  const stone = getCurrentStone();
+  function completeMiningCycle() {
+    state.mining.active = false;
+    const stone = getCurrentStone();
 
-  elements.mineButton.textContent = state.autoContinue.mining
-    ? "Preparing next swing"
-    : "Start Mining";
-  elements.mineButton.disabled = state.autoContinue.mining;
-  updateProgressLabel("Hauling");
+    elements.mineButton.textContent = state.autoContinue.mining
+      ? "Preparing next swing"
+      : "Start Mining";
+    elements.mineButton.disabled = state.autoContinue.mining;
+    updateProgressLabel("Hauling");
+    setTrainingStatus("mining", "Hauling");
 
-  const haul = calculateMiningYield(stone);
-  state.inventory[stone.id] = (state.inventory[stone.id] || 0) + haul;
-  renderInventory();
-  renderSmithingOptions();
+    const haul = calculateMiningYield(stone);
+    state.inventory[stone.id] = (state.inventory[stone.id] || 0) + haul;
+    renderInventory();
+    renderSmithingOptions();
 
   const resourceName = haul === 1 ? stone.name : `${stone.name}s`;
   pushLog(`You pry loose ${formatNumber(haul)} ${resourceName}.`);
 
-  const xpGained = haul * stone.xp;
-  gainSkillXp("mining", xpGained);
+    const xpGained = haul * stone.xp;
+    gainSkillXp("mining", xpGained);
 
-  setTimeout(() => {
-    elements.progressBar.style.width = "0%";
-    if (!state.autoContinue.mining) {
-      elements.mineButton.disabled = false;
-      updateProgressLabel("Idle");
-      return;
-    }
+    setTimeout(() => {
+      elements.progressBar.style.width = "0%";
+      if (!state.autoContinue.mining) {
+        elements.mineButton.disabled = false;
+        updateProgressLabel("Idle");
+        clearTrainingIndicator("mining");
+        return;
+      }
 
-    startMiningCycle();
-  }, 600);
-}
+      startMiningCycle();
+    }, 600);
+  }
 
 function calculateMiningYield(stone) {
   if (!stone) return 0;
@@ -771,11 +1185,11 @@ function toggleWoodcutting() {
   startWoodcuttingCycle();
 }
 
-function startWoodcuttingCycle() {
-  if (state.woodcutting.active) return;
+  function startWoodcuttingCycle() {
+    if (state.woodcutting.active) return;
 
-  const tree = getCurrentTree();
-  if (!tree) return;
+    const tree = getCurrentTree();
+    if (!tree) return;
 
   const woodSkill = getSkill("woodcutting");
   if (woodSkill.level < tree.levelRequirement) {
@@ -789,23 +1203,26 @@ function startWoodcuttingCycle() {
   if (woodSkill.level < axe.woodcuttingLevelRequirement) {
     pushLog(
       `${axe.name} feels too heavy. You need woodcutting level ${axe.woodcuttingLevelRequirement} to wield it well.`
-    );
-    return;
+      );
+      return;
+    }
+
+    ensureExclusiveTraining("woodcutting");
+    beginTraining("woodcutting");
+    state.woodcutting.active = true;
+    state.woodcutting.startTime = performance.now();
+    state.woodcutting.currentDurationMs = getEffectiveChopDuration(tree);
+    if (elements.chopButton) {
+      elements.chopButton.textContent = "Stop Chopping";
+      elements.chopButton.disabled = false;
+    }
+    updateWoodProgressLabel("Working");
+    setTrainingStatus("woodcutting", "Working");
+    tickWoodcutting();
   }
 
-  state.woodcutting.active = true;
-  state.woodcutting.startTime = performance.now();
-  state.woodcutting.currentDurationMs = getEffectiveChopDuration(tree);
-  if (elements.chopButton) {
-    elements.chopButton.textContent = "Stop Chopping";
-    elements.chopButton.disabled = false;
-  }
-  updateWoodProgressLabel("Working");
-  tickWoodcutting();
-}
-
-function cancelWoodcuttingCycle(message) {
-  state.woodcutting.active = false;
+  function cancelWoodcuttingCycle(message) {
+    state.woodcutting.active = false;
   state.woodcutting.currentDurationMs = 0;
   if (state.woodcutting.timerId) {
     cancelAnimationFrame(state.woodcutting.timerId);
@@ -815,15 +1232,16 @@ function cancelWoodcuttingCycle(message) {
   if (elements.woodProgressBar) {
     elements.woodProgressBar.style.width = "0%";
   }
-  if (elements.chopButton) {
-    elements.chopButton.textContent = "Start Chopping";
-    elements.chopButton.disabled = false;
+    if (elements.chopButton) {
+      elements.chopButton.textContent = "Start Chopping";
+      elements.chopButton.disabled = false;
+    }
+    updateWoodProgressLabel("Idle");
+    clearTrainingIndicator("woodcutting");
+    if (message) {
+      pushLog(message);
+    }
   }
-  updateWoodProgressLabel("Idle");
-  if (message) {
-    pushLog(message);
-  }
-}
 
 function tickWoodcutting() {
   if (!state.woodcutting.active) return;
@@ -836,7 +1254,9 @@ function tickWoodcutting() {
     if (elements.woodProgressBar) {
       elements.woodProgressBar.style.width = `${progress * 100}%`;
     }
-    updateWoodProgressLabel(`${Math.round(progress * 100)}%`);
+    const label = `${Math.round(progress * 100)}%`;
+    updateWoodProgressLabel(label);
+    setTrainingProgress("woodcutting", progress, label);
 
     if (progress >= 1) {
       completeWoodcuttingCycle();
@@ -851,18 +1271,19 @@ function completeWoodcuttingCycle() {
   state.woodcutting.active = false;
   const tree = getCurrentTree();
 
-  if (elements.chopButton) {
-    elements.chopButton.textContent = state.autoContinue.woodcutting
-      ? "Setting next chop"
-      : "Start Chopping";
-    elements.chopButton.disabled = state.autoContinue.woodcutting;
-  }
-  updateWoodProgressLabel("Hauling");
+    if (elements.chopButton) {
+      elements.chopButton.textContent = state.autoContinue.woodcutting
+        ? "Setting next chop"
+        : "Start Chopping";
+      elements.chopButton.disabled = state.autoContinue.woodcutting;
+    }
+    updateWoodProgressLabel("Hauling");
+    setTrainingStatus("woodcutting", "Hauling");
 
-  const haul = calculateWoodYield(tree);
-  const logId = tree.logId;
-  state.inventory[logId] = (state.inventory[logId] || 0) + haul;
-  renderInventory();
+    const haul = calculateWoodYield(tree);
+    const logId = tree.logId;
+    state.inventory[logId] = (state.inventory[logId] || 0) + haul;
+    renderInventory();
   renderSmithingOptions();
 
   const logName = haul === 1 ? tree.logName : `${tree.logName}s`;
@@ -871,74 +1292,412 @@ function completeWoodcuttingCycle() {
   const xpGained = haul * tree.xp;
   gainSkillXp("woodcutting", xpGained);
 
-  setTimeout(() => {
-    if (elements.woodProgressBar) {
-      elements.woodProgressBar.style.width = "0%";
-    }
-    if (!state.autoContinue.woodcutting) {
-      if (elements.chopButton) {
-        elements.chopButton.disabled = false;
+    setTimeout(() => {
+      if (elements.woodProgressBar) {
+        elements.woodProgressBar.style.width = "0%";
       }
-      updateWoodProgressLabel("Idle");
+      if (!state.autoContinue.woodcutting) {
+        if (elements.chopButton) {
+          elements.chopButton.disabled = false;
+        }
+        updateWoodProgressLabel("Idle");
+        clearTrainingIndicator("woodcutting");
+        return;
+      }
+
+      startWoodcuttingCycle();
+    }, 600);
+}
+
+  function calculateWoodYield(tree) {
+    if (!tree) return 0;
+    const [min, max] = tree.yield;
+    const base =
+      min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
+    const axe = getEquippedAxe();
+    const multiplier = axe?.yieldMultiplier ?? 1;
+    return Math.max(1, Math.floor(base * multiplier));
+  }
+
+  function toggleFishing() {
+    if (state.fishing.active) {
+      cancelFishingCycle("You reel in and take a moment.");
       return;
     }
 
-    startWoodcuttingCycle();
-  }, 600);
-}
-
-function calculateWoodYield(tree) {
-  if (!tree) return 0;
-  const [min, max] = tree.yield;
-  const base =
-    min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
-  const axe = getEquippedAxe();
-  const multiplier = axe?.yieldMultiplier ?? 1;
-  return Math.max(1, Math.floor(base * multiplier));
-}
-
-function refreshEquipmentLabels() {
-  const pickaxe = getEquippedPickaxe();
-  if (elements.pickaxeName && pickaxe) {
-    elements.pickaxeName.textContent = pickaxe.name;
+    startFishingCycle();
   }
+
+  function startFishingCycle() {
+    if (state.fishing.active) return;
+
+    const spot = getCurrentSpot();
+    if (!spot) return;
+
+    const fishingSkill = getSkill("fishing");
+    if (fishingSkill.level < spot.levelRequirement) {
+      pushLog(
+        `That water is unforgiving. Fishing ${spot.name} requires level ${spot.levelRequirement}.`
+      );
+      return;
+    }
+
+    const rod = getEquippedRod();
+    if (fishingSkill.level < rod.fishingLevelRequirement) {
+      pushLog(
+        `${rod.name} feels clumsy. You need fishing level ${rod.fishingLevelRequirement} to cast it well.`
+      );
+      return;
+    }
+
+    if ((state.inventory.fishing_bait || 0) < spot.baitCost) {
+      pushLog("You are out of bait. Visit the market to restock before casting again.");
+      updateFishProgressLabel("No bait");
+      clearTrainingIndicator("fishing");
+      return;
+    }
+
+    ensureExclusiveTraining("fishing");
+    beginTraining("fishing");
+    state.inventory.fishing_bait -= spot.baitCost;
+    renderInventory();
+    state.fishing.active = true;
+    state.fishing.currentSpotId = spot.id;
+    state.fishing.startTime = performance.now();
+    state.fishing.currentDurationMs = getEffectiveCastDuration(spot);
+    if (elements.fishButton) {
+      elements.fishButton.textContent = "Stop Fishing";
+      elements.fishButton.disabled = false;
+    }
+    updateFishProgressLabel("Working");
+    setTrainingStatus("fishing", "Working");
+    tickFishing();
+  }
+
+  function cancelFishingCycle(message) {
+    state.fishing.active = false;
+    state.fishing.currentDurationMs = 0;
+    if (state.fishing.timerId) {
+      cancelAnimationFrame(state.fishing.timerId);
+      state.fishing.timerId = null;
+    }
+
+    if (elements.fishProgressBar) {
+      elements.fishProgressBar.style.width = "0%";
+    }
+    if (elements.fishButton) {
+      elements.fishButton.textContent = "Start Fishing";
+      elements.fishButton.disabled = false;
+    }
+    updateFishProgressLabel("Idle");
+    clearTrainingIndicator("fishing");
+    if (message) {
+      pushLog(message);
+    }
+  }
+
+  function tickFishing() {
+    if (!state.fishing.active) return;
+
+    state.fishing.timerId = requestAnimationFrame((timestamp) => {
+      const elapsed = timestamp - state.fishing.startTime;
+      const duration = state.fishing.currentDurationMs;
+      const progress = Math.min(1, duration ? elapsed / duration : 0);
+
+      if (elements.fishProgressBar) {
+        elements.fishProgressBar.style.width = `${progress * 100}%`;
+      }
+      const label = `${Math.round(progress * 100)}%`;
+      updateFishProgressLabel(label);
+      setTrainingProgress("fishing", progress, label);
+
+      if (progress >= 1) {
+        completeFishingCycle();
+        return;
+      }
+
+      tickFishing();
+    });
+  }
+
+  function completeFishingCycle() {
+    state.fishing.active = false;
+    const activeSpot =
+      FISHING_SPOTS.find((entry) => entry.id === state.fishing.currentSpotId) ||
+      getCurrentSpot();
+
+    if (elements.fishButton) {
+      elements.fishButton.textContent = state.autoContinue.fishing
+        ? "Setting next cast"
+        : "Start Fishing";
+      elements.fishButton.disabled = state.autoContinue.fishing;
+    }
+    updateFishProgressLabel("Landing catch");
+    setTrainingStatus("fishing", "Landing catch");
+
+    const haul = calculateFishingYield(activeSpot);
+    state.inventory[activeSpot.fishId] = (state.inventory[activeSpot.fishId] || 0) + haul;
+    renderInventory();
+
+    const fishName = haul === 1 ? activeSpot.fishName : `${activeSpot.fishName}s`;
+    pushLog(`You net ${formatNumber(haul)} ${fishName}.`);
+
+    if (Math.random() < (activeSpot.rareChance || 0)) {
+      state.inventory.anglers_cache = (state.inventory.anglers_cache || 0) + 1;
+      pushLog("A sealed angler's cache washes ashore!");
+    }
+
+    const xpGained = haul * activeSpot.xp;
+    gainSkillXp("fishing", xpGained);
+
+    setTimeout(() => {
+      if (elements.fishProgressBar) {
+        elements.fishProgressBar.style.width = "0%";
+      }
+      if (!state.autoContinue.fishing) {
+        if (elements.fishButton) {
+          elements.fishButton.disabled = false;
+        }
+        updateFishProgressLabel("Idle");
+        clearTrainingIndicator("fishing");
+        return;
+      }
+
+      const nextSpot = getCurrentSpot();
+      if ((state.inventory.fishing_bait || 0) < nextSpot.baitCost) {
+        pushLog("You are out of bait and pause your fishing.");
+        if (elements.fishButton) {
+          elements.fishButton.disabled = false;
+        }
+        updateFishProgressLabel("No bait");
+        clearTrainingIndicator("fishing");
+        return;
+      }
+
+      startFishingCycle();
+    }, 600);
+  }
+
+  function calculateFishingYield(spot) {
+    if (!spot) return 0;
+    const [min, max] = spot.yield;
+    const base =
+      min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
+    const rod = getEquippedRod();
+    const multiplier = rod?.yieldMultiplier ?? 1;
+    return Math.max(1, Math.floor(base * multiplier));
+  }
+
+  function toggleCooking() {
+    if (state.cooking.active) {
+      cancelCookingCycle("You let the fire rest for a bit.");
+      return;
+    }
+
+    startCookingCycle();
+  }
+
+  function startCookingCycle() {
+    if (state.cooking.active) return;
+
+    const recipe = getCurrentRecipe();
+    if (!recipe) return;
+
+    const cookingSkill = getSkill("cooking");
+    if (cookingSkill.level < recipe.levelRequirement) {
+      pushLog(
+        `That recipe is tricky. Cooking ${recipe.name} requires level ${recipe.levelRequirement}.`
+      );
+      return;
+    }
+
+    if ((state.inventory[recipe.rawId] || 0) < 1) {
+      pushLog(`You need ${getResourceName(recipe.rawId)} before you can cook ${recipe.name}.`);
+      updateCookingProgressLabel("No ingredients");
+      clearTrainingIndicator("cooking");
+      return;
+    }
+
+    ensureExclusiveTraining("cooking");
+    beginTraining("cooking");
+    state.cooking.active = true;
+    state.cooking.currentRecipeId = recipe.id;
+    state.cooking.startTime = performance.now();
+    state.cooking.currentDurationMs = getEffectiveCookDuration(recipe);
+    if (elements.cookButton) {
+      elements.cookButton.textContent = "Stop Cooking";
+      elements.cookButton.disabled = false;
+    }
+    updateCookingProgressLabel("Working");
+    setTrainingStatus("cooking", "Working");
+    tickCooking();
+  }
+
+  function cancelCookingCycle(message) {
+    state.cooking.active = false;
+    state.cooking.currentDurationMs = 0;
+    if (state.cooking.timerId) {
+      cancelAnimationFrame(state.cooking.timerId);
+      state.cooking.timerId = null;
+    }
+
+    if (elements.cookingProgressBar) {
+      elements.cookingProgressBar.style.width = "0%";
+    }
+    if (elements.cookButton) {
+      elements.cookButton.textContent = "Start Cooking";
+      elements.cookButton.disabled = false;
+    }
+    updateCookingProgressLabel("Idle");
+    clearTrainingIndicator("cooking");
+    if (message) {
+      pushLog(message);
+    }
+  }
+
+  function tickCooking() {
+    if (!state.cooking.active) return;
+
+    state.cooking.timerId = requestAnimationFrame((timestamp) => {
+      const elapsed = timestamp - state.cooking.startTime;
+      const duration = state.cooking.currentDurationMs;
+      const progress = Math.min(1, duration ? elapsed / duration : 0);
+
+      if (elements.cookingProgressBar) {
+        elements.cookingProgressBar.style.width = `${progress * 100}%`;
+      }
+      const label = `${Math.round(progress * 100)}%`;
+      updateCookingProgressLabel(label);
+      setTrainingProgress("cooking", progress, label);
+
+      if (progress >= 1) {
+        completeCookingCycle();
+        return;
+      }
+
+      tickCooking();
+    });
+  }
+
+  function completeCookingCycle() {
+    state.cooking.active = false;
+    const activeRecipe =
+      COOKING_RECIPES.find((entry) => entry.id === state.cooking.currentRecipeId) ||
+      getCurrentRecipe();
+
+    if (elements.cookButton) {
+      elements.cookButton.textContent = state.autoContinue.cooking
+        ? "Prepping next dish"
+        : "Start Cooking";
+      elements.cookButton.disabled = state.autoContinue.cooking;
+    }
+    updateCookingProgressLabel("Plating");
+    setTrainingStatus("cooking", "Plating");
+
+    state.inventory[activeRecipe.rawId] -= 1;
+    state.inventory[activeRecipe.cookedId] =
+      (state.inventory[activeRecipe.cookedId] || 0) + 1;
+    renderInventory();
+
+    pushLog(
+      `You cook ${activeRecipe.name} and earn ${formatNumber(activeRecipe.xp)} cooking xp.`
+    );
+    gainSkillXp("cooking", activeRecipe.xp);
+
+    setTimeout(() => {
+      if (elements.cookingProgressBar) {
+        elements.cookingProgressBar.style.width = "0%";
+      }
+      if (!state.autoContinue.cooking) {
+        if (elements.cookButton) {
+          elements.cookButton.disabled = false;
+        }
+        updateCookingProgressLabel("Idle");
+        clearTrainingIndicator("cooking");
+        return;
+      }
+
+      const nextRecipe = getCurrentRecipe();
+      if ((state.inventory[nextRecipe.rawId] || 0) <= 0) {
+        pushLog(`You are out of ${getResourceName(nextRecipe.rawId)} to keep cooking.`);
+        if (elements.cookButton) {
+          elements.cookButton.disabled = false;
+        }
+        updateCookingProgressLabel("No ingredients");
+        clearTrainingIndicator("cooking");
+        return;
+      }
+
+      startCookingCycle();
+    }, 600);
+  }
+  function refreshEquipmentLabels() {
+    const pickaxe = getEquippedPickaxe();
+    if (elements.pickaxeName && pickaxe) {
+      elements.pickaxeName.textContent = pickaxe.name;
+    }
   if (elements.topPickaxeName && pickaxe) {
     elements.topPickaxeName.textContent = pickaxe.name;
   }
 
-  const axe = getEquippedAxe();
-  if (elements.axeName && axe) {
-    elements.axeName.textContent = axe.name;
+    const axe = getEquippedAxe();
+    if (elements.axeName && axe) {
+      elements.axeName.textContent = axe.name;
+    }
+
+    const rod = getEquippedRod();
+    if (elements.rodName && rod) {
+      elements.rodName.textContent = rod.name;
+    }
+    if (elements.topRodName && rod) {
+      elements.topRodName.textContent = rod.name;
+    }
+
+    updateTopReadouts();
   }
 
-  updateTopReadouts();
-}
+  function renderInventory() {
+    if (!elements.inventoryList) return;
+    elements.inventoryList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
 
-function renderInventory() {
-  if (!elements.inventoryList) return;
-  elements.inventoryList.innerHTML = "";
-  const fragment = document.createDocumentFragment();
+    INVENTORY_GROUPS.forEach((group) => {
+      const header = document.createElement("li");
+      header.className = "inventory-group";
+      header.textContent = group.title;
+      fragment.appendChild(header);
 
-  INVENTORY_GROUPS.forEach((group) => {
-    const header = document.createElement("li");
-    header.className = "inventory-group";
-    header.textContent = group.title;
-    fragment.appendChild(header);
+      group.resources.forEach((resourceId) => {
+        const amount = state.inventory[resourceId] || 0;
+        const li = document.createElement("li");
+        li.className = "inventory-entry";
+        const name = document.createElement("span");
+        name.className = "item-name";
+        name.textContent = getResourceName(resourceId);
+        const qty = document.createElement("span");
+        qty.className = "item-qty";
+        qty.textContent = formatNumber(amount);
+        li.appendChild(name);
+        li.appendChild(qty);
 
-    group.resources.forEach((resourceId) => {
-      const li = document.createElement("li");
-      li.className = "inventory-entry";
-      li.innerHTML = `
-        <span class="item-name">${getResourceName(resourceId)}</span>
-        <span class="item-qty">${formatNumber(state.inventory[resourceId] || 0)}</span>
-      `;
-      fragment.appendChild(li);
+        if (resourceId === "anglers_cache" && amount > 0) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "inventory-action";
+          button.dataset.inventoryAction = "open-cache";
+          button.dataset.id = resourceId;
+          button.textContent = "Open";
+          li.appendChild(button);
+        }
+
+        fragment.appendChild(li);
+      });
     });
-  });
 
-  elements.inventoryList.appendChild(fragment);
-  updateTopReadouts();
-}
+    elements.inventoryList.appendChild(fragment);
+    renderMarket();
+    updateTopReadouts();
+  }
 
 function pushLog(entry) {
   state.log.unshift({
@@ -981,11 +1740,23 @@ function updateProgressLabel(text) {
   }
 }
 
-function updateWoodProgressLabel(text) {
-  if (elements.woodProgressLabel) {
-    elements.woodProgressLabel.textContent = text;
+  function updateWoodProgressLabel(text) {
+    if (elements.woodProgressLabel) {
+      elements.woodProgressLabel.textContent = text;
+    }
   }
-}
+
+  function updateFishProgressLabel(text) {
+    if (elements.fishProgressLabel) {
+      elements.fishProgressLabel.textContent = text;
+    }
+  }
+
+  function updateCookingProgressLabel(text) {
+    if (elements.cookingProgressLabel) {
+      elements.cookingProgressLabel.textContent = text;
+    }
+  }
 
 function updateTopReadouts() {
   const stone = getCurrentStone();
@@ -1004,6 +1775,20 @@ function updateTopReadouts() {
   if (elements.topSwingDuration && stone) {
     const stoneDuration = getEffectiveSwingDuration(stone);
     elements.topSwingDuration.textContent = (stoneDuration / 1000).toFixed(1);
+  }
+
+  if (elements.topCoins) {
+    elements.topCoins.textContent = formatNumber(state.coins || 0);
+  }
+
+  const rod = getEquippedRod();
+  if (elements.topCastDuration) {
+    const spot = getCurrentSpot();
+    const castDuration = getEffectiveCastDuration(spot);
+    elements.topCastDuration.textContent = (castDuration / 1000).toFixed(1);
+  }
+  if (elements.topRodName && rod) {
+    elements.topRodName.textContent = rod.name;
   }
 
   const mining = getSkill("mining");
@@ -1034,6 +1819,97 @@ function updateTopReadouts() {
     elements.topWoodcuttingXp.textContent = wood.level >= MAX_LEVEL
       ? "--"
       : formatNumber(Math.max(0, wood.xpToNext - wood.xp));
+  }
+
+  const fishing = getSkill("fishing");
+  if (elements.topFishingLevel) {
+    elements.topFishingLevel.textContent = fishing.level;
+  }
+  if (elements.topFishingXp) {
+    elements.topFishingXp.textContent = fishing.level >= MAX_LEVEL
+      ? "--"
+      : formatNumber(Math.max(0, fishing.xpToNext - fishing.xp));
+  }
+
+  const cooking = getSkill("cooking");
+  if (elements.topCookingLevel) {
+    elements.topCookingLevel.textContent = cooking.level;
+  }
+  if (elements.topCookingXp) {
+    elements.topCookingXp.textContent = cooking.level >= MAX_LEVEL
+      ? "--"
+      : formatNumber(Math.max(0, cooking.xpToNext - cooking.xp));
+  }
+}
+
+function beginTraining(skillId) {
+  const definition = getSkillDefinition(skillId);
+  state.activeTraining = skillId;
+  state.trainingLabel = definition?.name || skillId;
+  if (elements.activeTrainingSkill) {
+    elements.activeTrainingSkill.textContent = state.trainingLabel;
+  }
+  if (elements.activeTrainingStatus) {
+    elements.activeTrainingStatus.textContent = "Preparing...";
+  }
+  if (elements.activeTrainingBar) {
+    elements.activeTrainingBar.style.width = "0%";
+  }
+  if (elements.activeTraining) {
+    elements.activeTraining.setAttribute("data-active", "true");
+  }
+}
+
+function setTrainingProgress(skillId, progress, statusText) {
+  if (state.activeTraining !== skillId) return;
+  const safeProgress = Math.max(0, Math.min(1, progress ?? 0));
+  if (elements.activeTrainingBar) {
+    elements.activeTrainingBar.style.width = `${safeProgress * 100}%`;
+  }
+  if (statusText && elements.activeTrainingStatus) {
+    elements.activeTrainingStatus.textContent = statusText;
+  }
+}
+
+function setTrainingStatus(skillId, statusText) {
+  if (state.activeTraining !== skillId) return;
+  if (elements.activeTrainingStatus) {
+    elements.activeTrainingStatus.textContent = statusText;
+  }
+}
+
+function clearTrainingIndicator(skillId, message) {
+  if (state.activeTraining && skillId && state.activeTraining !== skillId) {
+    return;
+  }
+  state.activeTraining = null;
+  state.trainingLabel = "";
+  if (elements.activeTrainingSkill) {
+    elements.activeTrainingSkill.textContent = "Idle";
+  }
+  if (elements.activeTrainingStatus) {
+    elements.activeTrainingStatus.textContent = message || "No skill in progress";
+  }
+  if (elements.activeTrainingBar) {
+    elements.activeTrainingBar.style.width = "0%";
+  }
+  if (elements.activeTraining) {
+    elements.activeTraining.removeAttribute("data-active");
+  }
+}
+
+function ensureExclusiveTraining(skillId) {
+  const active = state.activeTraining;
+  if (!active || active === skillId) return;
+  const interruptionMessage = `You redirect your focus to ${getSkillDefinition(skillId)?.name?.toLowerCase() || skillId}.`;
+  if (active === "mining") {
+    cancelMiningCycle(interruptionMessage);
+  } else if (active === "woodcutting") {
+    cancelWoodcuttingCycle(interruptionMessage);
+  } else if (active === "fishing") {
+    cancelFishingCycle(interruptionMessage);
+  } else if (active === "cooking") {
+    cancelCookingCycle(interruptionMessage);
   }
 }
 
@@ -1159,6 +2035,43 @@ function formatLogYield(tree) {
   return min === max ? `${min}` : `${min}-${max}`;
 }
 
+function getCurrentSpot() {
+  return (
+    FISHING_SPOTS.find((spot) => spot.id === state.currentSpotId) || FISHING_SPOTS[0]
+  );
+}
+
+function getEffectiveCastDuration(spot) {
+  if (!spot) return 0;
+  const fishingSkill = getSkill("fishing");
+  const rod = getEquippedRod();
+  const skillBonus = 1 + (fishingSkill.level - 1) * 0.015;
+  const toolBonus = rod?.speedMultiplier ?? 1;
+  const effective = Math.round(spot.baseCastDurationMs / (skillBonus * toolBonus));
+  return Math.max(900, effective);
+}
+
+function formatCatchYield(spot) {
+  const [min, max] = spot.yield;
+  return min === max ? `${min}` : `${min}-${max}`;
+}
+
+function getCurrentRecipe() {
+  return (
+    COOKING_RECIPES.find((recipe) => recipe.id === state.currentRecipeId) ||
+    COOKING_RECIPES[0]
+  );
+}
+
+function getEffectiveCookDuration(recipe) {
+  if (!recipe) return 0;
+  const cookingSkill = getSkill("cooking");
+  const spiceBonus = state.inventory.camp_spice > 0 ? 1.05 : 1;
+  const skillBonus = 1 + (cookingSkill.level - 1) * 0.018;
+  const effective = Math.round(recipe.baseDurationMs / (skillBonus * spiceBonus));
+  return Math.max(800, effective);
+}
+
 function renderStoneOptions() {
   if (!elements.stoneSelect) return;
   elements.stoneSelect.innerHTML = "";
@@ -1193,6 +2106,81 @@ function renderStoneOptions() {
     STONES.find((stone) => miningSkill.level >= stone.levelRequirement) || STONES[0];
   state.currentStoneId = fallback.id;
   elements.stoneSelect.value = fallback.id;
+}
+
+function renderSpotOptions() {
+  if (!elements.spotSelect) return;
+  elements.spotSelect.innerHTML = "";
+
+  const fishingSkill = getSkill("fishing");
+
+  FISHING_SPOTS.forEach((spot) => {
+    const option = document.createElement("option");
+    const locked = fishingSkill.level < spot.levelRequirement;
+    option.value = spot.id;
+    option.textContent = `${spot.name} (Lv ${spot.levelRequirement}${
+      locked ? " – locked" : ""
+    })`;
+    option.disabled = locked;
+    if (state.currentSpotId === spot.id) {
+      option.selected = true;
+    }
+    elements.spotSelect.appendChild(option);
+  });
+
+  const currentSpot = FISHING_SPOTS.find(
+    (spot) => spot.id === state.currentSpotId && fishingSkill.level >= spot.levelRequirement
+  );
+
+  if (currentSpot) {
+    elements.spotSelect.value = state.currentSpotId;
+    return;
+  }
+
+  const fallback =
+    FISHING_SPOTS.find((spot) => fishingSkill.level >= spot.levelRequirement) ||
+    FISHING_SPOTS[0];
+  state.currentSpotId = fallback.id;
+  state.fishing.currentSpotId = fallback.id;
+  elements.spotSelect.value = fallback.id;
+}
+
+function renderRecipeOptions() {
+  if (!elements.recipeSelect) return;
+  elements.recipeSelect.innerHTML = "";
+
+  const cookingSkill = getSkill("cooking");
+
+  COOKING_RECIPES.forEach((recipe) => {
+    const option = document.createElement("option");
+    const locked = cookingSkill.level < recipe.levelRequirement;
+    option.value = recipe.id;
+    option.textContent = `${recipe.name} (Lv ${recipe.levelRequirement}${
+      locked ? " – locked" : ""
+    })`;
+    option.disabled = locked;
+    if (state.currentRecipeId === recipe.id) {
+      option.selected = true;
+    }
+    elements.recipeSelect.appendChild(option);
+  });
+
+  const currentRecipe = COOKING_RECIPES.find(
+    (recipe) =>
+      recipe.id === state.currentRecipeId && cookingSkill.level >= recipe.levelRequirement
+  );
+
+  if (currentRecipe) {
+    elements.recipeSelect.value = state.currentRecipeId;
+    return;
+  }
+
+  const fallback =
+    COOKING_RECIPES.find((recipe) => cookingSkill.level >= recipe.levelRequirement) ||
+    COOKING_RECIPES[0];
+  state.currentRecipeId = fallback.id;
+  state.cooking.currentRecipeId = fallback.id;
+  elements.recipeSelect.value = fallback.id;
 }
 
 function renderTreeOptions() {
@@ -1271,6 +2259,44 @@ function updateTreeDetails() {
   updateWoodcuttingStats();
 }
 
+function updateSpotDetails() {
+  const spot = getCurrentSpot();
+  if (!spot) return;
+  const fishingSkill = getSkill("fishing");
+  if (elements.spotRequirement) {
+    const locked = fishingSkill.level < spot.levelRequirement;
+    elements.spotRequirement.textContent = locked
+      ? `Requires fishing level ${spot.levelRequirement}.`
+      : `Unlocked at level ${spot.levelRequirement}.`;
+    elements.spotRequirement.classList.toggle("locked", locked);
+  }
+  if (elements.spotDescription) {
+    const baseSeconds = (spot.baseCastDurationMs / 1000).toFixed(1);
+    const baitText = spot.baitCost === 1 ? "bait" : "bait pieces";
+    elements.spotDescription.textContent = `${spot.description} Base cast ${baseSeconds}s, costs ${spot.baitCost} ${baitText} and yields ${formatCatchYield(
+      spot
+    )} fish.`;
+  }
+  updateFishingStats();
+}
+
+function updateRecipeDetails() {
+  const recipe = getCurrentRecipe();
+  if (!recipe) return;
+  const cookingSkill = getSkill("cooking");
+  if (elements.recipeRequirement) {
+    const locked = cookingSkill.level < recipe.levelRequirement;
+    elements.recipeRequirement.textContent = locked
+      ? `Requires cooking level ${recipe.levelRequirement}.`
+      : `Unlocked at level ${recipe.levelRequirement}.`;
+    elements.recipeRequirement.classList.toggle("locked", locked);
+  }
+  if (elements.recipeDescription) {
+    elements.recipeDescription.textContent = recipe.description;
+  }
+  updateCookingStats();
+}
+
 function updateMiningStats() {
   const stone = getCurrentStone();
   if (elements.swingDuration && stone) {
@@ -1303,6 +2329,35 @@ function updateWoodcuttingStats() {
   updateTopReadouts();
 }
 
+function updateFishingStats() {
+  const spot = getCurrentSpot();
+  if (elements.castDuration && spot) {
+    elements.castDuration.textContent = (getEffectiveCastDuration(spot) / 1000)
+      .toFixed(2)
+      .replace(/\.00$/, "");
+  }
+  if (elements.currentSpotName && spot) {
+    elements.currentSpotName.textContent = spot.name;
+  }
+  if (elements.currentSpotYield && spot) {
+    elements.currentSpotYield.textContent = formatCatchYield(spot);
+  }
+  updateTopReadouts();
+}
+
+function updateCookingStats() {
+  const recipe = getCurrentRecipe();
+  if (elements.cookDuration && recipe) {
+    elements.cookDuration.textContent = (getEffectiveCookDuration(recipe) / 1000)
+      .toFixed(2)
+      .replace(/\.00$/, "");
+  }
+  if (elements.currentRecipeName && recipe) {
+    elements.currentRecipeName.textContent = recipe.name;
+  }
+  updateTopReadouts();
+}
+
 function updateSkillDisplays() {
   const mining = getSkill("mining");
   if (elements.miningLevel) {
@@ -1326,6 +2381,34 @@ function updateSkillDisplays() {
   if (elements.woodcuttingXpToNext) {
     elements.woodcuttingXpToNext.textContent =
       wood.level >= MAX_LEVEL ? "Max" : formatNumber(Math.max(0, wood.xpToNext - wood.xp));
+  }
+
+  const fishing = getSkill("fishing");
+  if (elements.fishingLevel) {
+    elements.fishingLevel.textContent = fishing.level;
+  }
+  if (elements.fishingXp) {
+    elements.fishingXp.textContent = formatNumber(fishing.xp);
+  }
+  if (elements.fishingXpToNext) {
+    elements.fishingXpToNext.textContent =
+      fishing.level >= MAX_LEVEL
+        ? "Max"
+        : formatNumber(Math.max(0, fishing.xpToNext - fishing.xp));
+  }
+
+  const cooking = getSkill("cooking");
+  if (elements.cookingLevel) {
+    elements.cookingLevel.textContent = cooking.level;
+  }
+  if (elements.cookingXp) {
+    elements.cookingXp.textContent = formatNumber(cooking.xp);
+  }
+  if (elements.cookingXpToNext) {
+    elements.cookingXpToNext.textContent =
+      cooking.level >= MAX_LEVEL
+        ? "Max"
+        : formatNumber(Math.max(0, cooking.xpToNext - cooking.xp));
   }
 
   renderSkillList();
@@ -1368,6 +2451,12 @@ function gainSkillXp(skillId, amount) {
       updateTreeDetails();
     } else if (skillId === "smithing") {
       renderSmithingOptions();
+    } else if (skillId === "fishing") {
+      renderSpotOptions();
+      updateSpotDetails();
+    } else if (skillId === "cooking") {
+      renderRecipeOptions();
+      updateRecipeDetails();
     }
   }
 
@@ -1412,11 +2501,24 @@ function renderSkillList() {
   elements.skillList.appendChild(fragment);
 }
 
-function renderSmithingOptions() {
-  renderSmeltingList();
-  renderForgeList(PICKAXES, elements.pickaxeForgeList, "pickaxe");
-  renderForgeList(AXES, elements.axeForgeList, "axe");
-}
+  function renderSmithingOptions() {
+    renderSmeltingList();
+    renderForgeList(PICKAXES, elements.pickaxeForgeList, "pickaxe");
+    renderForgeList(AXES, elements.axeForgeList, "axe");
+    renderForgeList(FISHING_RODS, elements.rodForgeList, "rod");
+    switchSmithyCategory(elements.smithyCategory?.value || "smelt");
+  }
+
+  function switchSmithyCategory(category) {
+    document.querySelectorAll(".smithy-view").forEach((section) => {
+      const isActive = section.dataset.smithyView === category;
+      section.hidden = !isActive;
+      section.classList.toggle("active", isActive);
+    });
+    if (elements.smithyCategory && elements.smithyCategory.value !== category) {
+      elements.smithyCategory.value = category;
+    }
+  }
 
 function renderSmeltingList() {
   if (!elements.smeltingList) return;
@@ -1508,18 +2610,24 @@ function renderForgeList(tools, listElement, type) {
     usageLine.className = "action-list__meta";
     if (type === "pickaxe") {
       usageLine.textContent = `Use: Mining level ${tool.miningLevelRequirement}`;
-    } else {
+    } else if (type === "axe") {
       usageLine.textContent = `Use: Woodcutting level ${tool.woodcuttingLevelRequirement}`;
+    } else {
+      usageLine.textContent = `Use: Fishing level ${tool.fishingLevelRequirement}`;
     }
     info.appendChild(usageLine);
 
     const button = document.createElement("button");
     button.type = "button";
-    button.dataset.action = type === "pickaxe" ? "forge-pickaxe" : "forge-axe";
+    button.dataset.action =
+      type === "pickaxe" ? "forge-pickaxe" : type === "axe" ? "forge-axe" : "forge-rod";
     button.dataset.id = tool.id;
-    const alreadyOwned = type === "pickaxe"
-      ? state.ownedPickaxes.has(tool.id)
-      : state.ownedAxes.has(tool.id);
+    const alreadyOwned =
+      type === "pickaxe"
+        ? state.ownedPickaxes.has(tool.id)
+        : type === "axe"
+        ? state.ownedAxes.has(tool.id)
+        : state.ownedRods.has(tool.id);
     button.textContent = alreadyOwned ? "Forged" : "Forge";
 
     const meetsLevel = smithing.level >= tool.smithingLevelRequirement;
@@ -1539,6 +2647,20 @@ function renderForgeList(tools, listElement, type) {
     }
     if (!meetsLevel) {
       messages.push(`Requires smithing level ${tool.smithingLevelRequirement}.`);
+    }
+    const usageRequirement =
+      type === "pickaxe"
+        ? tool.miningLevelRequirement
+        : type === "axe"
+        ? tool.woodcuttingLevelRequirement
+        : tool.fishingLevelRequirement;
+    const usageSkillId = type === "pickaxe" ? "mining" : type === "axe" ? "woodcutting" : "fishing";
+    const usageSkill = getSkill(usageSkillId);
+    const usageSkillDefinition = getSkillDefinition(usageSkillId);
+    if (usageSkill && usageSkillDefinition && usageSkill.level < usageRequirement) {
+      messages.push(
+        `Using well requires ${usageSkillDefinition.name} level ${usageRequirement}.`
+      );
     }
     if (!hasResources) {
       Object.entries(tool.cost).forEach(([resourceId, amount]) => {
@@ -1580,7 +2702,207 @@ function handleSmithingAction(event) {
     attemptForge("pickaxe", id);
   } else if (action === "forge-axe") {
     attemptForge("axe", id);
+  } else if (action === "forge-rod") {
+    attemptForge("rod", id);
   }
+}
+
+function handleInventoryAction(event) {
+  const button = event.target.closest("button[data-inventory-action]");
+  if (!button) return;
+  const action = button.dataset.inventoryAction;
+  if (action === "open-cache") {
+    openAnglersCache();
+  }
+}
+
+function openAnglersCache() {
+  if ((state.inventory.anglers_cache || 0) <= 0) {
+    pushLog("You reach for a cache, but none remain.");
+    return;
+  }
+  state.inventory.anglers_cache -= 1;
+  const reward = RARE_BOX_REWARDS[Math.floor(Math.random() * RARE_BOX_REWARDS.length)];
+  const amount =
+    reward.min === reward.max
+      ? reward.min
+      : Math.floor(Math.random() * (reward.max - reward.min + 1)) + reward.min;
+  state.inventory[reward.id] = (state.inventory[reward.id] || 0) + amount;
+  renderInventory();
+  renderSmithingOptions();
+  updateTopReadouts();
+  pushLog(
+    `You open an angler's cache and recover ${formatNumber(amount)} ${getResourceName(
+      reward.id
+    )}!`
+  );
+}
+
+function renderMarket() {
+  renderMarketSellList();
+  renderMarketBuyList();
+}
+
+function renderMarketSellList() {
+  if (!elements.marketSellList) return;
+  elements.marketSellList.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+
+  Object.entries(MARKET_SELL_VALUES)
+    .sort(([a], [b]) => getResourceName(a).localeCompare(getResourceName(b)))
+    .forEach(([resourceId, baseValue]) => {
+      const amount = state.inventory[resourceId] || 0;
+      if (amount <= 0 || baseValue <= 0) return;
+
+      const li = document.createElement("li");
+      li.className = "action-list__item";
+
+      const summary = document.createElement("div");
+      summary.className = "action-list__summary";
+
+      const info = document.createElement("div");
+      const title = document.createElement("h4");
+      title.textContent = `${getResourceName(resourceId)} (${formatNumber(amount)})`;
+      const valueLine = document.createElement("p");
+      const singleValue = getSaleValue(resourceId, 1);
+      valueLine.textContent = `${singleValue} coins each`;
+      info.appendChild(title);
+      info.appendChild(valueLine);
+
+      const controls = document.createElement("div");
+      controls.className = "action-buttons";
+
+      const sellOne = document.createElement("button");
+      sellOne.type = "button";
+      sellOne.dataset.marketAction = "sell-one";
+      sellOne.dataset.id = resourceId;
+      sellOne.textContent = "Sell 1";
+      controls.appendChild(sellOne);
+
+      if (amount > 1) {
+        const sellAll = document.createElement("button");
+        sellAll.type = "button";
+        sellAll.dataset.marketAction = "sell-all";
+        sellAll.dataset.id = resourceId;
+        sellAll.textContent = "Sell All";
+        controls.appendChild(sellAll);
+      }
+
+      summary.appendChild(info);
+      summary.appendChild(controls);
+      li.appendChild(summary);
+
+      fragment.appendChild(li);
+    });
+
+  if (!fragment.childNodes.length) {
+    const li = document.createElement("li");
+    li.className = "action-list__empty";
+    li.textContent = "Nothing ready to sell just yet.";
+    fragment.appendChild(li);
+  }
+
+  elements.marketSellList.appendChild(fragment);
+}
+
+function renderMarketBuyList() {
+  if (!elements.marketBuyList) return;
+  elements.marketBuyList.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+
+  MARKET_BUY_ITEMS.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = "action-list__item";
+
+    const summary = document.createElement("div");
+    summary.className = "action-list__summary";
+
+    const info = document.createElement("div");
+    const title = document.createElement("h4");
+    title.textContent = item.name;
+    const detail = document.createElement("p");
+    detail.textContent = item.description;
+    info.appendChild(title);
+    info.appendChild(detail);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.marketAction = "buy";
+    button.dataset.id = item.id;
+    button.textContent = `Buy (${item.cost} coins)`;
+    const affordable = (state.coins || 0) >= item.cost;
+    button.disabled = !affordable;
+
+    summary.appendChild(info);
+    summary.appendChild(button);
+    li.appendChild(summary);
+
+    fragment.appendChild(li);
+  });
+
+  elements.marketBuyList.appendChild(fragment);
+}
+
+function handleMarketAction(event) {
+  const button = event.target.closest("button[data-market-action]");
+  if (!button) return;
+  const action = button.dataset.marketAction;
+  const resourceId = button.dataset.id;
+
+  if (action === "sell-one") {
+    sellResource(resourceId, 1);
+  } else if (action === "sell-all") {
+    sellResource(resourceId, state.inventory[resourceId] || 0);
+  } else if (action === "buy") {
+    buyMarketItem(resourceId);
+  }
+}
+
+function sellResource(resourceId, quantity) {
+  const available = state.inventory[resourceId] || 0;
+  if (quantity <= 0 || available <= 0) {
+    pushLog(`You have no ${getResourceName(resourceId)} to sell.`);
+    return;
+  }
+  const amountToSell = Math.min(quantity, available);
+  const coinsEarned = getSaleValue(resourceId, amountToSell);
+  state.inventory[resourceId] -= amountToSell;
+  state.coins = (state.coins || 0) + coinsEarned;
+  renderInventory();
+  renderMarket();
+  updateTopReadouts();
+  pushLog(
+    `You sell ${formatNumber(amountToSell)} ${getResourceName(resourceId)} for ${formatNumber(
+      coinsEarned
+    )} coins.`
+  );
+}
+
+function buyMarketItem(itemId) {
+  const item = MARKET_BUY_ITEMS.find((entry) => entry.id === itemId);
+  if (!item) return;
+  if ((state.coins || 0) < item.cost) {
+    pushLog("You need more coins for that purchase.");
+    return;
+  }
+  state.coins -= item.cost;
+  state.inventory[item.id] = (state.inventory[item.id] || 0) + item.quantity;
+  renderInventory();
+  renderMarket();
+  updateTopReadouts();
+  pushLog(
+    `You buy ${formatNumber(item.quantity)} ${item.name} for ${formatNumber(item.cost)} coins.`
+  );
+}
+
+function getSaleValue(resourceId, quantity) {
+  const baseValue = MARKET_SELL_VALUES[resourceId] || 0;
+  let total = baseValue * quantity;
+  const cookedIds = COOKING_RECIPES.map((recipe) => recipe.cookedId);
+  if (cookedIds.includes(resourceId) && (state.inventory.camp_spice || 0) > 0) {
+    total = Math.round(total * 1.15);
+  }
+  return total;
 }
 
 function attemptSmelt(recipeId) {
@@ -1606,8 +2928,29 @@ function attemptSmelt(recipeId) {
 
 function attemptForge(type, toolId) {
   const smithing = getSkill("smithing");
-  const collection = type === "pickaxe" ? PICKAXES : AXES;
-  const ownedSet = type === "pickaxe" ? state.ownedPickaxes : state.ownedAxes;
+  let collection;
+  let ownedSet;
+  let equipKey;
+  let usageSkillId;
+
+  if (type === "pickaxe") {
+    collection = PICKAXES;
+    ownedSet = state.ownedPickaxes;
+    equipKey = "pickaxeId";
+    usageSkillId = "mining";
+  } else if (type === "axe") {
+    collection = AXES;
+    ownedSet = state.ownedAxes;
+    equipKey = "axeId";
+    usageSkillId = "woodcutting";
+  } else if (type === "rod") {
+    collection = FISHING_RODS;
+    ownedSet = state.ownedRods;
+    equipKey = "rodId";
+    usageSkillId = "fishing";
+  } else {
+    return;
+  }
   const tool = collection.find((entry) => entry.id === toolId);
   if (!tool) return;
 
@@ -1641,14 +2984,17 @@ function attemptForge(type, toolId) {
   });
 
   ownedSet.add(tool.id);
+  state.equipment[equipKey] = tool.id;
+  if (type === "rod") {
+    state.inventory[`${tool.id}_item`] = (state.inventory[`${tool.id}_item`] || 0) + 1;
+  }
+  refreshEquipmentLabels();
   if (type === "pickaxe") {
-    state.equipment.pickaxeId = tool.id;
-    refreshEquipmentLabels();
     updateMiningStats();
-  } else {
-    state.equipment.axeId = tool.id;
-    refreshEquipmentLabels();
+  } else if (type === "axe") {
     updateWoodcuttingStats();
+  } else {
+    updateFishingStats();
   }
 
   pushLog(`You forge a ${tool.name}, gaining ${formatNumber(tool.xp)} smithing xp.`);
@@ -1820,35 +3166,41 @@ function deleteSlot(index) {
   pushLog(`Slot ${index + 1} has been cleared.`);
 }
 
-function createSaveData() {
-  return {
-    version: 2,
-    inventory: { ...state.inventory },
-    skills: {
-      mining: { level: state.skills.mining.level, xp: state.skills.mining.xp },
-      smithing: { level: state.skills.smithing.level, xp: state.skills.smithing.xp },
-      woodcutting: { level: state.skills.woodcutting.level, xp: state.skills.woodcutting.xp },
-    },
-    equipment: { ...state.equipment },
-    ownedPickaxes: Array.from(state.ownedPickaxes),
-    ownedAxes: Array.from(state.ownedAxes),
-    currentStoneId: state.currentStoneId,
-    currentTreeId: state.currentTreeId,
-    autoContinue: { ...state.autoContinue },
-    log: state.log.slice(),
-  };
-}
+  function createSaveData() {
+    return {
+      version: 3,
+      inventory: { ...state.inventory },
+      skills: {
+        mining: { level: state.skills.mining.level, xp: state.skills.mining.xp },
+        smithing: { level: state.skills.smithing.level, xp: state.skills.smithing.xp },
+        woodcutting: { level: state.skills.woodcutting.level, xp: state.skills.woodcutting.xp },
+        fishing: { level: state.skills.fishing.level, xp: state.skills.fishing.xp },
+        cooking: { level: state.skills.cooking.level, xp: state.skills.cooking.xp },
+      },
+      equipment: { ...state.equipment },
+      ownedPickaxes: Array.from(state.ownedPickaxes),
+      ownedAxes: Array.from(state.ownedAxes),
+      ownedRods: Array.from(state.ownedRods),
+      currentStoneId: state.currentStoneId,
+      currentTreeId: state.currentTreeId,
+      currentSpotId: state.currentSpotId,
+      currentRecipeId: state.currentRecipeId,
+      coins: state.coins,
+      autoContinue: { ...state.autoContinue },
+      log: state.log.slice(),
+    };
+  }
 
-function applySaveData(data) {
-  Object.assign(state.inventory, createInitialInventory(), data.inventory || {});
+  function applySaveData(data) {
+    Object.assign(state.inventory, createInitialInventory(), data.inventory || {});
 
-  const savedSkills = data.skills || {};
-  ["mining", "smithing", "woodcutting"].forEach((skillId) => {
-    const target = getSkill(skillId);
-    const saved = savedSkills[skillId] || {};
-    target.level = Math.min(MAX_LEVEL, Math.max(1, saved.level ?? 1));
-    target.xpToNext = getXpToNext(target.level);
-    if (target.level >= MAX_LEVEL) {
+    const savedSkills = data.skills || {};
+    ["mining", "smithing", "woodcutting", "fishing", "cooking"].forEach((skillId) => {
+      const target = getSkill(skillId);
+      const saved = savedSkills[skillId] || {};
+      target.level = Math.min(MAX_LEVEL, Math.max(1, saved.level ?? 1));
+      target.xpToNext = getXpToNext(target.level);
+      if (target.level >= MAX_LEVEL) {
       target.xp = 0;
       target.xpToNext = 0;
     } else {
@@ -1878,15 +3230,50 @@ function applySaveData(data) {
     TREES[0];
   state.currentTreeId = unlockedTree.id;
 
+  const fishingSkill = getSkill("fishing");
+  const requestedSpot = data.currentSpotId || FISHING_SPOTS[0].id;
+  const unlockedSpot =
+    FISHING_SPOTS.find(
+      (spot) => spot.id === requestedSpot && fishingSkill.level >= spot.levelRequirement
+    ) ||
+    [...FISHING_SPOTS]
+      .reverse()
+      .find((spot) => fishingSkill.level >= spot.levelRequirement) ||
+    FISHING_SPOTS[0];
+  state.currentSpotId = unlockedSpot.id;
+  state.fishing.currentSpotId = unlockedSpot.id;
+
+  const cookingSkill = getSkill("cooking");
+  const requestedRecipe = data.currentRecipeId || COOKING_RECIPES[0].id;
+  const unlockedRecipe =
+    COOKING_RECIPES.find(
+      (recipe) =>
+        recipe.id === requestedRecipe && cookingSkill.level >= recipe.levelRequirement
+    ) ||
+    [...COOKING_RECIPES]
+      .reverse()
+      .find((recipe) => cookingSkill.level >= recipe.levelRequirement) ||
+    COOKING_RECIPES[0];
+  state.currentRecipeId = unlockedRecipe.id;
+  state.cooking.currentRecipeId = unlockedRecipe.id;
+
   state.autoContinue = {
     mining: data.autoContinue?.mining ?? true,
     woodcutting: data.autoContinue?.woodcutting ?? true,
+    fishing: data.autoContinue?.fishing ?? true,
+    cooking: data.autoContinue?.cooking ?? true,
   };
   if (elements.autoContinueMining) {
     elements.autoContinueMining.checked = state.autoContinue.mining;
   }
   if (elements.autoContinueWood) {
     elements.autoContinueWood.checked = state.autoContinue.woodcutting;
+  }
+  if (elements.autoContinueFishing) {
+    elements.autoContinueFishing.checked = state.autoContinue.fishing;
+  }
+  if (elements.autoContinueCooking) {
+    elements.autoContinueCooking.checked = state.autoContinue.cooking;
   }
 
   const equipment = data.equipment || {};
@@ -1896,6 +3283,9 @@ function applySaveData(data) {
   state.equipment.axeId = AXES.some((axe) => axe.id === equipment.axeId)
     ? equipment.axeId
     : AXES[0].id;
+  state.equipment.rodId = FISHING_RODS.some((rod) => rod.id === equipment.rodId)
+    ? equipment.rodId
+    : FISHING_RODS[0].id;
 
   state.ownedPickaxes = new Set(
     Array.isArray(data.ownedPickaxes) && data.ownedPickaxes.length
@@ -1909,18 +3299,38 @@ function applySaveData(data) {
       : [state.equipment.axeId, AXES[0].id]
   );
   state.ownedAxes.add(state.equipment.axeId);
+  state.ownedRods = new Set(
+    Array.isArray(data.ownedRods) && data.ownedRods.length
+      ? data.ownedRods
+      : [state.equipment.rodId, FISHING_RODS[0].id]
+  );
+  state.ownedRods.add(state.equipment.rodId);
+
+  state.coins = typeof data.coins === "number" ? data.coins : state.coins;
+
+  state.inventory.worn_pickaxe_item = Math.max(1, state.inventory.worn_pickaxe_item || 0);
+  state.inventory.worn_hatchet_item = Math.max(1, state.inventory.worn_hatchet_item || 0);
+  state.inventory.worn_rod_item = Math.max(1, state.inventory.worn_rod_item || 0);
 
   state.log = Array.isArray(data.log) ? data.log.slice(0, state.logLimit) : [];
 
   refreshEquipmentLabels();
   renderInventory();
-  renderLog();
-  renderStoneOptions();
-  renderTreeOptions();
-  updateResourceDetails();
-  updateTreeDetails();
-  updateSkillDisplays();
-  updateMiningStats();
-  updateWoodcuttingStats();
-  renderSmithingOptions();
-}
+    renderLog();
+    renderStoneOptions();
+    renderTreeOptions();
+    updateResourceDetails();
+    updateTreeDetails();
+    updateSkillDisplays();
+    updateMiningStats();
+    updateWoodcuttingStats();
+    renderSmithingOptions();
+    renderSpotOptions();
+    renderRecipeOptions();
+    updateSpotDetails();
+    updateRecipeDetails();
+    updateFishingStats();
+    updateCookingStats();
+    renderMarket();
+    updateTopReadouts();
+  }
