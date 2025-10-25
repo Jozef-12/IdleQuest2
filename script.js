@@ -89,6 +89,7 @@ const state = {
     startTime: 0,
     timerId: null,
     currentDurationMs: 0,
+    activeStoneId: null,
   },
   inventory: createInitialInventory(),
   autoContinue: true,
@@ -205,6 +206,7 @@ function startMiningCycle() {
   state.mining.active = true;
   state.mining.startTime = performance.now();
   state.mining.currentDurationMs = getEffectiveSwingDuration(stone);
+  state.mining.activeStoneId = stone.id;
   elements.mineButton.textContent = "Stop Mining";
   elements.mineButton.disabled = false;
   updateProgressLabel("Working");
@@ -214,6 +216,7 @@ function startMiningCycle() {
 function cancelMiningCycle(message) {
   state.mining.active = false;
   state.mining.currentDurationMs = 0;
+  state.mining.activeStoneId = null;
   if (state.mining.timerId) {
     cancelAnimationFrame(state.mining.timerId);
     state.mining.timerId = null;
@@ -250,7 +253,10 @@ function tickMining() {
 
 function completeMiningCycle() {
   state.mining.active = false;
-  const stone = getCurrentStone();
+  const stoneId = state.mining.activeStoneId;
+  const stone =
+    STONES.find((candidate) => candidate.id === stoneId) || getCurrentStone();
+  state.mining.activeStoneId = null;
 
   elements.mineButton.textContent = state.autoContinue
     ? "Preparing next swing"
