@@ -183,6 +183,13 @@ body {
   color: var(--accent);
 }
 
+.card.smithing h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  color: rgba(243, 201, 105, 0.85);
+}
+
 .tab-intro {
   color: var(--text-muted);
   margin-bottom: 1.25rem;
@@ -347,7 +354,15 @@ body {
   gap: 0.9rem;
 }
 
-.inventory-list li {
+.inventory-group {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: rgba(243, 201, 105, 0.75);
+  padding: 0.35rem 0.5rem;
+}
+
+.inventory-entry {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -355,6 +370,99 @@ body {
   background: rgba(8, 11, 20, 0.9);
   border-radius: 0.85rem;
   border: 1px solid rgba(243, 201, 105, 0.25);
+}
+
+.smithing-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.smithing-grid section {
+  display: grid;
+  gap: 1rem;
+}
+
+.action-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.action-list__item {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.1rem 1.2rem;
+  background: rgba(8, 12, 22, 0.88);
+  border-radius: 0.95rem;
+  border: 1px solid rgba(243, 201, 105, 0.22);
+}
+
+.action-list__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+}
+
+.action-list__summary h4 {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.action-list__summary p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.action-list__meta {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(166, 173, 200, 0.65);
+}
+
+.action-list__summary button {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 201, 105, 0.45);
+  background: linear-gradient(135deg, rgba(243, 201, 105, 0.9), rgba(215, 165, 66, 0.9));
+  color: #241b0c;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  box-shadow: 0 12px 22px rgba(243, 201, 105, 0.25);
+}
+
+.action-list__summary button:hover,
+.action-list__summary button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 26px rgba(243, 201, 105, 0.35);
+  outline: none;
+}
+
+.action-list__summary button:disabled {
+  background: rgba(12, 17, 28, 0.85);
+  color: var(--text-muted);
+  border-color: rgba(243, 201, 105, 0.2);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.action-list__note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.action-list__note--warn {
+  color: rgba(239, 100, 97, 0.85);
 }
 
 .save-slot-list {
@@ -470,6 +578,12 @@ body {
   font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+.skill-note--subtitle {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(166, 173, 200, 0.75);
 }
 
 .log-entries {

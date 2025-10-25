@@ -33,16 +33,36 @@
           </span>
         </div>
         <div class="insight">
-          <span class="insight-label">Mining Level</span>
+          <span class="insight-label">Mining</span>
           <span class="insight-value" id="top-mining-level">1</span>
           <span class="insight-subtext">
-            Next in <span id="top-mining-xp">100</span> xp
+            Next in <span id="top-mining-xp">150</span> xp
+          </span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Smithing</span>
+          <span class="insight-value" id="top-smithing-level">1</span>
+          <span class="insight-subtext">
+            Next in <span id="top-smithing-xp">150</span> xp
+          </span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Woodcutting</span>
+          <span class="insight-value" id="top-woodcutting-level">1</span>
+          <span class="insight-subtext">
+            Next in <span id="top-woodcutting-xp">150</span> xp
           </span>
         </div>
       </div>
       <nav class="top-tabs" aria-label="Game views">
         <button class="tab-button active" type="button" data-tab-target="quarry">
           Quarry
+        </button>
+        <button class="tab-button" type="button" data-tab-target="woodlot">
+          Woodlot
+        </button>
+        <button class="tab-button" type="button" data-tab-target="smithing">
+          Smithy
         </button>
         <button class="tab-button" type="button" data-tab-target="inventory">
           Inventory
@@ -76,7 +96,7 @@
               <div class="stat-row">
                 <dt>Next Level</dt>
                 <dd>
-                  <span id="xp-to-next">100</span> xp to level
+                  <span id="xp-to-next">150</span> xp to level
                   <span class="stat-note">max 99</span>
                 </dd>
               </div>
@@ -130,6 +150,104 @@
         </div>
       </section>
 
+      <section class="tab-content" data-tab-panel="woodlot">
+        <div class="panel-grid">
+          <article class="card stats">
+            <h2>Woodsman</h2>
+            <dl>
+              <div class="stat-row">
+                <dt>Axe</dt>
+                <dd id="axe-name">Worn Hatchet</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Woodcutting Skill</dt>
+                <dd>
+                  Level <span id="woodcutting-level">1</span>
+                  <span class="stat-note">(<span id="woodcutting-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Next Level</dt>
+                <dd>
+                  <span id="woodcutting-xp-to-next">150</span> xp to level
+                  <span class="stat-note">max 99</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Current Trees</dt>
+                <dd>
+                  <span id="current-tree-name">Spruce Copse</span>
+                  <span class="stat-note">(<span id="current-tree-yield">1-2</span> per chop)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Effective Speed</dt>
+                <dd><span id="chop-duration">4.4</span> s per chop</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="card action">
+            <h2>Timberline</h2>
+            <div class="resource-selector">
+              <label for="tree-select">Choose your stand</label>
+              <select id="tree-select"></select>
+              <p id="tree-requirement" class="resource-requirement" aria-live="polite"></p>
+              <p id="tree-description" class="resource-description"></p>
+            </div>
+            <div class="progress-shell" aria-live="polite">
+              <div id="wood-progress-bar" class="progress-bar"></div>
+              <span id="wood-progress-label" class="progress-label">Idle</span>
+            </div>
+            <div class="actions">
+              <button id="chop-button" class="primary">Start Chopping</button>
+              <label class="toggle">
+                <input type="checkbox" id="wood-auto-continue" checked />
+                <span>Auto-continue</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="card primer">
+            <h2>Forest Briefing</h2>
+            <p class="tab-intro">
+              Chop logs to supply the smithy and warm the camp. Better axes will keep
+              the crew moving.
+            </p>
+            <ul class="primer-list">
+              <li>Choose trees that match your woodcutting level.</li>
+              <li>Sharper axes mean faster chops and bigger hauls.</li>
+              <li>Feed the smithy with bars and logs to craft advanced tools.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-content" data-tab-panel="smithing">
+        <div class="panel-grid single">
+          <article class="card smithing">
+            <h2>Smithy</h2>
+            <p class="tab-intro">
+              Refine ore into bars and forge new equipment for the crew.
+            </p>
+            <div class="smithing-grid">
+              <section>
+                <h3>Smelt Bars</h3>
+                <ul class="action-list" id="smelting-list"></ul>
+              </section>
+              <section>
+                <h3>Forge Pickaxes</h3>
+                <ul class="action-list" id="pickaxe-forge-list"></ul>
+              </section>
+              <section>
+                <h3>Forge Axes</h3>
+                <ul class="action-list" id="axe-forge-list"></ul>
+              </section>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section class="tab-content" data-tab-panel="inventory">
         <div class="panel-grid single">
           <article class="card inventory">
@@ -158,38 +276,7 @@
               Long sessions hone your abilities. Earn progress to unlock passive boosts
               and shiny new tools.
             </p>
-            <ul class="skill-list">
-              <li style="--progress: 38%">
-                <div class="skill-header">
-                  <span>Manual Mastery</span>
-                  <span class="skill-rank">Rank 1</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-bar__fill"></div>
-                </div>
-                <p class="skill-note">Faster swings with sustained effort.</p>
-              </li>
-              <li style="--progress: 55%">
-                <div class="skill-header">
-                  <span>Stone Whisperer</span>
-                  <span class="skill-rank">Rank 2</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-bar__fill"></div>
-                </div>
-                <p class="skill-note">Improved odds of rich stone seams.</p>
-              </li>
-              <li style="--progress: 12%">
-                <div class="skill-header">
-                  <span>Foreman Instinct</span>
-                  <span class="skill-rank">Rank 0</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-bar__fill"></div>
-                </div>
-                <p class="skill-note">Queue extra workers for parallel digs.</p>
-              </li>
-            </ul>
+            <ul class="skill-list" id="skill-list"></ul>
           </article>
         </div>
       </section>
