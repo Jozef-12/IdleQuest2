@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Idle Quarry</title>
+    <title>Idle Quest</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="top-bar">
       <div class="top-bar__brand">
-        <span class="brand-icon" aria-hidden="true">⛏️</span>
+        <span class="brand-icon" aria-hidden="true">⚔️</span>
         <div class="brand-copy">
-          <h1>Idle Quarry</h1>
-          <p>Shape the stone, grow your legend.</p>
+          <h1>Idle Quest</h1>
+          <p>Chart your legend across craft and combat.</p>
         </div>
       </div>
       <div class="top-bar__insights" role="status" aria-live="polite">
@@ -166,11 +166,16 @@
         <button class="tab-button" type="button" data-tab-target="market">
           Market
         </button>
+        <button class="tab-button" type="button" data-tab-target="combat">
+          Combat
+        </button>
         <button class="tab-button" type="button" data-tab-target="log">
           Activity
         </button>
       </nav>
     </header>
+
+    <div id="notifications" class="notification-stack" aria-live="polite"></div>
 
     <main class="dashboard">
       <section class="tab-content active" data-tab-panel="quarry">
@@ -467,6 +472,15 @@
             <p class="tab-intro">
               Refine ore into bars and forge new equipment for the crew.
             </p>
+            <div class="smithy-progress" aria-live="polite">
+              <div class="progress-shell">
+                <div id="smithing-progress-bar" class="progress-bar"></div>
+                <span id="smithing-progress-label" class="progress-label">Idle</span>
+              </div>
+              <button id="smithing-stop-button" class="secondary" type="button">
+                Stop Training
+              </button>
+            </div>
             <div class="smithy-controls">
               <label for="smithy-category">Workshop focus</label>
               <select id="smithy-category">
@@ -474,6 +488,8 @@
                 <option value="pickaxe">Forge Pickaxes</option>
                 <option value="axe">Forge Axes</option>
                 <option value="rod">Craft Rods</option>
+                <option value="weapon">Forge Weapons</option>
+                <option value="armor">Forge Armour</option>
               </select>
             </div>
             <div class="smithy-views">
@@ -492,6 +508,14 @@
               <section class="smithy-view" data-smithy-view="rod" hidden>
                 <h3>Craft Fishing Rods</h3>
                 <ul class="action-list" id="rod-forge-list"></ul>
+              </section>
+              <section class="smithy-view" data-smithy-view="weapon" hidden>
+                <h3>Forge Weapons</h3>
+                <ul class="action-list" id="weapon-forge-list"></ul>
+              </section>
+              <section class="smithy-view" data-smithy-view="armor" hidden>
+                <h3>Forge Armour</h3>
+                <ul class="action-list" id="armor-forge-list"></ul>
               </section>
             </div>
           </article>
@@ -548,6 +572,112 @@
                 <ul class="action-list" id="market-buy-list"></ul>
               </section>
             </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-content" data-tab-panel="combat">
+        <div class="panel-grid">
+          <article class="card stats combat-player">
+            <h2>Adventurer</h2>
+            <div class="health-display">
+              <div class="health-label">
+                <span>Health</span>
+                <span id="player-health-value">0 / 0</span>
+              </div>
+              <div class="health-bar">
+                <div class="health-bar__fill" id="player-health-bar"></div>
+              </div>
+            </div>
+            <dl class="combat-stats">
+              <div class="stat-row">
+                <dt>Weapon</dt>
+                <dd id="weapon-name">Training Blade</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Armour</dt>
+                <dd id="armor-name">Training Tunic</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Attack</dt>
+                <dd>
+                  Level <span id="attack-level">1</span>
+                  <span class="stat-note">(<span id="attack-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Strength</dt>
+                <dd>
+                  Level <span id="strength-level">1</span>
+                  <span class="stat-note">(<span id="strength-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Defense</dt>
+                <dd>
+                  Level <span id="defense-level">1</span>
+                  <span class="stat-note">(<span id="defense-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Accuracy</dt>
+                <dd>
+                  Level <span id="accuracy-level">1</span>
+                  <span class="stat-note">(<span id="accuracy-xp">0</span> xp)</span>
+                </dd>
+              </div>
+              <div class="stat-row">
+                <dt>Hitpoints</dt>
+                <dd>
+                  Level <span id="hitpoints-level">1</span>
+                  <span class="stat-note">(<span id="hitpoints-xp">0</span> xp)</span>
+                </dd>
+              </div>
+            </dl>
+            <div class="combat-food">
+              <label for="combat-food-select">Eat food</label>
+              <div class="combat-food__controls">
+                <select id="combat-food-select"></select>
+                <button id="combat-eat-button" class="secondary" type="button">
+                  Eat
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card action combat-field">
+            <h2>Battlefield</h2>
+            <div class="combat-area">
+              <label for="combat-area-select">Choose area</label>
+              <select id="combat-area-select"></select>
+              <p id="combat-area-description" class="resource-description"></p>
+            </div>
+            <div class="combat-monsters">
+              <h3>Monsters</h3>
+              <ul class="action-list action-list--compact" id="combat-monster-list"></ul>
+            </div>
+            <div class="combat-controls">
+              <button id="combat-stop-button" class="secondary" type="button">
+                Stop Training
+              </button>
+            </div>
+            <p id="combat-status" class="combat-status" aria-live="polite">
+              No combat in progress.
+            </p>
+          </article>
+
+          <article class="card primer combat-foe">
+            <h2>Current Foe</h2>
+            <div class="health-display">
+              <div class="health-label">
+                <span id="monster-name">None selected</span>
+                <span id="monster-health-value">--</span>
+              </div>
+              <div class="health-bar">
+                <div class="health-bar__fill" id="monster-health-bar"></div>
+              </div>
+            </div>
+            <ul class="primer-list" id="monster-details"></ul>
           </article>
         </div>
       </section>
