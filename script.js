@@ -595,6 +595,16 @@ const COOKING_RECIPES = [
   },
 ];
 
+const COMBAT_FOOD_HEALING = {
+  cooked_minnow: 12,
+  cooked_trout: 18,
+  cooked_salmon: 26,
+  cooked_eel: 34,
+  cooked_chicken: 28,
+  cooked_beef: 34,
+  cooked_chops: 42,
+};
+
 const RARE_BOX_REWARDS = [
   { id: "silver", min: 2, max: 4 },
   { id: "gold", min: 1, max: 3 },
@@ -1234,6 +1244,49 @@ const SKILL_DEFINITIONS = [
   },
 ];
 
+const SKILL_LOADOUT_CONFIG = [
+  {
+    skillId: "mining",
+    skillName: "Mining",
+    items: [{ label: "Pickaxe", getter: () => getEquippedPickaxe() }],
+  },
+  {
+    skillId: "woodcutting",
+    skillName: "Woodcutting",
+    items: [{ label: "Axe", getter: () => getEquippedAxe() }],
+  },
+  {
+    skillId: "fishing",
+    skillName: "Fishing",
+    items: [{ label: "Rod", getter: () => getEquippedRod() }],
+  },
+  {
+    skillId: "smithing",
+    skillName: "Smithing",
+    items: [
+      {
+        label: "Smelting Focus",
+        getter: () =>
+          SMELTING_RECIPES.find((recipe) => recipe.id === state.smelting.currentRecipeId) ||
+          SMELTING_RECIPES[0],
+      },
+    ],
+  },
+  {
+    skillId: "cooking",
+    skillName: "Cooking",
+    items: [{ label: "Active Recipe", getter: () => getCurrentRecipe() }],
+  },
+  {
+    skillId: "combat",
+    skillName: "Combat",
+    items: [
+      { label: "Weapon", getter: () => getEquippedWeapon() },
+      { label: "Armor", getter: () => getEquippedArmor() },
+    ],
+  },
+];
+
 function getSkillDefinition(skillId) {
   return SKILL_DEFINITIONS.find((definition) => definition.id === skillId);
 }
@@ -1303,7 +1356,9 @@ const state = {
     areaId: COMBAT_AREAS[0].id,
     monsterId: null,
     playerHp: 0,
+    playerMaxHp: 0,
     monsterHp: 0,
+    monsterMaxHp: 0,
     playerAttackInterval: 0,
     monsterAttackInterval: 0,
     playerNextAttack: 0,
@@ -1405,6 +1460,37 @@ let saveSlots = Array(SAVE_SLOT_COUNT).fill(null);
 
 const elements = {};
 
+function nodeListForEach(collection, callback) {
+  if (!collection || typeof callback !== "function") {
+    return;
+  }
+  for (let index = 0; index < collection.length; index += 1) {
+    callback(collection[index], index, collection);
+  }
+}
+
+function getClosestElement(element, selector) {
+  if (!element || !selector) {
+    return null;
+  }
+  if (typeof element.closest === "function") {
+    return element.closest(selector);
+  }
+  let current = element;
+  while (current && current.nodeType === 1) {
+    const matches =
+      current.matches ||
+      current.webkitMatchesSelector ||
+      current.msMatchesSelector ||
+      current.mozMatchesSelector;
+    if (matches && matches.call(current, selector)) {
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return null;
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
 } else {
@@ -1502,8 +1588,6 @@ function init() {
 
   elements.topResourceName = document.getElementById("top-resource-name");
   elements.topResourceCount = document.getElementById("top-resource-count");
-  elements.topPickaxeName = document.getElementById("top-pickaxe-name");
-  elements.topSwingDuration = document.getElementById("top-swing-duration");
   elements.topMiningLevel = document.getElementById("top-mining-level");
   elements.topMiningXp = document.getElementById("top-mining-xp");
   elements.topSmithingLevel = document.getElementById("top-smithing-level");
@@ -1511,12 +1595,15 @@ function init() {
   elements.topWoodcuttingLevel = document.getElementById("top-woodcutting-level");
   elements.topWoodcuttingXp = document.getElementById("top-woodcutting-xp");
   elements.topCoins = document.getElementById("top-coins");
-  elements.topRodName = document.getElementById("top-rod-name");
-  elements.topCastDuration = document.getElementById("top-cast-duration");
   elements.topFishingLevel = document.getElementById("top-fishing-level");
   elements.topFishingXp = document.getElementById("top-fishing-xp");
   elements.topCookingLevel = document.getElementById("top-cooking-level");
   elements.topCookingXp = document.getElementById("top-cooking-xp");
+
+  elements.skillOverviewButton = document.getElementById("skill-overview-button");
+  elements.skillModal = document.getElementById("skill-overview");
+  elements.skillLoadout = document.getElementById("skill-loadout");
+  elements.skillModalClosers = document.querySelectorAll("[data-skill-modal-close]");
 
   elements.activeTraining = document.getElementById("active-training");
   elements.activeTrainingSkill = document.getElementById("active-training-skill");
@@ -1544,7 +1631,8 @@ function init() {
   elements.tabButtons = document.querySelectorAll("[data-tab-target]");
   elements.tabPanels = document.querySelectorAll("[data-tab-panel]");
   elements.dropdownToggles = document.querySelectorAll("[data-dropdown-toggle]");
-  document.querySelectorAll("[data-dropdown-label]").forEach((label) => {
+  const dropdownLabels = document.querySelectorAll("[data-dropdown-label]");
+  nodeListForEach(dropdownLabels, (label) => {
     if (!label.dataset.defaultLabel) {
       label.dataset.defaultLabel = label.textContent.trim();
     }
@@ -1578,25 +1666,33 @@ function init() {
     });
   }
 
-  elements.mineButton?.addEventListener("click", toggleMining);
-  elements.chopButton?.addEventListener("click", toggleWoodcutting);
-  elements.fishButton?.addEventListener("click", toggleFishing);
-  elements.cookButton?.addEventListener("click", toggleCooking);
+  if (elements.mineButton) {
+    elements.mineButton.addEventListener("click", toggleMining);
+  }
+  if (elements.chopButton) {
+    elements.chopButton.addEventListener("click", toggleWoodcutting);
+  }
+  if (elements.fishButton) {
+    elements.fishButton.addEventListener("click", toggleFishing);
+  }
+  if (elements.cookButton) {
+    elements.cookButton.addEventListener("click", toggleCooking);
+  }
 
-  elements.tabButtons.forEach((button) => {
+  nodeListForEach(elements.tabButtons, (button) => {
     button.addEventListener("click", () => {
       switchTab(button.dataset.tabTarget);
-      const dropdown = button.closest("[data-dropdown]");
+      const dropdown = getClosestElement(button, "[data-dropdown]");
       if (dropdown) {
         closeDropdown(dropdown);
       }
     });
   });
 
-  elements.dropdownToggles.forEach((toggle) => {
+  nodeListForEach(elements.dropdownToggles, (toggle) => {
     toggle.addEventListener("click", (event) => {
       event.stopPropagation();
-      const dropdown = toggle.closest("[data-dropdown]");
+      const dropdown = getClosestElement(toggle, "[data-dropdown]");
       if (!dropdown) return;
       const expanded = toggle.getAttribute("aria-expanded") === "true";
       closeAllDropdowns();
@@ -1607,7 +1703,7 @@ function init() {
   });
 
   document.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-dropdown]")) {
+    if (!getClosestElement(event.target, "[data-dropdown]")) {
       closeAllDropdowns();
     }
   });
@@ -1615,81 +1711,139 @@ function init() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeAllDropdowns();
+      closeSkillModal();
     }
   });
 
-  elements.stoneSelect?.addEventListener("change", (event) => {
-    state.currentStoneId = event.target.value;
-    renderStoneOptions();
-    updateResourceDetails();
+  if (elements.skillOverviewButton) {
+    elements.skillOverviewButton.setAttribute("aria-expanded", "false");
+    elements.skillOverviewButton.addEventListener("click", () => {
+      openSkillModal();
+    });
+  }
+
+  nodeListForEach(elements.skillModalClosers, (closer) => {
+    closer.addEventListener("click", () => {
+      closeSkillModal({ focusTrigger: true });
+    });
   });
 
-  elements.treeSelect?.addEventListener("change", (event) => {
-    state.currentTreeId = event.target.value;
-    renderTreeOptions();
-    updateTreeDetails();
-  });
+  if (elements.stoneSelect) {
+    elements.stoneSelect.addEventListener("change", (event) => {
+      state.currentStoneId = event.target.value;
+      renderStoneOptions();
+      updateResourceDetails();
+    });
+  }
 
-  elements.spotSelect?.addEventListener("change", (event) => {
-    state.currentSpotId = event.target.value;
-    state.fishing.currentSpotId = event.target.value;
-    renderSpotOptions();
-    updateSpotDetails();
-  });
+  if (elements.treeSelect) {
+    elements.treeSelect.addEventListener("change", (event) => {
+      state.currentTreeId = event.target.value;
+      renderTreeOptions();
+      updateTreeDetails();
+    });
+  }
 
-  elements.recipeSelect?.addEventListener("change", (event) => {
-    state.currentRecipeId = event.target.value;
-    state.cooking.currentRecipeId = event.target.value;
-    renderRecipeOptions();
-    updateRecipeDetails();
-  });
+  if (elements.spotSelect) {
+    elements.spotSelect.addEventListener("change", (event) => {
+      state.currentSpotId = event.target.value;
+      state.fishing.currentSpotId = event.target.value;
+      renderSpotOptions();
+      updateSpotDetails();
+    });
+  }
 
-  elements.inventoryList?.addEventListener("click", handleInventoryAction);
+  if (elements.recipeSelect) {
+    elements.recipeSelect.addEventListener("change", (event) => {
+      state.currentRecipeId = event.target.value;
+      state.cooking.currentRecipeId = event.target.value;
+      renderRecipeOptions();
+      updateRecipeDetails();
+    });
+  }
 
-  elements.saveSlotList?.addEventListener("click", handleSaveSlotAction);
+  if (elements.inventoryList) {
+    elements.inventoryList.addEventListener("click", handleInventoryAction);
+  }
 
-  elements.smeltingList?.addEventListener("click", handleSmithingAction);
-  elements.pickaxeForgeList?.addEventListener("click", handleSmithingAction);
-  elements.axeForgeList?.addEventListener("click", handleSmithingAction);
-  elements.rodForgeList?.addEventListener("click", handleSmithingAction);
-  elements.weaponForgeList?.addEventListener("click", handleSmithingAction);
-  elements.armorForgeList?.addEventListener("click", handleSmithingAction);
+  if (elements.saveSlotList) {
+    elements.saveSlotList.addEventListener("click", handleSaveSlotAction);
+  }
 
-  elements.marketSellList?.addEventListener("click", handleMarketAction);
-  elements.marketBuyList?.addEventListener("click", handleMarketAction);
+  if (elements.smeltingList) {
+    elements.smeltingList.addEventListener("click", handleSmithingAction);
+  }
+  if (elements.pickaxeForgeList) {
+    elements.pickaxeForgeList.addEventListener("click", handleSmithingAction);
+  }
+  if (elements.axeForgeList) {
+    elements.axeForgeList.addEventListener("click", handleSmithingAction);
+  }
+  if (elements.rodForgeList) {
+    elements.rodForgeList.addEventListener("click", handleSmithingAction);
+  }
+  if (elements.weaponForgeList) {
+    elements.weaponForgeList.addEventListener("click", handleSmithingAction);
+  }
+  if (elements.armorForgeList) {
+    elements.armorForgeList.addEventListener("click", handleSmithingAction);
+  }
 
-  elements.smithyCategory?.addEventListener("change", () => {
-    switchSmithyCategory(elements.smithyCategory.value);
-  });
+  if (elements.marketSellList) {
+    elements.marketSellList.addEventListener("click", handleMarketAction);
+  }
+  if (elements.marketBuyList) {
+    elements.marketBuyList.addEventListener("click", handleMarketAction);
+  }
 
-  elements.smithingStopButton?.addEventListener("click", () => {
-    cancelSmeltingCycle("You let the crucible rest.");
-  });
+  if (elements.smithyCategory) {
+    elements.smithyCategory.addEventListener("change", () => {
+      switchSmithyCategory(elements.smithyCategory.value);
+    });
+  }
 
-  elements.combatStopButton?.addEventListener("click", () => {
-    stopCombat("You lower your guard.");
-  });
+  if (elements.smithingStopButton) {
+    elements.smithingStopButton.addEventListener("click", () => {
+      cancelSmeltingCycle("You let the crucible rest.");
+    });
+  }
 
-  elements.combatAreaSelect?.addEventListener("change", (event) => {
-    state.combat.areaId = event.target.value;
-    renderCombatMonsters();
-    updateCombatAreaDescription();
-  });
+  if (elements.combatStopButton) {
+    elements.combatStopButton.addEventListener("click", () => {
+      stopCombat("You lower your guard.");
+    });
+  }
 
-  elements.combatMonsterList?.addEventListener("click", handleCombatAction);
-  elements.combatEatButton?.addEventListener("click", () => {
-    consumeCombatFood(elements.combatFoodSelect?.value);
-  });
+  if (elements.combatAreaSelect) {
+    elements.combatAreaSelect.addEventListener("change", (event) => {
+      state.combat.areaId = event.target.value;
+      renderCombatMonsters();
+      updateCombatAreaDescription();
+    });
+  }
+
+  if (elements.combatMonsterList) {
+    elements.combatMonsterList.addEventListener("click", handleCombatAction);
+  }
+
+  if (elements.combatEatButton) {
+    elements.combatEatButton.addEventListener("click", () => {
+      const foodSelect = elements.combatFoodSelect;
+      consumeCombatFood(foodSelect ? foodSelect.value : undefined);
+    });
+  }
 
     loadSaveSlots();
     renderStoneOptions();
     renderTreeOptions();
     renderSpotOptions();
     renderRecipeOptions();
+    renderCombatAreaOptions();
     updateResourceDetails();
     updateTreeDetails();
     updateSpotDetails();
     updateRecipeDetails();
+    updateCombatAreaDescription();
     renderInventory();
     renderLog();
     updateMiningStats();
@@ -1698,14 +1852,19 @@ function init() {
     updateCookingStats();
     updateSkillDisplays();
     renderSmithingOptions();
+    renderCombatMonsters();
+    renderCombatFoodOptions();
     renderMarket();
     updateTopReadouts();
     renderSaveSlots();
 
     refreshEquipmentLabels();
+    renderSkillLoadout();
 
+  const activeTabButton = document.querySelector(".tab-button.active");
   const initialTab =
-    document.querySelector(".tab-button.active")?.dataset.tabTarget || "quarry";
+    (activeTabButton && activeTabButton.dataset && activeTabButton.dataset.tabTarget) ||
+    "quarry";
   switchTab(initialTab);
 }
 
@@ -1834,7 +1993,8 @@ function calculateMiningYield(stone) {
   const base =
     min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
   const pickaxe = getEquippedPickaxe();
-  const multiplier = pickaxe?.yieldMultiplier ?? 1;
+  const multiplier =
+    pickaxe && pickaxe.yieldMultiplier != null ? pickaxe.yieldMultiplier : 1;
   return Math.max(1, Math.floor(base * multiplier));
 }
 
@@ -1978,7 +2138,8 @@ function completeWoodcuttingCycle() {
     const base =
       min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
     const axe = getEquippedAxe();
-    const multiplier = axe?.yieldMultiplier ?? 1;
+    const multiplier =
+      axe && axe.yieldMultiplier != null ? axe.yieldMultiplier : 1;
     return Math.max(1, Math.floor(base * multiplier));
   }
 
@@ -2148,7 +2309,8 @@ function completeWoodcuttingCycle() {
     const base =
       min === max ? min : Math.floor(Math.random() * (max - min + 1)) + min;
     const rod = getEquippedRod();
-    const multiplier = rod?.yieldMultiplier ?? 1;
+    const multiplier =
+      rod && rod.yieldMultiplier != null ? rod.yieldMultiplier : 1;
     return Math.max(1, Math.floor(base * multiplier));
   }
 
@@ -2301,9 +2463,6 @@ function completeWoodcuttingCycle() {
     if (elements.pickaxeName && pickaxe) {
       elements.pickaxeName.textContent = pickaxe.name;
     }
-  if (elements.topPickaxeName && pickaxe) {
-    elements.topPickaxeName.textContent = pickaxe.name;
-  }
 
     const axe = getEquippedAxe();
     if (elements.axeName && axe) {
@@ -2313,9 +2472,6 @@ function completeWoodcuttingCycle() {
     const rod = getEquippedRod();
     if (elements.rodName && rod) {
       elements.rodName.textContent = rod.name;
-    }
-    if (elements.topRodName && rod) {
-      elements.topRodName.textContent = rod.name;
     }
 
     const weapon = getEquippedWeapon();
@@ -2330,6 +2486,7 @@ function completeWoodcuttingCycle() {
 
     updateTopReadouts();
     updateCombatStats();
+    renderSkillLoadout();
   }
 
   function renderInventory() {
@@ -2481,27 +2638,9 @@ function updateTopReadouts() {
       state.inventory[stone.id] || 0
     );
   }
-  const pickaxe = getEquippedPickaxe();
-  if (elements.topPickaxeName && pickaxe) {
-    elements.topPickaxeName.textContent = pickaxe.name;
-  }
-  if (elements.topSwingDuration && stone) {
-    const stoneDuration = getEffectiveSwingDuration(stone);
-    elements.topSwingDuration.textContent = (stoneDuration / 1000).toFixed(1);
-  }
 
   if (elements.topCoins) {
     elements.topCoins.textContent = formatNumber(state.coins || 0);
-  }
-
-  const rod = getEquippedRod();
-  if (elements.topCastDuration) {
-    const spot = getCurrentSpot();
-    const castDuration = getEffectiveCastDuration(spot);
-    elements.topCastDuration.textContent = (castDuration / 1000).toFixed(1);
-  }
-  if (elements.topRodName && rod) {
-    elements.topRodName.textContent = rod.name;
   }
 
   const mining = getSkill("mining");
@@ -2565,8 +2704,9 @@ function formatSkillLabel(skillId) {
 
 function beginTraining(skillId) {
   const definition = getSkillDefinition(skillId);
+  const definitionName = definition && definition.name ? definition.name : "";
   state.activeTraining = skillId;
-  state.trainingLabel = definition?.name || formatSkillLabel(skillId);
+  state.trainingLabel = definitionName || formatSkillLabel(skillId);
   if (elements.activeTrainingSkill) {
     elements.activeTrainingSkill.textContent = state.trainingLabel;
   }
@@ -2583,7 +2723,8 @@ function beginTraining(skillId) {
 
 function setTrainingProgress(skillId, progress, statusText) {
   if (state.activeTraining !== skillId) return;
-  const safeProgress = Math.max(0, Math.min(1, progress ?? 0));
+  const numericProgress = typeof progress === "number" ? progress : 0;
+  const safeProgress = Math.max(0, Math.min(1, numericProgress));
   if (elements.activeTrainingBar) {
     elements.activeTrainingBar.style.width = `${safeProgress * 100}%`;
   }
@@ -2622,7 +2763,13 @@ function clearTrainingIndicator(skillId, message) {
 function ensureExclusiveTraining(skillId) {
   const active = state.activeTraining;
   if (!active || active === skillId) return;
-  const interruptionMessage = `You redirect your focus to ${getSkillDefinition(skillId)?.name?.toLowerCase() || skillId}.`;
+  const interruptionDefinition = getSkillDefinition(skillId);
+  const interruptionName =
+    interruptionDefinition && interruptionDefinition.name
+      ? interruptionDefinition.name.toLowerCase()
+      : "";
+  const focusName = interruptionName || skillId;
+  const interruptionMessage = `You redirect your focus to ${focusName}.`;
   if (active === "mining") {
     cancelMiningCycle(interruptionMessage);
   } else if (active === "woodcutting") {
@@ -2641,7 +2788,7 @@ function ensureExclusiveTraining(skillId) {
 function switchTab(target) {
   if (!target) return;
 
-  elements.tabButtons.forEach((button) => {
+  nodeListForEach(elements.tabButtons, (button) => {
     const isActive = button.dataset.tabTarget === target;
     button.classList.toggle("active", isActive);
     if (isActive) {
@@ -2651,7 +2798,7 @@ function switchTab(target) {
     }
   });
 
-  elements.tabPanels.forEach((panel) => {
+  nodeListForEach(elements.tabPanels, (panel) => {
     const isActive = panel.dataset.tabPanel === target;
     panel.classList.toggle("active", isActive);
     panel.hidden = !isActive;
@@ -2670,7 +2817,8 @@ function closeDropdown(dropdown) {
 }
 
 function closeAllDropdowns() {
-  document.querySelectorAll("[data-dropdown]").forEach((dropdown) => {
+  const dropdowns = document.querySelectorAll("[data-dropdown]");
+  nodeListForEach(dropdowns, (dropdown) => {
     closeDropdown(dropdown);
   });
 }
@@ -2684,7 +2832,8 @@ function openDropdown(dropdown, toggle) {
 }
 
 function updateDropdownSelection(targetTab) {
-  document.querySelectorAll("[data-dropdown-menu]").forEach((menu) => {
+  const menus = document.querySelectorAll("[data-dropdown-menu]");
+  nodeListForEach(menus, (menu) => {
     const dropdownId = menu.dataset.dropdownMenu;
     const label = dropdownId
       ? document.querySelector(`[data-dropdown-label="${dropdownId}"]`)
@@ -2692,7 +2841,7 @@ function updateDropdownSelection(targetTab) {
     const buttons = menu.querySelectorAll("[data-tab-target]");
     let matched = false;
 
-    buttons.forEach((button) => {
+    nodeListForEach(buttons, (button) => {
       const isActive = button.dataset.tabTarget === targetTab;
       button.classList.toggle("active", isActive);
       if (isActive) {
@@ -2731,7 +2880,8 @@ function getEffectiveSwingDuration(stone) {
   const miningSkill = getSkill("mining");
   const pickaxe = getEquippedPickaxe();
   const skillBonus = 1 + (miningSkill.level - 1) * 0.015;
-  const toolBonus = pickaxe?.speedMultiplier ?? 1;
+  const toolBonus =
+    pickaxe && pickaxe.speedMultiplier != null ? pickaxe.speedMultiplier : 1;
   const effective = Math.round(stone.baseSwingDurationMs / (skillBonus * toolBonus));
   return Math.max(900, effective);
 }
@@ -2750,7 +2900,8 @@ function getEffectiveChopDuration(tree) {
   const woodSkill = getSkill("woodcutting");
   const axe = getEquippedAxe();
   const skillBonus = 1 + (woodSkill.level - 1) * 0.015;
-  const toolBonus = axe?.speedMultiplier ?? 1;
+  const toolBonus =
+    axe && axe.speedMultiplier != null ? axe.speedMultiplier : 1;
   const effective = Math.round(tree.baseSwingDurationMs / (skillBonus * toolBonus));
   return Math.max(900, effective);
 }
@@ -2771,7 +2922,8 @@ function getEffectiveCastDuration(spot) {
   const fishingSkill = getSkill("fishing");
   const rod = getEquippedRod();
   const skillBonus = 1 + (fishingSkill.level - 1) * 0.015;
-  const toolBonus = rod?.speedMultiplier ?? 1;
+  const toolBonus =
+    rod && rod.speedMultiplier != null ? rod.speedMultiplier : 1;
   const effective = Math.round(spot.baseCastDurationMs / (skillBonus * toolBonus));
   return Math.max(900, effective);
 }
@@ -2779,6 +2931,14 @@ function getEffectiveCastDuration(spot) {
 function formatCatchYield(spot) {
   const [min, max] = spot.yield;
   return min === max ? `${min}` : `${min}-${max}`;
+}
+
+function rollRange(min, max) {
+  if (min === max) return min;
+  const low = Number(min) || 0;
+  const high = Number(max) || low;
+  if (high <= low) return low;
+  return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
 function getCurrentRecipe() {
@@ -2949,6 +3109,527 @@ function renderTreeOptions() {
     TREES.find((tree) => woodSkill.level >= tree.levelRequirement) || TREES[0];
   state.currentTreeId = fallback.id;
   elements.treeSelect.value = fallback.id;
+}
+
+function getCombatUnlockLevel() {
+  const attack = getSkill("attack").level;
+  const strength = getSkill("strength").level;
+  const defense = getSkill("defense").level;
+  const accuracy = getSkill("accuracy").level;
+  const hitpoints = getSkill("hitpoints").level;
+  return Math.max(attack, strength, defense, accuracy, hitpoints);
+}
+
+function getCombatArea(areaId = state.combat.areaId) {
+  return COMBAT_AREAS.find((area) => area.id === areaId) || COMBAT_AREAS[0];
+}
+
+function getCombatMonster(monsterId, area = getCombatArea()) {
+  if (!area) return null;
+  return area.monsters.find((monster) => monster.id === monsterId) || null;
+}
+
+function renderCombatAreaOptions() {
+  if (!elements.combatAreaSelect) return;
+  elements.combatAreaSelect.innerHTML = "";
+  const unlockLevel = getCombatUnlockLevel();
+  let selectedArea = getCombatArea();
+  let fallback = null;
+
+  COMBAT_AREAS.forEach((area) => {
+    const locked = unlockLevel < area.levelRequirement;
+    if (!locked && !fallback) {
+      fallback = area;
+    }
+
+    const option = document.createElement("option");
+    option.value = area.id;
+    option.textContent = `${area.name} (Lv ${area.levelRequirement}${
+      locked ? " – locked" : ""
+    })`;
+    option.disabled = locked;
+    if (!locked && area.id === state.combat.areaId) {
+      option.selected = true;
+    }
+    elements.combatAreaSelect.appendChild(option);
+  });
+
+  if (!selectedArea || unlockLevel < selectedArea.levelRequirement) {
+    const areaFallback = fallback || COMBAT_AREAS[0];
+    state.combat.areaId = areaFallback.id;
+    elements.combatAreaSelect.value = areaFallback.id;
+  }
+
+  updateCombatAreaDescription();
+}
+
+function updateCombatAreaDescription() {
+  if (!elements.combatAreaDescription) return;
+  const area = getCombatArea();
+  if (!area) {
+    elements.combatAreaDescription.textContent = "No combat areas unlocked yet.";
+    return;
+  }
+  elements.combatAreaDescription.textContent = area.description;
+}
+
+function renderCombatMonsters() {
+  if (!elements.combatMonsterList) return;
+  const area = getCombatArea();
+  elements.combatMonsterList.innerHTML = "";
+  if (!area) return;
+
+  const unlockLevel = getCombatUnlockLevel();
+  const fragment = document.createDocumentFragment();
+
+  area.monsters.forEach((monster) => {
+    const li = document.createElement("li");
+    li.className = "action-list__item";
+    if (state.combat.active && state.combat.monsterId === monster.id) {
+      li.classList.add("active");
+    }
+
+    const summary = document.createElement("div");
+    summary.className = "action-list__summary";
+
+    const info = document.createElement("div");
+    const title = document.createElement("h4");
+    title.textContent = `${monster.icon} ${monster.name}`;
+    const detail = document.createElement("p");
+    detail.textContent = `Lv ${monster.levelRequirement} • ${monster.maxHp} hp • +${formatNumber(
+      monster.xp
+    )} xp • ${monster.coins[0]}-${monster.coins[1]} coins`;
+    info.appendChild(title);
+    info.appendChild(detail);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.monsterId = monster.id;
+    const locked = unlockLevel < monster.levelRequirement;
+    const isActive = state.combat.active && state.combat.monsterId === monster.id;
+
+    button.dataset.combatAction = isActive ? "stop" : "fight";
+    button.textContent = isActive ? "Stop" : "Fight";
+    button.disabled = locked || (state.combat.active && !isActive);
+
+    summary.appendChild(info);
+    summary.appendChild(button);
+    li.appendChild(summary);
+
+    const note = document.createElement("p");
+    note.className = "action-list__note";
+    if (locked) {
+      note.classList.add("action-list__note--warn");
+      note.textContent = `Requires combat level ${monster.levelRequirement}.`;
+    } else if (monster.drops && monster.drops.length) {
+      const drops = monster.drops
+        .map((drop) => {
+          const range = drop.min === drop.max ? drop.min : `${drop.min}-${drop.max}`;
+          return `${range} ${getResourceName(drop.itemId)}`;
+        })
+        .join(", ");
+      note.textContent = `Drops: ${drops}`;
+    } else {
+      note.textContent = "Reliable training foe.";
+    }
+    li.appendChild(note);
+
+    fragment.appendChild(li);
+  });
+
+  elements.combatMonsterList.appendChild(fragment);
+}
+
+function renderCombatFoodOptions() {
+  if (!elements.combatFoodSelect) return;
+  const options = Object.entries(COMBAT_FOOD_HEALING)
+    .map(([foodId, heal]) => ({
+      id: foodId,
+      heal,
+      amount: state.inventory[foodId] || 0,
+    }))
+    .filter((entry) => entry.amount > 0)
+    .sort((a, b) => getResourceName(a.id).localeCompare(getResourceName(b.id)));
+
+  elements.combatFoodSelect.innerHTML = "";
+
+  if (!options.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No cooked food available";
+    option.disabled = true;
+    elements.combatFoodSelect.appendChild(option);
+    if (elements.combatEatButton) {
+      elements.combatEatButton.disabled = true;
+    }
+    return;
+  }
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Choose food";
+  elements.combatFoodSelect.appendChild(placeholder);
+
+  options.forEach((entry) => {
+    const option = document.createElement("option");
+    option.value = entry.id;
+    option.textContent = `${getResourceName(entry.id)} (${entry.amount} • +${entry.heal} hp)`;
+    elements.combatFoodSelect.appendChild(option);
+  });
+
+  if (elements.combatEatButton) {
+    elements.combatEatButton.disabled = false;
+  }
+}
+
+function consumeCombatFood(foodId) {
+  if (!foodId) {
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = "Select food to eat.";
+    }
+    return;
+  }
+  const heal = COMBAT_FOOD_HEALING[foodId];
+  if (!heal) {
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = "That item cannot be eaten.";
+    }
+    return;
+  }
+  const owned = state.inventory[foodId] || 0;
+  if (owned <= 0) {
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = "You have none left.";
+    }
+    renderCombatFoodOptions();
+    return;
+  }
+
+  state.inventory[foodId] = owned - 1;
+  const stats = getPlayerCombatStats();
+  state.combat.playerMaxHp = stats.maxHp;
+  const currentHp = Math.max(0, state.combat.playerHp || stats.maxHp);
+  state.combat.playerHp = Math.min(stats.maxHp, currentHp + heal);
+  if (elements.combatStatus) {
+    elements.combatStatus.textContent = `You recover ${heal} health.`;
+  }
+  pushLog(`You eat ${getResourceName(foodId)} and recover ${heal} health.`);
+  renderInventory();
+  renderCombatFoodOptions();
+  updateCombatStats();
+}
+
+function getPlayerCombatStats() {
+  const attackSkill = getSkill("attack");
+  const strengthSkill = getSkill("strength");
+  const defenseSkill = getSkill("defense");
+  const accuracySkill = getSkill("accuracy");
+  const hitpointsSkill = getSkill("hitpoints");
+  const weapon = getEquippedWeapon();
+  const armor = getEquippedArmor();
+
+  const weaponAccuracyBonus =
+    weapon && typeof weapon.accuracyBonus === "number" ? weapon.accuracyBonus : 0;
+  const weaponStrengthBonus =
+    weapon && typeof weapon.strengthBonus === "number" ? weapon.strengthBonus : 0;
+  const armorDefenseBonus =
+    armor && typeof armor.defenseBonus === "number" ? armor.defenseBonus : 0;
+  const armorHitpointsBonus =
+    armor && typeof armor.hitpointsBonus === "number" ? armor.hitpointsBonus : 0;
+  const weaponSpeedMultiplier =
+    weapon && weapon.speedMultiplier != null ? weapon.speedMultiplier : 1;
+
+  const attackRating =
+    attackSkill.level + weaponAccuracyBonus + Math.floor(accuracySkill.level * 0.5);
+  const strengthRating = strengthSkill.level + weaponStrengthBonus;
+  const defenseRating = defenseSkill.level + armorDefenseBonus;
+  const maxHp = Math.max(
+    30,
+    40 + hitpointsSkill.level * 6 + armorHitpointsBonus * 2
+  );
+  const attackInterval = Math.max(1200, Math.round(2600 / weaponSpeedMultiplier));
+
+  return {
+    attackRating,
+    strengthRating,
+    defenseRating,
+    accuracyRating: accuracySkill.level,
+    maxHp,
+    attackInterval,
+  };
+}
+
+function updateCombatStats() {
+  const stats = getPlayerCombatStats();
+  state.combat.playerMaxHp = stats.maxHp;
+  if (state.combat.playerHp <= 0) {
+    state.combat.playerHp = stats.maxHp;
+  }
+
+  if (elements.playerHealthValue) {
+    const playerHp = Math.max(0, Math.floor(state.combat.playerHp));
+    elements.playerHealthValue.textContent = `${playerHp}/${stats.maxHp}`;
+  }
+  if (elements.playerHealthBar) {
+    const ratio = Math.max(0, Math.min(1, (state.combat.playerHp || stats.maxHp) / stats.maxHp));
+    elements.playerHealthBar.style.width = `${ratio * 100}%`;
+  }
+
+  const monster = state.combat.active ? getCombatMonster(state.combat.monsterId) : null;
+  if (monster && !state.combat.monsterMaxHp) {
+    state.combat.monsterMaxHp = monster.maxHp;
+  }
+
+  if (elements.monsterName) {
+    elements.monsterName.textContent = monster ? monster.name : "None selected";
+  }
+  if (elements.monsterHealthValue) {
+    if (monster && state.combat.active) {
+      const hpValue = Math.max(0, Math.floor(state.combat.monsterHp));
+      elements.monsterHealthValue.textContent = `${hpValue}/${monster.maxHp}`;
+    } else {
+      elements.monsterHealthValue.textContent = "--";
+    }
+  }
+  if (elements.monsterHealthBar) {
+    if (monster && state.combat.active) {
+      const ratio = Math.max(0, Math.min(1, state.combat.monsterHp / monster.maxHp));
+      elements.monsterHealthBar.style.width = `${ratio * 100}%`;
+    } else {
+      elements.monsterHealthBar.style.width = "0%";
+    }
+  }
+}
+
+function handleCombatAction(event) {
+  const button = getClosestElement(event.target, "button[data-combat-action]");
+  if (!button) return;
+  const action = button.dataset.combatAction;
+  const monsterId = button.dataset.monsterId;
+  if (action === "fight") {
+    startCombat(monsterId);
+  } else if (action === "stop") {
+    stopCombat("You withdraw from combat.");
+  }
+}
+
+function startCombat(monsterId) {
+  const area = getCombatArea();
+  const monster = getCombatMonster(monsterId, area);
+  if (!monster) {
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = "That foe is not available.";
+    }
+    return;
+  }
+  const unlockLevel = getCombatUnlockLevel();
+  if (unlockLevel < monster.levelRequirement) {
+    const message = `You need combat level ${monster.levelRequirement} to challenge the ${monster.name}.`;
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = message;
+    }
+    pushLog(message);
+    return;
+  }
+
+  ensureExclusiveTraining("combat");
+  beginTraining("combat");
+  setTrainingStatus("combat", `Fighting ${monster.name}`);
+
+  state.combat.active = true;
+  state.combat.monsterId = monster.id;
+  state.combat.monsterHp = monster.maxHp;
+  state.combat.monsterMaxHp = monster.maxHp;
+
+  const stats = getPlayerCombatStats();
+  state.combat.playerMaxHp = stats.maxHp;
+  if (!state.combat.playerHp || state.combat.playerHp > stats.maxHp) {
+    state.combat.playerHp = stats.maxHp;
+  }
+  state.combat.playerAttackInterval = stats.attackInterval;
+  state.combat.monsterAttackInterval = monster.attackSpeedMs;
+  const now = Date.now();
+  state.combat.playerNextAttack = now + state.combat.playerAttackInterval;
+  state.combat.monsterNextAttack = now + state.combat.monsterAttackInterval;
+
+  if (state.combat.timerId) {
+    clearInterval(state.combat.timerId);
+  }
+  state.combat.timerId = window.setInterval(processCombatTick, 120);
+  if (elements.combatStatus) {
+    elements.combatStatus.textContent = `You engage the ${monster.name}.`;
+  }
+  renderCombatMonsters();
+  updateCombatStats();
+}
+
+function stopCombat(message = "You stand down.") {
+  if (state.combat.timerId) {
+    clearInterval(state.combat.timerId);
+    state.combat.timerId = null;
+  }
+
+  const wasActive = state.combat.active;
+  state.combat.active = false;
+  state.combat.monsterId = null;
+  state.combat.monsterHp = 0;
+  state.combat.monsterMaxHp = 0;
+  state.combat.playerAttackInterval = 0;
+  state.combat.monsterAttackInterval = 0;
+  state.combat.playerNextAttack = 0;
+  state.combat.monsterNextAttack = 0;
+
+  if (wasActive) {
+    clearTrainingIndicator("combat", message);
+  } else {
+    if (elements.combatStatus) {
+      elements.combatStatus.textContent = message;
+    }
+  }
+
+  renderCombatMonsters();
+  updateCombatStats();
+}
+
+function processCombatTick() {
+  if (!state.combat.active) return;
+  const monster = getCombatMonster(state.combat.monsterId);
+  if (!monster) {
+    stopCombat("Your opponent slips away.");
+    return;
+  }
+
+  const stats = getPlayerCombatStats();
+  const now = Date.now();
+
+  if (now >= state.combat.playerNextAttack) {
+    const hitChance = (stats.attackRating + stats.accuracyRating) /
+      (stats.attackRating + stats.accuracyRating + monster.defense + 40);
+    const didHit = Math.random() < Math.max(0.15, Math.min(0.95, hitChance));
+    if (didHit) {
+      const maxHit = Math.max(1, Math.floor(stats.strengthRating / 3) + 3);
+      const damage = Math.max(1, rollRange(Math.max(1, Math.floor(stats.strengthRating / 5)), maxHit));
+      state.combat.monsterHp = Math.max(0, state.combat.monsterHp - damage);
+      if (elements.combatStatus) {
+        elements.combatStatus.textContent = `You hit the ${monster.name} for ${damage}.`;
+      }
+    } else if (elements.combatStatus) {
+      elements.combatStatus.textContent = `You miss the ${monster.name}.`;
+    }
+    state.combat.playerNextAttack = now + state.combat.playerAttackInterval;
+  }
+
+  if (state.combat.monsterHp <= 0) {
+    finishCombatVictory(monster);
+    return;
+  }
+
+  if (now >= state.combat.monsterNextAttack) {
+    const monsterHitChance = monster.accuracy /
+      (monster.accuracy + stats.defenseRating + 35);
+    const didHit = Math.random() < Math.max(0.2, Math.min(0.95, monsterHitChance));
+    if (didHit) {
+      const maxMonster = Math.max(1, Math.floor(monster.attack / 2) + 4);
+      const monsterDamage = Math.max(1, rollRange(Math.max(1, Math.floor(monster.attack / 4)), maxMonster));
+      state.combat.playerHp = Math.max(0, state.combat.playerHp - monsterDamage);
+      if (elements.combatStatus) {
+        elements.combatStatus.textContent = `${monster.name} hits you for ${monsterDamage}.`;
+      }
+    } else if (state.combat.active && elements.combatStatus) {
+      elements.combatStatus.textContent = `${monster.name} misses.`;
+    }
+    state.combat.monsterNextAttack = now + state.combat.monsterAttackInterval;
+  }
+
+  if (state.combat.playerHp <= 0) {
+    handleCombatDefeat(monster);
+    return;
+  }
+
+  setTrainingProgress("combat", 1 - state.combat.monsterHp / monster.maxHp);
+  updateCombatStats();
+}
+
+function finishCombatVictory(monster) {
+  if (state.combat.timerId) {
+    clearInterval(state.combat.timerId);
+    state.combat.timerId = null;
+  }
+
+  const stats = getPlayerCombatStats();
+  state.combat.active = false;
+  state.combat.monsterId = null;
+  state.combat.monsterHp = 0;
+  state.combat.monsterMaxHp = 0;
+
+  const coinsEarned = rollRange(monster.coins[0], monster.coins[1]);
+  state.coins += coinsEarned;
+
+  const lootMessages = [];
+  (monster.drops || []).forEach((drop) => {
+    if (Math.random() < drop.chance) {
+      const amount = rollRange(drop.min, drop.max);
+      if (amount > 0) {
+        state.inventory[drop.itemId] = (state.inventory[drop.itemId] || 0) + amount;
+        lootMessages.push(`${amount} ${getResourceName(drop.itemId)}`);
+      }
+    }
+  });
+
+  const xp = monster.xp;
+  gainSkillXp("attack", Math.round(xp * 0.35));
+  gainSkillXp("strength", Math.round(xp * 0.35));
+  gainSkillXp("defense", Math.round(xp * 0.2));
+  gainSkillXp("accuracy", Math.round(xp * 0.2));
+  gainSkillXp("hitpoints", Math.round(xp * 0.25));
+
+  let logMessage = `You defeat the ${monster.name} and earn ${formatNumber(coinsEarned)} coins.`;
+  if (lootMessages.length) {
+    logMessage += ` Loot: ${lootMessages.join(", ")}.`;
+  }
+  pushLog(logMessage);
+
+  state.combat.playerHp = Math.min(stats.maxHp, (state.combat.playerHp || stats.maxHp) + Math.ceil(stats.maxHp * 0.2));
+  if (elements.combatStatus) {
+    elements.combatStatus.textContent = `You defeat the ${monster.name}.`;
+  }
+
+  renderInventory();
+  renderCombatFoodOptions();
+  renderCombatMonsters();
+  renderMarket();
+  updateTopReadouts();
+  updateCombatStats();
+
+  if (state.autoContinue.combat) {
+    setTrainingStatus("combat", `Preparing for another ${monster.name}...`);
+    window.setTimeout(() => {
+      startCombat(monster.id);
+    }, 900);
+  } else {
+    clearTrainingIndicator("combat", `You defeat the ${monster.name}.`);
+  }
+}
+
+function handleCombatDefeat(monster) {
+  if (state.combat.timerId) {
+    clearInterval(state.combat.timerId);
+    state.combat.timerId = null;
+  }
+  const stats = getPlayerCombatStats();
+  state.combat.active = false;
+  state.combat.monsterId = null;
+  state.combat.monsterHp = 0;
+  state.combat.monsterMaxHp = 0;
+  const recovery = Math.max(10, Math.floor(stats.maxHp * 0.4));
+  state.combat.playerHp = recovery;
+  if (elements.combatStatus) {
+    elements.combatStatus.textContent = `${monster.name} overwhelms you. You retreat to recover.`;
+  }
+  pushLog(`The ${monster.name} overpowers you. You regroup with ${recovery} health.`);
+  clearTrainingIndicator("combat", `You retreat from the ${monster.name}.`);
+  renderCombatMonsters();
+  updateCombatStats();
 }
 
 function updateResourceDetails() {
@@ -3185,8 +3866,10 @@ function updateSkillDisplays() {
 
   renderSkillList();
   updateTopReadouts();
+  renderCombatAreaOptions();
   renderCombatMonsters();
   updateCombatStats();
+  renderSkillLoadout();
 }
 
 function gainSkillXp(skillId, amount) {
@@ -3215,7 +3898,7 @@ function gainSkillXp(skillId, amount) {
 
   if (leveledUp) {
     const skillDef = getSkillDefinition(skillId);
-    const skillName = skillDef?.name || skillId;
+    const skillName = (skillDef && skillDef.name) || skillId;
     pushLog(`Your ${skillName.toLowerCase()} skill rises to level ${skill.level}!`);
     showNotification(
       `${skillName} Level Up`,
@@ -3280,6 +3963,76 @@ function renderSkillList() {
   elements.skillList.appendChild(fragment);
 }
 
+function renderSkillLoadout() {
+  if (!elements.skillLoadout) return;
+  elements.skillLoadout.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+
+  SKILL_LOADOUT_CONFIG.forEach((entry) => {
+    const li = document.createElement("li");
+    li.className = "skill-loadout__item";
+
+    const label = document.createElement("span");
+    label.className = "skill-loadout__label";
+    label.textContent = entry.skillName;
+
+    const value = document.createElement("span");
+    value.className = "skill-loadout__value";
+    const detailText = entry.items
+      .map((item) => {
+        try {
+          const getter = item.getter;
+          const data = typeof getter === "function" ? getter() : undefined;
+          if (!data) {
+            return `${item.label}: --`;
+          }
+          const name = data.name || getResourceName(data.id) || data.id || "--";
+          return `${item.label}: ${name}`;
+        } catch (error) {
+          console.warn("Unable to resolve loadout item", error);
+          return `${item.label}: --`;
+        }
+      })
+      .join(" • ");
+    value.textContent = detailText;
+
+    li.appendChild(label);
+    li.appendChild(value);
+    fragment.appendChild(li);
+  });
+
+  elements.skillLoadout.appendChild(fragment);
+}
+
+function openSkillModal() {
+  if (!elements.skillModal) return;
+  if (elements.skillModal.hidden) {
+    elements.skillModal.hidden = false;
+  }
+  elements.skillModal.setAttribute("data-open", "true");
+  if (elements.skillOverviewButton) {
+    elements.skillOverviewButton.setAttribute("aria-expanded", "true");
+  }
+  renderSkillList();
+  renderSkillLoadout();
+}
+
+function closeSkillModal({ focusTrigger = false } = {}) {
+  if (!elements.skillModal || elements.skillModal.hidden) return;
+  elements.skillModal.removeAttribute("data-open");
+  elements.skillModal.hidden = true;
+  if (elements.skillOverviewButton) {
+    elements.skillOverviewButton.setAttribute("aria-expanded", "false");
+  }
+  if (focusTrigger && elements.skillOverviewButton) {
+    try {
+      elements.skillOverviewButton.focus({ preventScroll: true });
+    } catch (error) {
+      elements.skillOverviewButton.focus();
+    }
+  }
+}
+
   function renderSmithingOptions() {
     renderSmeltingList();
     renderForgeList(PICKAXES, elements.pickaxeForgeList, "pickaxe");
@@ -3287,11 +4040,13 @@ function renderSkillList() {
     renderForgeList(FISHING_RODS, elements.rodForgeList, "rod");
     renderForgeList(WEAPONS, elements.weaponForgeList, "weapon");
     renderForgeList(ARMORS, elements.armorForgeList, "armor");
-    switchSmithyCategory(elements.smithyCategory?.value || "smelt");
+    const smithyValue = elements.smithyCategory ? elements.smithyCategory.value : "";
+    switchSmithyCategory(smithyValue || "smelt");
   }
 
   function switchSmithyCategory(category) {
-    document.querySelectorAll(".smithy-view").forEach((section) => {
+    const smithyViews = document.querySelectorAll(".smithy-view");
+    nodeListForEach(smithyViews, (section) => {
       const isActive = section.dataset.smithyView === category;
       section.hidden = !isActive;
       section.classList.toggle("active", isActive);
@@ -3512,7 +4267,7 @@ function renderForgeList(tools, listElement, type) {
 }
 
 function handleSmithingAction(event) {
-  const button = event.target.closest("button[data-action]");
+  const button = getClosestElement(event.target, "button[data-action]");
   if (!button) return;
   const action = button.dataset.action;
   const id = button.dataset.id;
@@ -3533,7 +4288,7 @@ function handleSmithingAction(event) {
 }
 
 function handleInventoryAction(event) {
-  const button = event.target.closest("button[data-inventory-action]");
+  const button = getClosestElement(event.target, "button[data-inventory-action]");
   if (!button) return;
   const action = button.dataset.inventoryAction;
   if (action === "open-cache") {
@@ -3669,7 +4424,7 @@ function renderMarketBuyList() {
 }
 
 function handleMarketAction(event) {
-  const button = event.target.closest("button[data-market-action]");
+  const button = getClosestElement(event.target, "button[data-market-action]");
   if (!button) return;
   const action = button.dataset.marketAction;
   const resourceId = button.dataset.id;
@@ -4004,10 +4759,16 @@ function renderSaveSlots() {
 
     if (slot) {
       const date = new Date(slot.savedAt);
+      const slotData = slot.data || {};
+      const slotSkills = slotData.skills || {};
+      const miningSkillData = slotSkills.mining || slotData.miningSkill || {};
       const miningLevel =
-        slot.data?.skills?.mining?.level ?? slot.data?.miningSkill?.level ?? 1;
-      const smithingLevel = slot.data?.skills?.smithing?.level ?? 1;
-      slotDetails.textContent = `${slot.name} • Min ${miningLevel} / Sm ${smithingLevel} • ${
+        miningSkillData.level != null ? miningSkillData.level : 1;
+      const smithingSkillData = slotSkills.smithing || {};
+      const smithingLevel =
+        smithingSkillData.level != null ? smithingSkillData.level : 1;
+      const labelName = slot.name || `Expedition ${index + 1}`;
+      slotDetails.textContent = `${labelName} • Min ${miningLevel} / Sm ${smithingLevel} • ${
         isNaN(date.getTime()) ? "Unknown" : date.toLocaleString()
       }`;
     } else {
@@ -4050,9 +4811,12 @@ function renderSaveSlots() {
 }
 
 function handleSaveSlotAction(event) {
-  const button = event.target.closest("button[data-action]");
+  const button = getClosestElement(event.target, "button[data-action]");
   if (!button) return;
-  const slotIndex = Number(button.closest(".save-slot")?.dataset.slotIndex ?? -1);
+  const slotElement = getClosestElement(button, ".save-slot");
+  const slotIndex = Number(
+    (slotElement && slotElement.dataset && slotElement.dataset.slotIndex) || -1
+  );
   if (slotIndex < 0 || slotIndex >= SAVE_SLOT_COUNT) return;
 
   const action = button.dataset.action;
@@ -4066,7 +4830,8 @@ function handleSaveSlotAction(event) {
 }
 
 function saveToSlot(index) {
-  const defaultName = saveSlots[index]?.name || `Expedition ${index + 1}`;
+  const slotInfo = saveSlots[index];
+  const defaultName = (slotInfo && slotInfo.name) || `Expedition ${index + 1}`;
   const name = window.prompt("Name this save:", defaultName);
   if (name === null) return;
 
@@ -4146,15 +4911,17 @@ function deleteSlot(index) {
     ["mining", "smithing", "woodcutting", "fishing", "cooking"].forEach((skillId) => {
       const target = getSkill(skillId);
       const saved = savedSkills[skillId] || {};
-      target.level = Math.min(MAX_LEVEL, Math.max(1, saved.level ?? 1));
+      const savedLevel = saved.level != null ? saved.level : 1;
+      target.level = Math.min(MAX_LEVEL, Math.max(1, savedLevel));
       target.xpToNext = getXpToNext(target.level);
       if (target.level >= MAX_LEVEL) {
-      target.xp = 0;
-      target.xpToNext = 0;
-    } else {
-      target.xp = Math.min(saved.xp ?? 0, target.xpToNext);
-    }
-  });
+        target.xp = 0;
+        target.xpToNext = 0;
+      } else {
+        const savedXp = saved.xp != null ? saved.xp : 0;
+        target.xp = Math.min(savedXp, target.xpToNext);
+      }
+    });
 
   const miningSkill = getSkill("mining");
   const requestedStone = data.currentStoneId || STONES[0].id;
@@ -4205,12 +4972,17 @@ function deleteSlot(index) {
   state.currentRecipeId = unlockedRecipe.id;
   state.cooking.currentRecipeId = unlockedRecipe.id;
 
-  state.autoContinue = {
-    mining: data.autoContinue?.mining ?? true,
-    woodcutting: data.autoContinue?.woodcutting ?? true,
-    fishing: data.autoContinue?.fishing ?? true,
-    cooking: data.autoContinue?.cooking ?? true,
-  };
+  const autoContinueData = data.autoContinue || {};
+  state.autoContinue.mining =
+    typeof autoContinueData.mining === "boolean" ? autoContinueData.mining : true;
+  state.autoContinue.woodcutting =
+    typeof autoContinueData.woodcutting === "boolean"
+      ? autoContinueData.woodcutting
+      : true;
+  state.autoContinue.fishing =
+    typeof autoContinueData.fishing === "boolean" ? autoContinueData.fishing : true;
+  state.autoContinue.cooking =
+    typeof autoContinueData.cooking === "boolean" ? autoContinueData.cooking : true;
   if (elements.autoContinueMining) {
     elements.autoContinueMining.checked = state.autoContinue.mining;
   }
@@ -4264,21 +5036,21 @@ function deleteSlot(index) {
 
   refreshEquipmentLabels();
   renderInventory();
-    renderLog();
-    renderStoneOptions();
-    renderTreeOptions();
-    updateResourceDetails();
-    updateTreeDetails();
-    updateSkillDisplays();
-    updateMiningStats();
-    updateWoodcuttingStats();
-    renderSmithingOptions();
-    renderSpotOptions();
-    renderRecipeOptions();
-    updateSpotDetails();
-    updateRecipeDetails();
-    updateFishingStats();
-    updateCookingStats();
-    renderMarket();
-    updateTopReadouts();
+  renderLog();
+  renderStoneOptions();
+  renderTreeOptions();
+  updateResourceDetails();
+  updateTreeDetails();
+  updateSkillDisplays();
+  updateMiningStats();
+  updateWoodcuttingStats();
+  renderSmithingOptions();
+  renderSpotOptions();
+  renderRecipeOptions();
+  updateSpotDetails();
+  updateRecipeDetails();
+  updateFishingStats();
+  updateCookingStats();
+  renderMarket();
+  updateTopReadouts();
   }
