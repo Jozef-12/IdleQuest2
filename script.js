@@ -3148,6 +3148,8 @@ function loadFromSlot(index) {
 
   cancelMiningCycle();
   cancelWoodcuttingCycle();
+  cancelFishingCycle();
+  cancelCookingCycle();
   applySaveData(slot.data);
   pushLog(`Loaded ${slot.name} from slot ${index + 1}.`);
 }
