@@ -140,6 +140,76 @@ body {
   border-color: transparent;
 }
 
+.tab-dropdown {
+  position: relative;
+}
+
+.tab-button--dropdown {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding-right: 1.85rem;
+}
+
+.tab-button__label {
+  grid-column: 1;
+  font-size: 0.85rem;
+}
+
+.tab-button__choice {
+  grid-column: 1;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: rgba(237, 241, 255, 0.65);
+}
+
+.tab-button__caret {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.tab-dropdown[data-open="true"] .tab-button__caret {
+  transform: rotate(180deg);
+}
+
+.tab-dropdown[data-open="true"] > .tab-button--dropdown {
+  border-color: rgba(243, 201, 105, 0.65);
+  box-shadow: 0 12px 24px rgba(243, 201, 105, 0.35);
+}
+
+.tab-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  display: none;
+  min-width: 210px;
+  padding: 0.65rem;
+  border-radius: 0.95rem;
+  background: rgba(10, 15, 26, 0.96);
+  border: 1px solid rgba(243, 201, 105, 0.25);
+  box-shadow: 0 16px 32px rgba(10, 14, 24, 0.55);
+  z-index: 20;
+}
+
+.tab-dropdown[data-open="true"] .tab-dropdown__menu {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tab-button--menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.75rem;
+  font-size: 0.8rem;
+}
+
 .dashboard {
   width: min(1150px, 100%);
   margin: 0 auto;
@@ -545,6 +615,14 @@ body {
   gap: 1.35rem;
 }
 
+.skill-list__item {
+  padding: 1.15rem 1.35rem 1.25rem;
+  border-radius: 1.1rem;
+  background: rgba(11, 16, 28, 0.85);
+  border: 1px solid rgba(101, 193, 140, 0.22);
+  box-shadow: 0 14px 32px rgba(8, 12, 22, 0.35);
+}
+
 .skill-header {
   display: flex;
   justify-content: space-between;
@@ -637,6 +715,12 @@ body {
 
   .top-bar__insights {
     gap: 0.5rem;
+  }
+
+  .tab-dropdown__menu {
+    min-width: min(240px, 85vw);
+    left: 0;
+    right: auto;
   }
 
   .insight {

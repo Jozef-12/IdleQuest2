@@ -55,15 +55,54 @@
         </div>
       </div>
       <nav class="top-tabs" aria-label="Game views">
-        <button class="tab-button active" type="button" data-tab-target="quarry">
-          Quarry
-        </button>
-        <button class="tab-button" type="button" data-tab-target="woodlot">
-          Woodlot
-        </button>
-        <button class="tab-button" type="button" data-tab-target="smithing">
-          Smithy
-        </button>
+        <div class="tab-dropdown" data-dropdown>
+          <button
+            class="tab-button tab-button--dropdown"
+            id="skill-training-toggle"
+            type="button"
+            data-dropdown-toggle="training"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <span class="tab-button__label">Skill Training</span>
+            <span class="tab-button__choice" data-dropdown-label="training"
+              >Quarry</span
+            >
+            <span class="tab-button__caret" aria-hidden="true">▾</span>
+          </button>
+          <div
+            class="tab-dropdown__menu"
+            data-dropdown-menu="training"
+            role="menu"
+            aria-labelledby="skill-training-toggle"
+          >
+            <button
+              class="tab-button tab-button--menu active"
+              type="button"
+              data-tab-target="quarry"
+              role="menuitem"
+              aria-current="page"
+            >
+              Quarry
+            </button>
+            <button
+              class="tab-button tab-button--menu"
+              type="button"
+              data-tab-target="woodlot"
+              role="menuitem"
+            >
+              Woodlot
+            </button>
+            <button
+              class="tab-button tab-button--menu"
+              type="button"
+              data-tab-target="smithing"
+              role="menuitem"
+            >
+              Smithy
+            </button>
+          </div>
+        </div>
         <button class="tab-button" type="button" data-tab-target="inventory">
           Inventory
         </button>

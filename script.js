@@ -132,6 +132,17 @@ const TREES = [
     xp: 25,
   },
   {
+    id: "birch",
+    name: "Birch Grove",
+    logId: "birch_log",
+    logName: "Birch Log",
+    description: "Pale birch trunks peel into papery curls with each swing.",
+    levelRequirement: 4,
+    yield: [1, 2],
+    baseSwingDurationMs: 4800,
+    xp: 35,
+  },
+  {
     id: "oak",
     name: "Oak Stand",
     logId: "oak_log",
@@ -140,7 +151,18 @@ const TREES = [
     levelRequirement: 8,
     yield: [1, 2],
     baseSwingDurationMs: 5200,
-    xp: 45,
+    xp: 50,
+  },
+  {
+    id: "willow",
+    name: "Willow Stand",
+    logId: "willow_log",
+    logName: "Willow Log",
+    description: "Graceful willow boughs that bend before your blade.",
+    levelRequirement: 14,
+    yield: [1, 3],
+    baseSwingDurationMs: 5600,
+    xp: 65,
   },
   {
     id: "maple",
@@ -148,10 +170,21 @@ const TREES = [
     logId: "maple_log",
     logName: "Maple Log",
     description: "Sweet sapwood that smells of syrup.",
-    levelRequirement: 18,
+    levelRequirement: 20,
     yield: [1, 3],
     baseSwingDurationMs: 6000,
-    xp: 80,
+    xp: 90,
+  },
+  {
+    id: "ash",
+    name: "Ash Copse",
+    logId: "ash_log",
+    logName: "Ash Log",
+    description: "Straight-grained ash ready for hafts and handles.",
+    levelRequirement: 26,
+    yield: [1, 3],
+    baseSwingDurationMs: 6400,
+    xp: 105,
   },
   {
     id: "yew",
@@ -162,7 +195,7 @@ const TREES = [
     levelRequirement: 32,
     yield: [1, 2],
     baseSwingDurationMs: 6800,
-    xp: 120,
+    xp: 130,
   },
   {
     id: "elder",
@@ -170,10 +203,21 @@ const TREES = [
     logId: "elder_log",
     logName: "Elder Log",
     description: "Ancient elderwood with a violet sheen.",
-    levelRequirement: 55,
+    levelRequirement: 45,
     yield: [1, 2],
     baseSwingDurationMs: 7800,
-    xp: 200,
+    xp: 210,
+  },
+  {
+    id: "redwood",
+    name: "Redwood Giant",
+    logId: "redwood_log",
+    logName: "Redwood Log",
+    description: "Towering redwoods that demand a seasoned woodsman.",
+    levelRequirement: 70,
+    yield: [1, 2],
+    baseSwingDurationMs: 8400,
+    xp: 280,
   },
 ];
 
@@ -500,6 +544,12 @@ function init() {
 
   elements.tabButtons = document.querySelectorAll("[data-tab-target]");
   elements.tabPanels = document.querySelectorAll("[data-tab-panel]");
+  elements.dropdownToggles = document.querySelectorAll("[data-dropdown-toggle]");
+  document.querySelectorAll("[data-dropdown-label]").forEach((label) => {
+    if (!label.dataset.defaultLabel) {
+      label.dataset.defaultLabel = label.textContent.trim();
+    }
+  });
 
   if (elements.autoContinueMining) {
     elements.autoContinueMining.checked = state.autoContinue.mining;
@@ -521,7 +571,36 @@ function init() {
   elements.tabButtons.forEach((button) => {
     button.addEventListener("click", () => {
       switchTab(button.dataset.tabTarget);
+      const dropdown = button.closest("[data-dropdown]");
+      if (dropdown) {
+        closeDropdown(dropdown);
+      }
     });
+  });
+
+  elements.dropdownToggles.forEach((toggle) => {
+    toggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const dropdown = toggle.closest("[data-dropdown]");
+      if (!dropdown) return;
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      closeAllDropdowns();
+      if (!expanded) {
+        openDropdown(dropdown, toggle);
+      }
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-dropdown]")) {
+      closeAllDropdowns();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAllDropdowns();
+    }
   });
 
   elements.stoneSelect?.addEventListener("change", (event) => {
@@ -976,6 +1055,63 @@ function switchTab(target) {
     panel.classList.toggle("active", isActive);
     panel.hidden = !isActive;
   });
+
+  updateDropdownSelection(target);
+}
+
+function closeDropdown(dropdown) {
+  if (!dropdown) return;
+  dropdown.removeAttribute("data-open");
+  const toggle = dropdown.querySelector("[data-dropdown-toggle]");
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", "false");
+  }
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll("[data-dropdown]").forEach((dropdown) => {
+    closeDropdown(dropdown);
+  });
+}
+
+function openDropdown(dropdown, toggle) {
+  if (!dropdown) return;
+  dropdown.setAttribute("data-open", "true");
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", "true");
+  }
+}
+
+function updateDropdownSelection(targetTab) {
+  document.querySelectorAll("[data-dropdown-menu]").forEach((menu) => {
+    const dropdownId = menu.dataset.dropdownMenu;
+    const label = dropdownId
+      ? document.querySelector(`[data-dropdown-label="${dropdownId}"]`)
+      : null;
+    const buttons = menu.querySelectorAll("[data-tab-target]");
+    let matched = false;
+
+    buttons.forEach((button) => {
+      const isActive = button.dataset.tabTarget === targetTab;
+      button.classList.toggle("active", isActive);
+      if (isActive) {
+        matched = true;
+        if (label) {
+          const labelText = button.textContent.trim();
+          label.textContent = labelText;
+          label.dataset.lastSelection = labelText;
+        }
+      }
+    });
+
+    if (!matched && label) {
+      const fallback =
+        label.dataset.lastSelection ||
+        label.dataset.defaultLabel ||
+        label.textContent.trim();
+      label.textContent = fallback;
+    }
+  });
 }
 
 function createId() {
@@ -1247,6 +1383,7 @@ function renderSkillList() {
     const skill = getSkill(definition.id);
     if (!skill) return;
     const li = document.createElement("li");
+    li.className = "skill-list__item";
     const totalNeeded = skill.xpToNext || 1;
     const progress = skill.level >= MAX_LEVEL
       ? 100
