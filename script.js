@@ -30,23 +30,40 @@ function init() {
   elements.progressBar = document.getElementById("progress-bar");
   elements.progressLabel = document.getElementById("progress-label");
   elements.stoneCount = document.getElementById("stone-count");
+  elements.stoneLedger = document.getElementById("stone-ledger");
   elements.pickaxeName = document.getElementById("pickaxe-name");
+  elements.topPickaxeName = document.getElementById("top-pickaxe-name");
   elements.autoContinue = document.getElementById("auto-continue");
   elements.logEntries = document.getElementById("log-entries");
   elements.swingDuration = document.getElementById("swing-duration");
+  elements.topSwingDuration = document.getElementById("top-swing-duration");
   elements.yieldRange = document.getElementById("yield-range");
+  elements.tabButtons = document.querySelectorAll("[data-tab-target]");
+  elements.tabPanels = document.querySelectorAll("[data-tab-panel]");
 
   elements.mineButton.addEventListener("click", toggleMining);
   elements.autoContinue.addEventListener("change", (event) => {
     state.autoContinue = event.target.checked;
   });
 
+  elements.tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      switchTab(button.dataset.tabTarget);
+    });
+  });
+
   elements.pickaxeName.textContent = state.pickaxe.name;
-  elements.swingDuration.textContent = (state.pickaxe.swingDurationMs / 1000).toFixed(0);
+  const swingSeconds = (state.pickaxe.swingDurationMs / 1000).toFixed(0);
+  elements.swingDuration.textContent = swingSeconds;
   elements.yieldRange.textContent = state.pickaxe.baseYield[1];
 
+  updateTopReadouts({ swingSeconds });
   renderInventory();
   renderLog();
+
+  const initialTab =
+    document.querySelector(".tab-button.active")?.dataset.tabTarget || "quarry";
+  switchTab(initialTab);
 }
 
 function toggleMining() {
@@ -106,7 +123,9 @@ function tickMining() {
 
 function completeMiningCycle() {
   state.mining.active = false;
-  elements.mineButton.textContent = state.autoContinue ? "Preparing next swing" : "Start Mining";
+  elements.mineButton.textContent = state.autoContinue
+    ? "Preparing next swing"
+    : "Start Mining";
   elements.mineButton.disabled = state.autoContinue;
   updateProgressLabel("Hauling");
 
@@ -135,6 +154,9 @@ function calculateYield() {
 
 function renderInventory() {
   elements.stoneCount.textContent = state.inventory.stone;
+  if (elements.stoneLedger) {
+    elements.stoneLedger.textContent = state.inventory.stone;
+  }
 }
 
 function pushLog(entry) {
@@ -164,8 +186,7 @@ function renderLog() {
   if (!state.log.length) {
     const li = document.createElement("li");
     li.textContent = "Your quarry log is empty.";
-    li.style.color = "var(--text-muted)";
-    li.style.borderColor = "rgba(166, 173, 200, 0.25)";
+    li.classList.add("log-empty");
     fragment.appendChild(li);
   }
 
@@ -174,6 +195,36 @@ function renderLog() {
 
 function updateProgressLabel(text) {
   elements.progressLabel.textContent = text;
+}
+
+function updateTopReadouts({ swingSeconds } = {}) {
+  if (elements.topPickaxeName) {
+    elements.topPickaxeName.textContent = state.pickaxe.name;
+  }
+  if (elements.topSwingDuration) {
+    const seconds = swingSeconds || (state.pickaxe.swingDurationMs / 1000).toFixed(0);
+    elements.topSwingDuration.textContent = seconds;
+  }
+}
+
+function switchTab(target) {
+  if (!target) return;
+
+  elements.tabButtons.forEach((button) => {
+    const isActive = button.dataset.tabTarget === target;
+    button.classList.toggle("active", isActive);
+    if (isActive) {
+      button.setAttribute("aria-current", "page");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  });
+
+  elements.tabPanels.forEach((panel) => {
+    const isActive = panel.dataset.tabPanel === target;
+    panel.classList.toggle("active", isActive);
+    panel.hidden = !isActive;
+  });
 }
 
 function createId() {

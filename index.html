@@ -7,63 +7,174 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="banner">
-      <h1>Idle Quarry</h1>
-      <p>Settle in beside the stone face and let the work begin.</p>
+    <header class="top-bar">
+      <div class="top-bar__brand">
+        <span class="brand-icon" aria-hidden="true">⛏️</span>
+        <div class="brand-copy">
+          <h1>Idle Quarry</h1>
+          <p>Shape the stone, grow your legend.</p>
+        </div>
+      </div>
+      <div class="top-bar__insights" role="status" aria-live="polite">
+        <div class="insight">
+          <span class="insight-label">Stone</span>
+          <span class="insight-value" id="stone-ledger">0</span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Pickaxe</span>
+          <span class="insight-value" id="top-pickaxe-name">Standard Pickaxe</span>
+        </div>
+        <div class="insight">
+          <span class="insight-label">Swing</span>
+          <span class="insight-value"><span id="top-swing-duration">4</span> s</span>
+        </div>
+      </div>
+      <nav class="top-tabs" aria-label="Game views">
+        <button class="tab-button active" type="button" data-tab-target="quarry">
+          Quarry
+        </button>
+        <button class="tab-button" type="button" data-tab-target="inventory">
+          Inventory
+        </button>
+        <button class="tab-button" type="button" data-tab-target="skills">
+          Skills
+        </button>
+        <button class="tab-button" type="button" data-tab-target="log">
+          Activity
+        </button>
+      </nav>
     </header>
 
-    <main class="layout">
-      <section class="card stats">
-        <h2>Prospector</h2>
-        <dl>
-          <div class="stat-row">
-            <dt>Pickaxe</dt>
-            <dd id="pickaxe-name">Standard Pickaxe</dd>
-          </div>
-          <div class="stat-row">
-            <dt>Mining Speed</dt>
-            <dd><span id="swing-duration">4</span> s per swing</dd>
-          </div>
-          <div class="stat-row">
-            <dt>Yield</dt>
-            <dd>Up to <span id="yield-range">2</span> stone chunks</dd>
-          </div>
-        </dl>
-      </section>
+    <main class="dashboard">
+      <section class="tab-content active" data-tab-panel="quarry">
+        <div class="panel-grid">
+          <article class="card stats">
+            <h2>Prospector</h2>
+            <dl>
+              <div class="stat-row">
+                <dt>Pickaxe</dt>
+                <dd id="pickaxe-name">Standard Pickaxe</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Mining Speed</dt>
+                <dd><span id="swing-duration">4</span> s per swing</dd>
+              </div>
+              <div class="stat-row">
+                <dt>Yield</dt>
+                <dd>Up to <span id="yield-range">2</span> stone chunks</dd>
+              </div>
+            </dl>
+          </article>
 
-      <section class="card action">
-        <h2>Quarry Face</h2>
-        <div class="progress-shell" aria-live="polite">
-          <div id="progress-bar" class="progress-bar"></div>
-          <span id="progress-label" class="progress-label">Idle</span>
+          <article class="card action">
+            <h2>Quarry Face</h2>
+            <div class="progress-shell" aria-live="polite">
+              <div id="progress-bar" class="progress-bar"></div>
+              <span id="progress-label" class="progress-label">Idle</span>
+            </div>
+            <div class="actions">
+              <button id="mine-button" class="primary">Start Mining</button>
+              <label class="toggle">
+                <input type="checkbox" id="auto-continue" checked />
+                <span>Auto-continue</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="card primer">
+            <h2>Daily Briefing</h2>
+            <p class="tab-intro">
+              Your crew is ready. Each swing charges the progress bar above—keep the
+              momentum for bigger hauls.
+            </p>
+            <ul class="primer-list">
+              <li>Maintain auto-continue to keep the quarry humming.</li>
+              <li>Track upgrades from the Skills tab to boost future runs.</li>
+              <li>Check the Activity view for a rolling history of your digs.</li>
+            </ul>
+          </article>
         </div>
-        <div class="actions">
-          <button id="mine-button" class="primary">Start Mining</button>
-          <label class="toggle">
-            <input type="checkbox" id="auto-continue" checked />
-            <span>Auto-continue</span>
-          </label>
+      </section>
+
+      <section class="tab-content" data-tab-panel="inventory">
+        <div class="panel-grid single">
+          <article class="card inventory">
+            <h2>Inventory</h2>
+            <p class="tab-intro">
+              Everything you have pulled from the quarry lives here.
+            </p>
+            <ul class="inventory-list">
+              <li>
+                <span class="item-name">Stone Chunks</span>
+                <span class="item-qty" id="stone-count">0</span>
+              </li>
+            </ul>
+          </article>
         </div>
       </section>
 
-      <section class="card inventory">
-        <h2>Inventory</h2>
-        <ul class="inventory-list">
-          <li>
-            <span class="item-name">Stone Chunks</span>
-            <span class="item-qty" id="stone-count">0</span>
-          </li>
-        </ul>
+      <section class="tab-content" data-tab-panel="skills">
+        <div class="panel-grid single">
+          <article class="card skills">
+            <h2>Skills</h2>
+            <p class="tab-intro">
+              Long sessions hone your abilities. Earn progress to unlock passive boosts
+              and shiny new tools.
+            </p>
+            <ul class="skill-list">
+              <li style="--progress: 38%">
+                <div class="skill-header">
+                  <span>Manual Mastery</span>
+                  <span class="skill-rank">Rank 1</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar__fill"></div>
+                </div>
+                <p class="skill-note">Faster swings with sustained effort.</p>
+              </li>
+              <li style="--progress: 55%">
+                <div class="skill-header">
+                  <span>Stone Whisperer</span>
+                  <span class="skill-rank">Rank 2</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar__fill"></div>
+                </div>
+                <p class="skill-note">Improved odds of rich stone seams.</p>
+              </li>
+              <li style="--progress: 12%">
+                <div class="skill-header">
+                  <span>Foreman Instinct</span>
+                  <span class="skill-rank">Rank 0</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-bar__fill"></div>
+                </div>
+                <p class="skill-note">Queue extra workers for parallel digs.</p>
+              </li>
+            </ul>
+          </article>
+        </div>
       </section>
 
-      <section class="card log">
-        <h2>Activity Log</h2>
-        <ul id="log-entries" class="log-entries" aria-live="polite"></ul>
+      <section class="tab-content" data-tab-panel="log">
+        <div class="panel-grid single">
+          <article class="card log">
+            <h2>Activity Log</h2>
+            <p class="tab-intro">
+              Monitor each swing and haul to see how your efforts stack up.
+            </p>
+            <ul id="log-entries" class="log-entries" aria-live="polite"></ul>
+          </article>
+        </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Tip: better tools unlock steadier hauls. Keep mining to discover new craft recipes.</p>
+      <p>
+        Tip: better tools unlock steadier hauls. Keep mining to discover new craft
+        recipes.
+      </p>
     </footer>
 
     <script src="script.js"></script>
