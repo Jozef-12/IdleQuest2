@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idle Quarry</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="banner">
+      <h1>Idle Quarry</h1>
+      <p>Settle in beside the stone face and let the work begin.</p>
+    </header>
+
+    <main class="layout">
+      <section class="card stats">
+        <h2>Prospector</h2>
+        <dl>
+          <div class="stat-row">
+            <dt>Pickaxe</dt>
+            <dd id="pickaxe-name">Standard Pickaxe</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Mining Speed</dt>
+            <dd><span id="swing-duration">4</span> s per swing</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Yield</dt>
+            <dd>Up to <span id="yield-range">2</span> stone chunks</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="card action">
+        <h2>Quarry Face</h2>
+        <div class="progress-shell" aria-live="polite">
+          <div id="progress-bar" class="progress-bar"></div>
+          <span id="progress-label" class="progress-label">Idle</span>
+        </div>
+        <div class="actions">
+          <button id="mine-button" class="primary">Start Mining</button>
+          <label class="toggle">
+            <input type="checkbox" id="auto-continue" checked />
+            <span>Auto-continue</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="card inventory">
+        <h2>Inventory</h2>
+        <ul class="inventory-list">
+          <li>
+            <span class="item-name">Stone Chunks</span>
+            <span class="item-qty" id="stone-count">0</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card log">
+        <h2>Activity Log</h2>
+        <ul id="log-entries" class="log-entries" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Tip: better tools unlock steadier hauls. Keep mining to discover new craft recipes.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
