@@ -6,6 +6,7 @@ const STONES = [
   {
     id: "stone",
     name: "Stone",
+    icon: "🪨",
     description: "Reliable building blocks that keep the crew sharp.",
     levelRequirement: 1,
     yield: [1, 2],
@@ -15,6 +16,7 @@ const STONES = [
   {
     id: "copper",
     name: "Copper Ore",
+    icon: "🥉",
     description: "Warm streaks of metal that smelt into sturdy fittings.",
     levelRequirement: 5,
     yield: [1, 2],
@@ -24,6 +26,7 @@ const STONES = [
   {
     id: "iron",
     name: "Iron Ore",
+    icon: "⛓️",
     description: "Dense seams demanding a steady rhythm to break free.",
     levelRequirement: 10,
     yield: [1, 2],
@@ -33,6 +36,7 @@ const STONES = [
   {
     id: "silver",
     name: "Silver Vein",
+    icon: "🥈",
     description: "Shimmering veins prized by jewelers and nobles alike.",
     levelRequirement: 20,
     yield: [1, 3],
@@ -42,6 +46,7 @@ const STONES = [
   {
     id: "gold",
     name: "Gold Deposit",
+    icon: "🥇",
     description: "Heavy nuggets that test the crew's endurance.",
     levelRequirement: 30,
     yield: [1, 2],
@@ -51,6 +56,7 @@ const STONES = [
   {
     id: "emerald",
     name: "Emerald Cluster",
+    icon: "💚",
     description: "Brilliant greens guarded by stubborn rock.",
     levelRequirement: 45,
     yield: [1, 2],
@@ -60,6 +66,7 @@ const STONES = [
   {
     id: "diamond",
     name: "Diamond Core",
+    icon: "💎",
     description: "The quarry's crown jewel—unyielding but priceless.",
     levelRequirement: 60,
     yield: [1, 1],
@@ -72,50 +79,62 @@ const SMELTING_RECIPES = [
   {
     id: "copper_bar",
     name: "Copper Bar",
+    icon: "🟥",
     oreId: "copper",
     oreAmount: 3,
     levelRequirement: 1,
     xp: 45,
+    baseDurationMs: 4200,
   },
   {
     id: "iron_bar",
     name: "Iron Bar",
+    icon: "⬛",
     oreId: "iron",
     oreAmount: 4,
     levelRequirement: 10,
     xp: 70,
+    baseDurationMs: 5200,
   },
   {
     id: "silver_bar",
     name: "Silver Bar",
+    icon: "⬜",
     oreId: "silver",
     oreAmount: 5,
     levelRequirement: 20,
     xp: 110,
+    baseDurationMs: 6000,
   },
   {
     id: "gold_bar",
     name: "Gold Bar",
+    icon: "🟨",
     oreId: "gold",
     oreAmount: 6,
     levelRequirement: 30,
     xp: 165,
+    baseDurationMs: 6800,
   },
   {
     id: "emerald_inlay",
     name: "Emerald Inlay",
+    icon: "🟢",
     oreId: "emerald",
     oreAmount: 8,
     levelRequirement: 45,
     xp: 240,
+    baseDurationMs: 7600,
   },
   {
     id: "diamond_edge",
     name: "Diamond Edge",
+    icon: "🔷",
     oreId: "diamond",
     oreAmount: 10,
     levelRequirement: 60,
     xp: 320,
+    baseDurationMs: 8200,
   },
 ];
 
@@ -125,6 +144,7 @@ const TREES = [
     name: "Spruce Copse",
     logId: "spruce_log",
     logName: "Spruce Log",
+    icon: "🌲",
     description: "Supple spruce with plenty of resin for campfires.",
     levelRequirement: 1,
     yield: [1, 2],
@@ -136,6 +156,7 @@ const TREES = [
     name: "Birch Grove",
     logId: "birch_log",
     logName: "Birch Log",
+    icon: "🌳",
     description: "Pale birch trunks peel into papery curls with each swing.",
     levelRequirement: 4,
     yield: [1, 2],
@@ -147,6 +168,7 @@ const TREES = [
     name: "Oak Stand",
     logId: "oak_log",
     logName: "Oak Log",
+    icon: "🌰",
     description: "Sturdy oak that rewards patient chopping.",
     levelRequirement: 8,
     yield: [1, 2],
@@ -158,6 +180,7 @@ const TREES = [
     name: "Willow Stand",
     logId: "willow_log",
     logName: "Willow Log",
+    icon: "🍃",
     description: "Graceful willow boughs that bend before your blade.",
     levelRequirement: 14,
     yield: [1, 3],
@@ -169,6 +192,7 @@ const TREES = [
     name: "Maple Grove",
     logId: "maple_log",
     logName: "Maple Log",
+    icon: "🍁",
     description: "Sweet sapwood that smells of syrup.",
     levelRequirement: 20,
     yield: [1, 3],
@@ -180,6 +204,7 @@ const TREES = [
     name: "Ash Copse",
     logId: "ash_log",
     logName: "Ash Log",
+    icon: "🪵",
     description: "Straight-grained ash ready for hafts and handles.",
     levelRequirement: 26,
     yield: [1, 3],
@@ -191,6 +216,7 @@ const TREES = [
     name: "Yew Thicket",
     logId: "yew_log",
     logName: "Yew Log",
+    icon: "🌿",
     description: "Dense yew wood prized for bows.",
     levelRequirement: 32,
     yield: [1, 2],
@@ -202,6 +228,7 @@ const TREES = [
     name: "Elder Grove",
     logId: "elder_log",
     logName: "Elder Log",
+    icon: "🟣",
     description: "Ancient elderwood with a violet sheen.",
     levelRequirement: 45,
     yield: [1, 2],
@@ -213,6 +240,7 @@ const TREES = [
     name: "Redwood Giant",
     logId: "redwood_log",
     logName: "Redwood Log",
+    icon: "🟥",
     description: "Towering redwoods that demand a seasoned woodsman.",
     levelRequirement: 70,
     yield: [1, 2],
@@ -225,6 +253,7 @@ const PICKAXES = [
   {
     id: "worn_pickaxe",
     name: "Worn Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 1,
     smithingLevelRequirement: 1,
     speedMultiplier: 1,
@@ -235,6 +264,7 @@ const PICKAXES = [
   {
     id: "copper_pickaxe",
     name: "Copper Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 5,
     smithingLevelRequirement: 5,
     speedMultiplier: 1.1,
@@ -245,6 +275,7 @@ const PICKAXES = [
   {
     id: "iron_pickaxe",
     name: "Iron Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 15,
     smithingLevelRequirement: 12,
     speedMultiplier: 1.2,
@@ -255,6 +286,7 @@ const PICKAXES = [
   {
     id: "silver_pickaxe",
     name: "Silver Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 30,
     smithingLevelRequirement: 22,
     speedMultiplier: 1.35,
@@ -265,6 +297,7 @@ const PICKAXES = [
   {
     id: "gold_pickaxe",
     name: "Gold Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 45,
     smithingLevelRequirement: 35,
     speedMultiplier: 1.5,
@@ -275,6 +308,7 @@ const PICKAXES = [
   {
     id: "emerald_pickaxe",
     name: "Emerald Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 60,
     smithingLevelRequirement: 48,
     speedMultiplier: 1.7,
@@ -285,6 +319,7 @@ const PICKAXES = [
   {
     id: "diamond_pickaxe",
     name: "Diamond Pickaxe",
+    icon: "⛏️",
     miningLevelRequirement: 75,
     smithingLevelRequirement: 62,
     speedMultiplier: 2,
@@ -298,6 +333,7 @@ const AXES = [
   {
     id: "worn_hatchet",
     name: "Worn Hatchet",
+    icon: "🪓",
     woodcuttingLevelRequirement: 1,
     smithingLevelRequirement: 1,
     speedMultiplier: 1,
@@ -308,6 +344,7 @@ const AXES = [
   {
     id: "copper_axe",
     name: "Copper Axe",
+    icon: "🪓",
     woodcuttingLevelRequirement: 5,
     smithingLevelRequirement: 5,
     speedMultiplier: 1.12,
@@ -318,6 +355,7 @@ const AXES = [
   {
     id: "iron_axe",
     name: "Iron Axe",
+    icon: "🪓",
     woodcuttingLevelRequirement: 15,
     smithingLevelRequirement: 12,
     speedMultiplier: 1.25,
@@ -328,6 +366,7 @@ const AXES = [
   {
     id: "steel_axe",
     name: "Steel Axe",
+    icon: "🪓",
     woodcuttingLevelRequirement: 30,
     smithingLevelRequirement: 24,
     speedMultiplier: 1.38,
@@ -338,6 +377,7 @@ const AXES = [
   {
     id: "elder_axe",
     name: "Elder Axe",
+    icon: "🪓",
     woodcuttingLevelRequirement: 45,
     smithingLevelRequirement: 38,
     speedMultiplier: 1.55,
@@ -348,6 +388,7 @@ const AXES = [
   {
     id: "mythril_axe",
     name: "Mythril Axe",
+    icon: "🪓",
     woodcuttingLevelRequirement: 65,
     smithingLevelRequirement: 55,
     speedMultiplier: 1.8,
@@ -363,6 +404,7 @@ const FISHING_SPOTS = [
     name: "Shallow Pond",
     fishId: "minnow",
     fishName: "Minnow",
+    icon: "🐟",
     description: "A calm pond perfect for first casts.",
     levelRequirement: 1,
     yield: [1, 2],
@@ -376,6 +418,7 @@ const FISHING_SPOTS = [
     name: "River Run",
     fishId: "river_trout",
     fishName: "River Trout",
+    icon: "🐠",
     description: "Swift water filled with lively trout.",
     levelRequirement: 7,
     yield: [1, 2],
@@ -389,6 +432,7 @@ const FISHING_SPOTS = [
     name: "Highland Lake",
     fishId: "lake_salmon",
     fishName: "Lake Salmon",
+    icon: "🧈",
     description: "A clear lake where salmon leap at dusk.",
     levelRequirement: 16,
     yield: [1, 3],
@@ -402,6 +446,7 @@ const FISHING_SPOTS = [
     name: "Midnight Grotto",
     fishId: "shadow_eel",
     fishName: "Shadow Eel",
+    icon: "🐍",
     description: "A hidden cove where bioluminescent eels drift.",
     levelRequirement: 28,
     yield: [1, 2],
@@ -416,6 +461,7 @@ const FISHING_RODS = [
   {
     id: "worn_rod",
     name: "Worn Rod",
+    icon: "🎣",
     fishingLevelRequirement: 1,
     smithingLevelRequirement: 1,
     speedMultiplier: 1,
@@ -426,6 +472,7 @@ const FISHING_RODS = [
   {
     id: "oak_rod",
     name: "Oak Rod",
+    icon: "🎣",
     fishingLevelRequirement: 5,
     smithingLevelRequirement: 6,
     speedMultiplier: 1.12,
@@ -436,6 +483,7 @@ const FISHING_RODS = [
   {
     id: "reinforced_rod",
     name: "Reinforced Rod",
+    icon: "🎣",
     fishingLevelRequirement: 14,
     smithingLevelRequirement: 18,
     speedMultiplier: 1.25,
@@ -446,6 +494,7 @@ const FISHING_RODS = [
   {
     id: "seafarer_rod",
     name: "Seafarer Rod",
+    icon: "🎣",
     fishingLevelRequirement: 26,
     smithingLevelRequirement: 30,
     speedMultiplier: 1.45,
@@ -456,6 +505,7 @@ const FISHING_RODS = [
   {
     id: "mythril_rod",
     name: "Mythril Rod",
+    icon: "🎣",
     fishingLevelRequirement: 40,
     smithingLevelRequirement: 44,
     speedMultiplier: 1.65,
@@ -471,6 +521,7 @@ const COOKING_RECIPES = [
     name: "Pan-seared Minnow",
     rawId: "minnow",
     cookedId: "cooked_minnow",
+    icon: "🍢",
     levelRequirement: 1,
     baseDurationMs: 3600,
     xp: 45,
@@ -481,6 +532,7 @@ const COOKING_RECIPES = [
     name: "Herbed Trout",
     rawId: "river_trout",
     cookedId: "cooked_trout",
+    icon: "🍣",
     levelRequirement: 6,
     baseDurationMs: 4200,
     xp: 70,
@@ -491,6 +543,7 @@ const COOKING_RECIPES = [
     name: "Glazed Salmon",
     rawId: "lake_salmon",
     cookedId: "cooked_salmon",
+    icon: "🍱",
     levelRequirement: 15,
     baseDurationMs: 5200,
     xp: 110,
@@ -501,10 +554,44 @@ const COOKING_RECIPES = [
     name: "Shadow Eel Stew",
     rawId: "shadow_eel",
     cookedId: "cooked_eel",
+    icon: "🥘",
     levelRequirement: 24,
     baseDurationMs: 6200,
     xp: 160,
     description: "A rich stew that glows faintly at night.",
+  },
+  {
+    id: "ember_roast_chicken",
+    name: "Ember-roast Chicken",
+    rawId: "raw_chicken",
+    cookedId: "cooked_chicken",
+    icon: "🍗",
+    levelRequirement: 12,
+    baseDurationMs: 5600,
+    xp: 95,
+    description: "Juicy chicken seared with campfire spices.",
+  },
+  {
+    id: "seared_highland_steak",
+    name: "Seared Highland Steak",
+    rawId: "raw_beef",
+    cookedId: "cooked_beef",
+    icon: "🥩",
+    levelRequirement: 20,
+    baseDurationMs: 6400,
+    xp: 145,
+    description: "Thick-cut steak finished with maple glaze.",
+  },
+  {
+    id: "herbal_game_chops",
+    name: "Herbal Game Chops",
+    rawId: "raw_game",
+    cookedId: "cooked_chops",
+    icon: "🍖",
+    levelRequirement: 28,
+    baseDurationMs: 6800,
+    xp: 185,
+    description: "Wild game slow-cooked with fragrant herbs.",
   },
 ];
 
@@ -518,6 +605,410 @@ const RARE_BOX_REWARDS = [
   { id: "emerald_inlay", min: 1, max: 1 },
   { id: "diamond_edge", min: 1, max: 1 },
 ];
+
+const LOOT_ITEMS = [
+  { id: "feather", name: "Feather", icon: "🪶" },
+  { id: "bones", name: "Bones", icon: "🦴" },
+  { id: "raw_chicken", name: "Raw Chicken", icon: "🐔" },
+  { id: "raw_beef", name: "Raw Beef", icon: "🐄" },
+  { id: "raw_game", name: "Raw Game Meat", icon: "🦌" },
+  { id: "beast_hide", name: "Beast Hide", icon: "🧥" },
+  { id: "mystic_shard", name: "Mystic Shard", icon: "🔮" },
+  { id: "rare_token", name: "Heroic Emblem", icon: "🏅" },
+  { id: "cooked_chicken", name: "Roasted Chicken", icon: "🍗" },
+  { id: "cooked_beef", name: "Seared Steak", icon: "🥩" },
+  { id: "cooked_chops", name: "Herbed Chops", icon: "🍖" },
+];
+
+const WEAPONS = [
+  {
+    id: "training_blade",
+    name: "Training Blade",
+    icon: "⚔️",
+    smithingLevelRequirement: 1,
+    attackLevelRequirement: 1,
+    strengthLevelRequirement: 1,
+    accuracyBonus: 0,
+    strengthBonus: 0,
+    speedMultiplier: 1,
+    cost: {},
+    xp: 0,
+  },
+  {
+    id: "bronze_saber",
+    name: "Bronze Saber",
+    icon: "🗡️",
+    smithingLevelRequirement: 8,
+    attackLevelRequirement: 5,
+    strengthLevelRequirement: 5,
+    accuracyBonus: 6,
+    strengthBonus: 4,
+    speedMultiplier: 1.05,
+    cost: { copper_bar: 5, spruce_log: 2 },
+    xp: 120,
+  },
+  {
+    id: "iron_claymore",
+    name: "Iron Claymore",
+    icon: "⚔️",
+    smithingLevelRequirement: 16,
+    attackLevelRequirement: 12,
+    strengthLevelRequirement: 12,
+    accuracyBonus: 9,
+    strengthBonus: 7,
+    speedMultiplier: 1.08,
+    cost: { iron_bar: 6, birch_log: 3 },
+    xp: 180,
+  },
+  {
+    id: "steel_falchion",
+    name: "Steel Falchion",
+    icon: "🗡️",
+    smithingLevelRequirement: 28,
+    attackLevelRequirement: 20,
+    strengthLevelRequirement: 20,
+    accuracyBonus: 13,
+    strengthBonus: 11,
+    speedMultiplier: 1.12,
+    cost: { silver_bar: 5, maple_log: 3, beast_hide: 2 },
+    xp: 260,
+  },
+  {
+    id: "mythril_edge",
+    name: "Mythril Edge",
+    icon: "⚔️",
+    smithingLevelRequirement: 40,
+    attackLevelRequirement: 32,
+    strengthLevelRequirement: 32,
+    accuracyBonus: 18,
+    strengthBonus: 16,
+    speedMultiplier: 1.18,
+    cost: { gold_bar: 6, emerald_inlay: 2, beast_hide: 3 },
+    xp: 340,
+  },
+  {
+    id: "dragonfang_blade",
+    name: "Dragonfang Blade",
+    icon: "🗡️",
+    smithingLevelRequirement: 55,
+    attackLevelRequirement: 45,
+    strengthLevelRequirement: 45,
+    accuracyBonus: 24,
+    strengthBonus: 22,
+    speedMultiplier: 1.25,
+    cost: { diamond_edge: 2, emerald_inlay: 3, mystic_shard: 2 },
+    xp: 460,
+  },
+];
+
+const ARMORS = [
+  {
+    id: "training_tunic",
+    name: "Training Tunic",
+    icon: "🛡️",
+    smithingLevelRequirement: 1,
+    defenseLevelRequirement: 1,
+    hitpointsLevelRequirement: 1,
+    defenseBonus: 4,
+    hitpointsBonus: 6,
+    cost: {},
+    xp: 0,
+  },
+  {
+    id: "bronze_plate",
+    name: "Bronze Plate",
+    icon: "🛡️",
+    smithingLevelRequirement: 8,
+    defenseLevelRequirement: 5,
+    hitpointsLevelRequirement: 5,
+    defenseBonus: 9,
+    hitpointsBonus: 10,
+    cost: { copper_bar: 6, spruce_log: 2 },
+    xp: 140,
+  },
+  {
+    id: "iron_guard",
+    name: "Iron Guard",
+    icon: "🛡️",
+    smithingLevelRequirement: 18,
+    defenseLevelRequirement: 12,
+    hitpointsLevelRequirement: 12,
+    defenseBonus: 14,
+    hitpointsBonus: 15,
+    cost: { iron_bar: 6, birch_log: 2, beast_hide: 2 },
+    xp: 210,
+  },
+  {
+    id: "steel_vanguard",
+    name: "Steel Vanguard",
+    icon: "🛡️",
+    smithingLevelRequirement: 32,
+    defenseLevelRequirement: 22,
+    hitpointsLevelRequirement: 22,
+    defenseBonus: 20,
+    hitpointsBonus: 22,
+    cost: { silver_bar: 6, maple_log: 3, beast_hide: 3 },
+    xp: 300,
+  },
+  {
+    id: "mythril_bulwark",
+    name: "Mythril Bulwark",
+    icon: "🛡️",
+    smithingLevelRequirement: 44,
+    defenseLevelRequirement: 32,
+    hitpointsLevelRequirement: 32,
+    defenseBonus: 27,
+    hitpointsBonus: 28,
+    cost: { gold_bar: 6, emerald_inlay: 2, mystic_shard: 1 },
+    xp: 380,
+  },
+  {
+    id: "dragonhide_aegis",
+    name: "Dragonhide Aegis",
+    icon: "🛡️",
+    smithingLevelRequirement: 58,
+    defenseLevelRequirement: 45,
+    hitpointsLevelRequirement: 45,
+    defenseBonus: 36,
+    hitpointsBonus: 34,
+    cost: { diamond_edge: 2, emerald_inlay: 3, beast_hide: 5 },
+    xp: 520,
+  },
+];
+
+const COMBAT_AREAS = [
+  {
+    id: "grasslands",
+    name: "Verdant Grasslands",
+    description: "Gentle fields roamed by docile creatures.",
+    levelRequirement: 1,
+    monsters: [
+      {
+        id: "field_chicken",
+        name: "Field Chicken",
+        icon: "🐔",
+        levelRequirement: 1,
+        maxHp: 24,
+        attack: 6,
+        defense: 4,
+        accuracy: 10,
+        attackSpeedMs: 2600,
+        xp: 40,
+        coins: [4, 8],
+        drops: [
+          { itemId: "feather", min: 1, max: 3, chance: 0.7, rarity: "common" },
+          { itemId: "raw_chicken", min: 1, max: 1, chance: 0.55, rarity: "common" },
+          { itemId: "bones", min: 1, max: 2, chance: 0.35, rarity: "uncommon" },
+        ],
+      },
+      {
+        id: "pasture_cow",
+        name: "Pasture Cow",
+        icon: "🐄",
+        levelRequirement: 5,
+        maxHp: 32,
+        attack: 10,
+        defense: 8,
+        accuracy: 12,
+        attackSpeedMs: 3000,
+        xp: 55,
+        coins: [6, 12],
+        drops: [
+          { itemId: "raw_beef", min: 1, max: 2, chance: 0.6, rarity: "common" },
+          { itemId: "bones", min: 1, max: 2, chance: 0.4, rarity: "uncommon" },
+          { itemId: "beast_hide", min: 1, max: 1, chance: 0.25, rarity: "uncommon" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "woodland_edge",
+    name: "Woodland Edge",
+    description: "The treeline hides territorial beasts.",
+    levelRequirement: 12,
+    monsters: [
+      {
+        id: "forest_boar",
+        name: "Forest Boar",
+        icon: "🐗",
+        levelRequirement: 12,
+        maxHp: 38,
+        attack: 16,
+        defense: 10,
+        accuracy: 16,
+        attackSpeedMs: 2600,
+        xp: 72,
+        coins: [8, 16],
+        drops: [
+          { itemId: "raw_game", min: 1, max: 2, chance: 0.6, rarity: "common" },
+          { itemId: "beast_hide", min: 1, max: 2, chance: 0.45, rarity: "uncommon" },
+          { itemId: "bones", min: 1, max: 2, chance: 0.4, rarity: "uncommon" },
+        ],
+      },
+      {
+        id: "shadow_wolf",
+        name: "Shadow Wolf",
+        icon: "🐺",
+        levelRequirement: 16,
+        maxHp: 42,
+        attack: 20,
+        defense: 14,
+        accuracy: 20,
+        attackSpeedMs: 2400,
+        xp: 90,
+        coins: [10, 20],
+        drops: [
+          { itemId: "beast_hide", min: 1, max: 2, chance: 0.55, rarity: "uncommon" },
+          { itemId: "raw_game", min: 1, max: 2, chance: 0.5, rarity: "common" },
+          { itemId: "mystic_shard", min: 1, max: 1, chance: 0.15, rarity: "rare" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "riverlands",
+    name: "Riverlands",
+    description: "Raiders and scaled creatures prowl the banks.",
+    levelRequirement: 22,
+    monsters: [
+      {
+        id: "bandit_raider",
+        name: "Bandit Raider",
+        icon: "🗡️",
+        levelRequirement: 22,
+        maxHp: 48,
+        attack: 24,
+        defense: 16,
+        accuracy: 24,
+        attackSpeedMs: 2300,
+        xp: 120,
+        coins: [14, 26],
+        drops: [
+          { itemId: "beast_hide", min: 1, max: 2, chance: 0.4, rarity: "uncommon" },
+          { itemId: "rare_token", min: 1, max: 1, chance: 0.12, rarity: "rare" },
+        ],
+      },
+      {
+        id: "scaleback_serpent",
+        name: "Scaleback Serpent",
+        icon: "🐉",
+        levelRequirement: 26,
+        maxHp: 54,
+        attack: 27,
+        defense: 20,
+        accuracy: 28,
+        attackSpeedMs: 2200,
+        xp: 140,
+        coins: [16, 30],
+        drops: [
+          { itemId: "mystic_shard", min: 1, max: 1, chance: 0.2, rarity: "rare" },
+          { itemId: "bones", min: 1, max: 3, chance: 0.45, rarity: "uncommon" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "mountain_pass",
+    name: "Mountain Pass",
+    description: "Thin air and relentless guardians test travelers.",
+    levelRequirement: 32,
+    monsters: [
+      {
+        id: "stone_golem",
+        name: "Stone Golem",
+        icon: "🪨",
+        levelRequirement: 32,
+        maxHp: 62,
+        attack: 30,
+        defense: 26,
+        accuracy: 26,
+        attackSpeedMs: 2600,
+        xp: 180,
+        coins: [18, 34],
+        drops: [
+          { itemId: "mystic_shard", min: 1, max: 2, chance: 0.25, rarity: "rare" },
+          { itemId: "bones", min: 2, max: 4, chance: 0.35, rarity: "uncommon" },
+        ],
+      },
+      {
+        id: "storm_harpy",
+        name: "Storm Harpy",
+        icon: "🪽",
+        levelRequirement: 36,
+        maxHp: 58,
+        attack: 34,
+        defense: 24,
+        accuracy: 34,
+        attackSpeedMs: 2000,
+        xp: 210,
+        coins: [20, 38],
+        drops: [
+          { itemId: "feather", min: 2, max: 4, chance: 0.7, rarity: "common" },
+          { itemId: "rare_token", min: 1, max: 1, chance: 0.18, rarity: "rare" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ember_depths",
+    name: "Ember Depths",
+    description: "Molten caverns where legends are forged.",
+    levelRequirement: 45,
+    monsters: [
+      {
+        id: "ember_wyrm",
+        name: "Ember Wyrm",
+        icon: "🐲",
+        levelRequirement: 45,
+        maxHp: 78,
+        attack: 40,
+        defense: 32,
+        accuracy: 38,
+        attackSpeedMs: 2100,
+        xp: 260,
+        coins: [24, 48],
+        drops: [
+          { itemId: "mystic_shard", min: 1, max: 2, chance: 0.32, rarity: "rare" },
+          { itemId: "raw_game", min: 1, max: 2, chance: 0.5, rarity: "common" },
+          { itemId: "rare_token", min: 1, max: 1, chance: 0.24, rarity: "rare" },
+        ],
+      },
+      {
+        id: "ashen_colossus",
+        name: "Ashen Colossus",
+        icon: "🗿",
+        levelRequirement: 52,
+        maxHp: 88,
+        attack: 44,
+        defense: 38,
+        accuracy: 42,
+        attackSpeedMs: 2400,
+        xp: 320,
+        coins: [28, 55],
+        drops: [
+          { itemId: "diamond", min: 1, max: 2, chance: 0.25, rarity: "rare" },
+          { itemId: "mystic_shard", min: 1, max: 2, chance: 0.28, rarity: "rare" },
+          { itemId: "beast_hide", min: 2, max: 3, chance: 0.4, rarity: "uncommon" },
+        ],
+      },
+    ],
+  },
+];
+
+const FOOD_HEALING = {
+  cooked_minnow: 12,
+  cooked_trout: 18,
+  cooked_salmon: 26,
+  cooked_eel: 34,
+  cooked_chicken: 24,
+  cooked_beef: 32,
+  cooked_chops: 36,
+  raw_chicken: 8,
+  raw_beef: 10,
+  raw_game: 12,
+};
+
+const BASE_ATTACK_INTERVAL = 2400;
 
 const MARKET_SELL_VALUES = {
   stone: 2,
@@ -581,27 +1072,40 @@ const MARKET_BUY_ITEMS = [
 ];
 
 const RESOURCE_REGISTRY = {};
+const ICON_REGISTRY = {};
 
-function registerResource(id, name) {
+function registerResource(id, name, icon) {
   RESOURCE_REGISTRY[id] = name;
+  if (icon) {
+    ICON_REGISTRY[id] = icon;
+  }
 }
 
-STONES.forEach((stone) => registerResource(stone.id, stone.name));
-SMELTING_RECIPES.forEach((recipe) => registerResource(recipe.id, recipe.name));
-TREES.forEach((tree) => registerResource(tree.logId, tree.logName));
-FISHING_SPOTS.forEach((spot) => registerResource(spot.fishId, spot.fishName));
+function registerIcon(id, icon) {
+  if (icon) {
+    ICON_REGISTRY[id] = icon;
+  }
+}
+
+STONES.forEach((stone) => registerResource(stone.id, stone.name, stone.icon));
+SMELTING_RECIPES.forEach((recipe) => registerResource(recipe.id, recipe.name, recipe.icon));
+TREES.forEach((tree) => registerResource(tree.logId, tree.logName, tree.icon));
+FISHING_SPOTS.forEach((spot) => registerResource(spot.fishId, spot.fishName, spot.icon));
 COOKING_RECIPES.forEach((recipe) => {
   registerResource(recipe.rawId, getResourceName(recipe.rawId) || recipe.rawId);
-  registerResource(recipe.cookedId, recipe.name);
+  registerResource(recipe.cookedId, recipe.name, recipe.icon);
 });
-FISHING_RODS.forEach((rod) => registerResource(`${rod.id}_item`, rod.name));
-registerResource("fishing_bait", "Fishing Bait");
-registerResource("leather_wrap", "Leather Wrap");
-registerResource("camp_spice", "Camp Spice Pouch");
-registerResource("anglers_cache", "Angler's Cache");
-registerResource("worn_pickaxe_item", "Worn Pickaxe");
-registerResource("worn_hatchet_item", "Worn Hatchet");
-registerResource("worn_rod_item", "Worn Rod");
+FISHING_RODS.forEach((rod) => registerResource(`${rod.id}_item`, rod.name, rod.icon));
+registerResource("fishing_bait", "Fishing Bait", "🪱");
+registerResource("leather_wrap", "Leather Wrap", "🧵");
+registerResource("camp_spice", "Camp Spice Pouch", "🧂");
+registerResource("anglers_cache", "Angler's Cache", "🎁");
+registerResource("worn_pickaxe_item", "Worn Pickaxe", "⛏️");
+registerResource("worn_hatchet_item", "Worn Hatchet", "🪓");
+registerResource("worn_rod_item", "Worn Rod", "🎣");
+LOOT_ITEMS.forEach((item) => registerResource(item.id, item.name, item.icon));
+WEAPONS.forEach((weapon) => registerResource(`${weapon.id}_item`, weapon.name, weapon.icon));
+ARMORS.forEach((armor) => registerResource(`${armor.id}_item`, armor.name, armor.icon));
 
 const INVENTORY_GROUPS = [
   {
@@ -632,13 +1136,32 @@ const INVENTORY_GROUPS = [
     resources: ["camp_spice", "leather_wrap", "anglers_cache"],
   },
   {
+    title: "Hunting Spoils",
+    resources: [
+      "feather",
+      "bones",
+      "raw_chicken",
+      "raw_beef",
+      "raw_game",
+      "beast_hide",
+      "mystic_shard",
+      "rare_token",
+    ],
+  },
+  {
     title: "Equipment",
     resources: [
       "worn_pickaxe_item",
       "worn_hatchet_item",
       "worn_rod_item",
+      "training_blade_item",
+      "training_tunic_item",
       ...FISHING_RODS.filter((rod) => rod.cost && Object.keys(rod.cost).length)
         .map((rod) => `${rod.id}_item`),
+      ...WEAPONS.filter((weapon) => weapon.cost && Object.keys(weapon.cost).length)
+        .map((weapon) => `${weapon.id}_item`),
+      ...ARMORS.filter((armor) => armor.cost && Object.keys(armor.cost).length)
+        .map((armor) => `${armor.id}_item`),
     ],
   },
 ];
@@ -652,6 +1175,10 @@ function createInitialInventory() {
 
 function getResourceName(resourceId) {
   return RESOURCE_REGISTRY[resourceId] || resourceId;
+}
+
+function getResourceIcon(resourceId) {
+  return ICON_REGISTRY[resourceId] || "📦";
 }
 
 const SKILL_DEFINITIONS = [
@@ -680,6 +1207,31 @@ const SKILL_DEFINITIONS = [
     name: "Cooking",
     description: "Prepare meals that keep the camp thriving.",
   },
+  {
+    id: "attack",
+    name: "Attack",
+    description: "Sharpen weapon technique for consistent strikes.",
+  },
+  {
+    id: "strength",
+    name: "Strength",
+    description: "Build the power behind every blow.",
+  },
+  {
+    id: "defense",
+    name: "Defense",
+    description: "Bolster resilience against enemy attacks.",
+  },
+  {
+    id: "accuracy",
+    name: "Accuracy",
+    description: "Steady your aim to land precise hits.",
+  },
+  {
+    id: "hitpoints",
+    name: "Hitpoints",
+    description: "Expand your vitality to endure longer battles.",
+  },
 ];
 
 function getSkillDefinition(skillId) {
@@ -704,10 +1256,14 @@ const state = {
     pickaxeId: PICKAXES[0].id,
     axeId: AXES[0].id,
     rodId: FISHING_RODS[0].id,
+    weaponId: WEAPONS[0].id,
+    armorId: ARMORS[0].id,
   },
   ownedPickaxes: new Set([PICKAXES[0].id]),
   ownedAxes: new Set([AXES[0].id]),
   ownedRods: new Set([FISHING_RODS[0].id]),
+  ownedWeapons: new Set([WEAPONS[0].id]),
+  ownedArmors: new Set([ARMORS[0].id]),
   mining: {
     active: false,
     startTime: 0,
@@ -734,6 +1290,25 @@ const state = {
     currentDurationMs: 0,
     currentRecipeId: null,
   },
+  smelting: {
+    active: false,
+    startTime: 0,
+    timerId: null,
+    currentDurationMs: 0,
+    currentRecipeId: null,
+  },
+  combat: {
+    active: false,
+    timerId: null,
+    areaId: COMBAT_AREAS[0].id,
+    monsterId: null,
+    playerHp: 0,
+    monsterHp: 0,
+    playerAttackInterval: 0,
+    monsterAttackInterval: 0,
+    playerNextAttack: 0,
+    monsterNextAttack: 0,
+  },
   inventory: createInitialInventory(),
   coins: 0,
   autoContinue: {
@@ -741,6 +1316,8 @@ const state = {
     woodcutting: true,
     fishing: true,
     cooking: true,
+    smithing: true,
+    combat: true,
   },
   log: [],
   logLimit: 12,
@@ -754,6 +1331,11 @@ const state = {
     woodcutting: createSkillState(),
     fishing: createSkillState(),
     cooking: createSkillState(),
+    attack: createSkillState(),
+    strength: createSkillState(),
+    defense: createSkillState(),
+    accuracy: createSkillState(),
+    hitpoints: createSkillState(),
   },
   activeTraining: null,
   trainingLabel: "",
@@ -764,18 +1346,34 @@ state.smithingSkill = state.skills.smithing;
 state.woodcuttingSkill = state.skills.woodcutting;
 state.fishingSkill = state.skills.fishing;
 state.cookingSkill = state.skills.cooking;
+state.attackSkill = state.skills.attack;
+state.strengthSkill = state.skills.strength;
+state.defenseSkill = state.skills.defense;
+state.accuracySkill = state.skills.accuracy;
+state.hitpointsSkill = state.skills.hitpoints;
 
 state.inventory.worn_pickaxe_item = 1;
 state.inventory.worn_hatchet_item = 1;
 state.inventory.worn_rod_item = 1;
+state.inventory.training_blade_item = 1;
+state.inventory.training_tunic_item = 1;
 state.inventory.fishing_bait = 10;
 state.inventory.camp_spice = state.inventory.camp_spice || 0;
 state.inventory.leather_wrap = state.inventory.leather_wrap || 0;
 state.inventory.anglers_cache = state.inventory.anglers_cache || 0;
+state.inventory.feather = state.inventory.feather || 0;
+state.inventory.bones = state.inventory.bones || 0;
+state.inventory.raw_chicken = state.inventory.raw_chicken || 0;
+state.inventory.raw_beef = state.inventory.raw_beef || 0;
+state.inventory.raw_game = state.inventory.raw_game || 0;
+state.inventory.beast_hide = state.inventory.beast_hide || 0;
+state.inventory.mystic_shard = state.inventory.mystic_shard || 0;
+state.inventory.rare_token = state.inventory.rare_token || 0;
 state.coins = 45;
 
 state.fishing.currentSpotId = state.currentSpotId;
 state.cooking.currentRecipeId = state.currentRecipeId;
+state.combat.playerHp = 0;
 
 function getSkill(skillId) {
   return state.skills[skillId];
@@ -793,6 +1391,14 @@ function getEquippedAxe() {
 
 function getEquippedRod() {
   return FISHING_RODS.find((rod) => rod.id === state.equipment.rodId) || FISHING_RODS[0];
+}
+
+function getEquippedWeapon() {
+  return WEAPONS.find((weapon) => weapon.id === state.equipment.weaponId) || WEAPONS[0];
+}
+
+function getEquippedArmor() {
+  return ARMORS.find((armor) => armor.id === state.equipment.armorId) || ARMORS[0];
 }
 
 let saveSlots = Array(SAVE_SLOT_COUNT).fill(null);
@@ -864,6 +1470,36 @@ function init() {
   elements.cookingProgressLabel = document.getElementById("cooking-progress-label");
   elements.autoContinueCooking = document.getElementById("cook-auto-continue");
 
+  elements.weaponName = document.getElementById("weapon-name");
+  elements.armorName = document.getElementById("armor-name");
+  elements.attackLevel = document.getElementById("attack-level");
+  elements.attackXp = document.getElementById("attack-xp");
+  elements.strengthLevel = document.getElementById("strength-level");
+  elements.strengthXp = document.getElementById("strength-xp");
+  elements.defenseLevel = document.getElementById("defense-level");
+  elements.defenseXp = document.getElementById("defense-xp");
+  elements.accuracyLevel = document.getElementById("accuracy-level");
+  elements.accuracyXp = document.getElementById("accuracy-xp");
+  elements.hitpointsLevel = document.getElementById("hitpoints-level");
+  elements.hitpointsXp = document.getElementById("hitpoints-xp");
+  elements.playerHealthValue = document.getElementById("player-health-value");
+  elements.playerHealthBar = document.getElementById("player-health-bar");
+  elements.monsterName = document.getElementById("monster-name");
+  elements.monsterHealthValue = document.getElementById("monster-health-value");
+  elements.monsterHealthBar = document.getElementById("monster-health-bar");
+  elements.monsterDetails = document.getElementById("monster-details");
+  elements.combatAreaSelect = document.getElementById("combat-area-select");
+  elements.combatAreaDescription = document.getElementById("combat-area-description");
+  elements.combatMonsterList = document.getElementById("combat-monster-list");
+  elements.combatStatus = document.getElementById("combat-status");
+  elements.combatStopButton = document.getElementById("combat-stop-button");
+  elements.combatFoodSelect = document.getElementById("combat-food-select");
+  elements.combatEatButton = document.getElementById("combat-eat-button");
+
+  elements.smithingProgressBar = document.getElementById("smithing-progress-bar");
+  elements.smithingProgressLabel = document.getElementById("smithing-progress-label");
+  elements.smithingStopButton = document.getElementById("smithing-stop-button");
+
   elements.topResourceName = document.getElementById("top-resource-name");
   elements.topResourceCount = document.getElementById("top-resource-count");
   elements.topPickaxeName = document.getElementById("top-pickaxe-name");
@@ -896,10 +1532,14 @@ function init() {
   elements.pickaxeForgeList = document.getElementById("pickaxe-forge-list");
   elements.axeForgeList = document.getElementById("axe-forge-list");
   elements.rodForgeList = document.getElementById("rod-forge-list");
+  elements.weaponForgeList = document.getElementById("weapon-forge-list");
+  elements.armorForgeList = document.getElementById("armor-forge-list");
   elements.smithyCategory = document.getElementById("smithy-category");
 
   elements.marketSellList = document.getElementById("market-sell-list");
   elements.marketBuyList = document.getElementById("market-buy-list");
+
+  elements.notifications = document.getElementById("notifications");
 
   elements.tabButtons = document.querySelectorAll("[data-tab-target]");
   elements.tabPanels = document.querySelectorAll("[data-tab-panel]");
@@ -1012,12 +1652,33 @@ function init() {
   elements.pickaxeForgeList?.addEventListener("click", handleSmithingAction);
   elements.axeForgeList?.addEventListener("click", handleSmithingAction);
   elements.rodForgeList?.addEventListener("click", handleSmithingAction);
+  elements.weaponForgeList?.addEventListener("click", handleSmithingAction);
+  elements.armorForgeList?.addEventListener("click", handleSmithingAction);
 
   elements.marketSellList?.addEventListener("click", handleMarketAction);
   elements.marketBuyList?.addEventListener("click", handleMarketAction);
 
   elements.smithyCategory?.addEventListener("change", () => {
     switchSmithyCategory(elements.smithyCategory.value);
+  });
+
+  elements.smithingStopButton?.addEventListener("click", () => {
+    cancelSmeltingCycle("You let the crucible rest.");
+  });
+
+  elements.combatStopButton?.addEventListener("click", () => {
+    stopCombat("You lower your guard.");
+  });
+
+  elements.combatAreaSelect?.addEventListener("change", (event) => {
+    state.combat.areaId = event.target.value;
+    renderCombatMonsters();
+    updateCombatAreaDescription();
+  });
+
+  elements.combatMonsterList?.addEventListener("click", handleCombatAction);
+  elements.combatEatButton?.addEventListener("click", () => {
+    consumeCombatFood(elements.combatFoodSelect?.value);
   });
 
     loadSaveSlots();
@@ -1082,7 +1743,7 @@ function init() {
     ensureExclusiveTraining("mining");
     beginTraining("mining");
     state.mining.active = true;
-    state.mining.startTime = performance.now();
+    state.mining.startTime = Date.now();
     state.mining.currentDurationMs = getEffectiveSwingDuration(stone);
     elements.mineButton.textContent = "Stop Mining";
     elements.mineButton.disabled = false;
@@ -1095,7 +1756,7 @@ function init() {
     state.mining.active = false;
   state.mining.currentDurationMs = 0;
   if (state.mining.timerId) {
-    cancelAnimationFrame(state.mining.timerId);
+    clearTimeout(state.mining.timerId);
     state.mining.timerId = null;
   }
 
@@ -1112,8 +1773,9 @@ function init() {
 function tickMining() {
   if (!state.mining.active) return;
 
-  state.mining.timerId = requestAnimationFrame((timestamp) => {
-    const elapsed = timestamp - state.mining.startTime;
+  state.mining.timerId = setTimeout(() => {
+    const now = Date.now();
+    const elapsed = now - state.mining.startTime;
     const duration = state.mining.currentDurationMs;
     const progress = Math.min(1, duration ? elapsed / duration : 0);
 
@@ -1128,7 +1790,7 @@ function tickMining() {
     }
 
     tickMining();
-  });
+  }, 120);
 }
 
   function completeMiningCycle() {
@@ -1210,7 +1872,7 @@ function toggleWoodcutting() {
     ensureExclusiveTraining("woodcutting");
     beginTraining("woodcutting");
     state.woodcutting.active = true;
-    state.woodcutting.startTime = performance.now();
+    state.woodcutting.startTime = Date.now();
     state.woodcutting.currentDurationMs = getEffectiveChopDuration(tree);
     if (elements.chopButton) {
       elements.chopButton.textContent = "Stop Chopping";
@@ -1225,7 +1887,7 @@ function toggleWoodcutting() {
     state.woodcutting.active = false;
   state.woodcutting.currentDurationMs = 0;
   if (state.woodcutting.timerId) {
-    cancelAnimationFrame(state.woodcutting.timerId);
+    clearTimeout(state.woodcutting.timerId);
     state.woodcutting.timerId = null;
   }
 
@@ -1246,8 +1908,9 @@ function toggleWoodcutting() {
 function tickWoodcutting() {
   if (!state.woodcutting.active) return;
 
-  state.woodcutting.timerId = requestAnimationFrame((timestamp) => {
-    const elapsed = timestamp - state.woodcutting.startTime;
+  state.woodcutting.timerId = setTimeout(() => {
+    const now = Date.now();
+    const elapsed = now - state.woodcutting.startTime;
     const duration = state.woodcutting.currentDurationMs;
     const progress = Math.min(1, duration ? elapsed / duration : 0);
 
@@ -1264,7 +1927,7 @@ function tickWoodcutting() {
     }
 
     tickWoodcutting();
-  });
+  }, 120);
 }
 
 function completeWoodcuttingCycle() {
@@ -1363,7 +2026,7 @@ function completeWoodcuttingCycle() {
     renderInventory();
     state.fishing.active = true;
     state.fishing.currentSpotId = spot.id;
-    state.fishing.startTime = performance.now();
+    state.fishing.startTime = Date.now();
     state.fishing.currentDurationMs = getEffectiveCastDuration(spot);
     if (elements.fishButton) {
       elements.fishButton.textContent = "Stop Fishing";
@@ -1378,7 +2041,7 @@ function completeWoodcuttingCycle() {
     state.fishing.active = false;
     state.fishing.currentDurationMs = 0;
     if (state.fishing.timerId) {
-      cancelAnimationFrame(state.fishing.timerId);
+      clearTimeout(state.fishing.timerId);
       state.fishing.timerId = null;
     }
 
@@ -1399,13 +2062,14 @@ function completeWoodcuttingCycle() {
   function tickFishing() {
     if (!state.fishing.active) return;
 
-    state.fishing.timerId = requestAnimationFrame((timestamp) => {
-      const elapsed = timestamp - state.fishing.startTime;
-      const duration = state.fishing.currentDurationMs;
-      const progress = Math.min(1, duration ? elapsed / duration : 0);
+  state.fishing.timerId = setTimeout(() => {
+    const now = Date.now();
+    const elapsed = now - state.fishing.startTime;
+    const duration = state.fishing.currentDurationMs;
+    const progress = Math.min(1, duration ? elapsed / duration : 0);
 
-      if (elements.fishProgressBar) {
-        elements.fishProgressBar.style.width = `${progress * 100}%`;
+    if (elements.fishProgressBar) {
+      elements.fishProgressBar.style.width = `${progress * 100}%`;
       }
       const label = `${Math.round(progress * 100)}%`;
       updateFishProgressLabel(label);
@@ -1416,9 +2080,9 @@ function completeWoodcuttingCycle() {
         return;
       }
 
-      tickFishing();
-    });
-  }
+    tickFishing();
+  }, 120);
+}
 
   function completeFishingCycle() {
     state.fishing.active = false;
@@ -1522,7 +2186,7 @@ function completeWoodcuttingCycle() {
     beginTraining("cooking");
     state.cooking.active = true;
     state.cooking.currentRecipeId = recipe.id;
-    state.cooking.startTime = performance.now();
+    state.cooking.startTime = Date.now();
     state.cooking.currentDurationMs = getEffectiveCookDuration(recipe);
     if (elements.cookButton) {
       elements.cookButton.textContent = "Stop Cooking";
@@ -1537,7 +2201,7 @@ function completeWoodcuttingCycle() {
     state.cooking.active = false;
     state.cooking.currentDurationMs = 0;
     if (state.cooking.timerId) {
-      cancelAnimationFrame(state.cooking.timerId);
+      clearTimeout(state.cooking.timerId);
       state.cooking.timerId = null;
     }
 
@@ -1558,13 +2222,14 @@ function completeWoodcuttingCycle() {
   function tickCooking() {
     if (!state.cooking.active) return;
 
-    state.cooking.timerId = requestAnimationFrame((timestamp) => {
-      const elapsed = timestamp - state.cooking.startTime;
-      const duration = state.cooking.currentDurationMs;
-      const progress = Math.min(1, duration ? elapsed / duration : 0);
+  state.cooking.timerId = setTimeout(() => {
+    const now = Date.now();
+    const elapsed = now - state.cooking.startTime;
+    const duration = state.cooking.currentDurationMs;
+    const progress = Math.min(1, duration ? elapsed / duration : 0);
 
-      if (elements.cookingProgressBar) {
-        elements.cookingProgressBar.style.width = `${progress * 100}%`;
+    if (elements.cookingProgressBar) {
+      elements.cookingProgressBar.style.width = `${progress * 100}%`;
       }
       const label = `${Math.round(progress * 100)}%`;
       updateCookingProgressLabel(label);
@@ -1575,9 +2240,9 @@ function completeWoodcuttingCycle() {
         return;
       }
 
-      tickCooking();
-    });
-  }
+    tickCooking();
+  }, 120);
+}
 
   function completeCookingCycle() {
     state.cooking.active = false;
@@ -1653,7 +2318,18 @@ function completeWoodcuttingCycle() {
       elements.topRodName.textContent = rod.name;
     }
 
+    const weapon = getEquippedWeapon();
+    if (elements.weaponName && weapon) {
+      elements.weaponName.textContent = weapon.name;
+    }
+
+    const armor = getEquippedArmor();
+    if (elements.armorName && armor) {
+      elements.armorName.textContent = armor.name;
+    }
+
     updateTopReadouts();
+    updateCombatStats();
   }
 
   function renderInventory() {
@@ -1671,12 +2347,16 @@ function completeWoodcuttingCycle() {
         const amount = state.inventory[resourceId] || 0;
         const li = document.createElement("li");
         li.className = "inventory-entry";
+        const icon = document.createElement("span");
+        icon.className = "item-icon";
+        icon.textContent = getResourceIcon(resourceId);
         const name = document.createElement("span");
         name.className = "item-name";
         name.textContent = getResourceName(resourceId);
         const qty = document.createElement("span");
         qty.className = "item-qty";
         qty.textContent = formatNumber(amount);
+        li.appendChild(icon);
         li.appendChild(name);
         li.appendChild(qty);
 
@@ -1695,6 +2375,7 @@ function completeWoodcuttingCycle() {
     });
 
     elements.inventoryList.appendChild(fragment);
+    renderCombatFoodOptions();
     renderMarket();
     updateTopReadouts();
   }
@@ -1711,6 +2392,32 @@ function pushLog(entry) {
   }
 
   renderLog();
+}
+
+function showNotification(title, body, variant = "default") {
+  if (!elements.notifications) return;
+  const notice = document.createElement("div");
+  notice.className = "notification";
+  if (variant && variant !== "default") {
+    notice.dataset.variant = variant;
+  }
+
+  const heading = document.createElement("span");
+  heading.className = "notification__title";
+  heading.textContent = title;
+
+  const message = document.createElement("span");
+  message.className = "notification__body";
+  message.textContent = body;
+
+  notice.appendChild(heading);
+  notice.appendChild(message);
+
+  elements.notifications.appendChild(notice);
+
+  setTimeout(() => {
+    notice.remove();
+  }, 5000);
 }
 
 function renderLog() {
@@ -1755,6 +2462,12 @@ function updateProgressLabel(text) {
   function updateCookingProgressLabel(text) {
     if (elements.cookingProgressLabel) {
       elements.cookingProgressLabel.textContent = text;
+    }
+  }
+
+  function updateSmithingProgressLabel(text) {
+    if (elements.smithingProgressLabel) {
+      elements.smithingProgressLabel.textContent = text;
     }
   }
 
@@ -1842,10 +2555,18 @@ function updateTopReadouts() {
   }
 }
 
+function formatSkillLabel(skillId) {
+  return skillId
+    .split(/[_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 function beginTraining(skillId) {
   const definition = getSkillDefinition(skillId);
   state.activeTraining = skillId;
-  state.trainingLabel = definition?.name || skillId;
+  state.trainingLabel = definition?.name || formatSkillLabel(skillId);
   if (elements.activeTrainingSkill) {
     elements.activeTrainingSkill.textContent = state.trainingLabel;
   }
@@ -1910,6 +2631,10 @@ function ensureExclusiveTraining(skillId) {
     cancelFishingCycle(interruptionMessage);
   } else if (active === "cooking") {
     cancelCookingCycle(interruptionMessage);
+  } else if (active === "smithing") {
+    cancelSmeltingCycle(interruptionMessage);
+  } else if (active === "combat") {
+    stopCombat(interruptionMessage);
   }
 }
 
@@ -2070,6 +2795,13 @@ function getEffectiveCookDuration(recipe) {
   const skillBonus = 1 + (cookingSkill.level - 1) * 0.018;
   const effective = Math.round(recipe.baseDurationMs / (skillBonus * spiceBonus));
   return Math.max(800, effective);
+}
+
+function getSmeltingDuration(recipe) {
+  if (!recipe) return 0;
+  const smithingSkill = getSkill("smithing");
+  const skillBonus = 1 + (smithingSkill.level - 1) * 0.015;
+  return Math.max(1000, Math.round((recipe.baseDurationMs || 5000) / skillBonus));
 }
 
 function renderStoneOptions() {
@@ -2411,8 +3143,50 @@ function updateSkillDisplays() {
         : formatNumber(Math.max(0, cooking.xpToNext - cooking.xp));
   }
 
+  const attack = getSkill("attack");
+  if (elements.attackLevel) {
+    elements.attackLevel.textContent = attack.level;
+  }
+  if (elements.attackXp) {
+    elements.attackXp.textContent = formatNumber(attack.xp);
+  }
+
+  const strength = getSkill("strength");
+  if (elements.strengthLevel) {
+    elements.strengthLevel.textContent = strength.level;
+  }
+  if (elements.strengthXp) {
+    elements.strengthXp.textContent = formatNumber(strength.xp);
+  }
+
+  const defense = getSkill("defense");
+  if (elements.defenseLevel) {
+    elements.defenseLevel.textContent = defense.level;
+  }
+  if (elements.defenseXp) {
+    elements.defenseXp.textContent = formatNumber(defense.xp);
+  }
+
+  const accuracy = getSkill("accuracy");
+  if (elements.accuracyLevel) {
+    elements.accuracyLevel.textContent = accuracy.level;
+  }
+  if (elements.accuracyXp) {
+    elements.accuracyXp.textContent = formatNumber(accuracy.xp);
+  }
+
+  const hitpoints = getSkill("hitpoints");
+  if (elements.hitpointsLevel) {
+    elements.hitpointsLevel.textContent = hitpoints.level;
+  }
+  if (elements.hitpointsXp) {
+    elements.hitpointsXp.textContent = formatNumber(hitpoints.xp);
+  }
+
   renderSkillList();
   updateTopReadouts();
+  renderCombatMonsters();
+  updateCombatStats();
 }
 
 function gainSkillXp(skillId, amount) {
@@ -2443,6 +3217,11 @@ function gainSkillXp(skillId, amount) {
     const skillDef = getSkillDefinition(skillId);
     const skillName = skillDef?.name || skillId;
     pushLog(`Your ${skillName.toLowerCase()} skill rises to level ${skill.level}!`);
+    showNotification(
+      `${skillName} Level Up`,
+      `You reached level ${skill.level} in ${skillName.toLowerCase()}.`,
+      "level"
+    );
     if (skillId === "mining") {
       renderStoneOptions();
       updateResourceDetails();
@@ -2506,6 +3285,8 @@ function renderSkillList() {
     renderForgeList(PICKAXES, elements.pickaxeForgeList, "pickaxe");
     renderForgeList(AXES, elements.axeForgeList, "axe");
     renderForgeList(FISHING_RODS, elements.rodForgeList, "rod");
+    renderForgeList(WEAPONS, elements.weaponForgeList, "weapon");
+    renderForgeList(ARMORS, elements.armorForgeList, "armor");
     switchSmithyCategory(elements.smithyCategory?.value || "smelt");
   }
 
@@ -2525,6 +3306,8 @@ function renderSmeltingList() {
   elements.smeltingList.innerHTML = "";
   const fragment = document.createDocumentFragment();
   const smithing = getSkill("smithing");
+  const smeltingActive = state.smelting.active;
+  const activeRecipeId = state.smelting.currentRecipeId;
 
   SMELTING_RECIPES.forEach((recipe) => {
     const li = document.createElement("li");
@@ -2545,12 +3328,12 @@ function renderSmeltingList() {
     button.type = "button";
     button.dataset.action = "smelt";
     button.dataset.id = recipe.id;
-    button.textContent = "Smelt";
+    button.textContent = activeRecipeId === recipe.id && smeltingActive ? "Smelting" : "Smelt";
 
     const ownedOre = state.inventory[recipe.oreId] || 0;
     const meetsLevel = smithing.level >= recipe.levelRequirement;
     const hasOre = ownedOre >= recipe.oreAmount;
-    button.disabled = !(meetsLevel && hasOre);
+    button.disabled = smeltingActive || !(meetsLevel && hasOre);
 
     summary.appendChild(info);
     summary.appendChild(button);
@@ -2564,6 +3347,9 @@ function renderSmeltingList() {
       messages.push(
         `Need ${recipe.oreAmount} ${getResourceName(recipe.oreId)} (have ${formatNumber(ownedOre)}).`
       );
+    }
+    if (smeltingActive && activeRecipeId !== recipe.id) {
+      messages.push("Currently smelting another bar.");
     }
     if (!messages.length) {
       messages.push(`Ready to smelt for ${formatNumber(recipe.xp)} xp.`);
@@ -2612,22 +3398,36 @@ function renderForgeList(tools, listElement, type) {
       usageLine.textContent = `Use: Mining level ${tool.miningLevelRequirement}`;
     } else if (type === "axe") {
       usageLine.textContent = `Use: Woodcutting level ${tool.woodcuttingLevelRequirement}`;
-    } else {
+    } else if (type === "rod") {
       usageLine.textContent = `Use: Fishing level ${tool.fishingLevelRequirement}`;
+    } else if (type === "weapon") {
+      usageLine.textContent = `Use: Attack ${tool.attackLevelRequirement} • Strength ${tool.strengthLevelRequirement}`;
+    } else {
+      usageLine.textContent = `Use: Defense ${tool.defenseLevelRequirement} • Hitpoints ${tool.hitpointsLevelRequirement}`;
     }
     info.appendChild(usageLine);
 
     const button = document.createElement("button");
     button.type = "button";
-    button.dataset.action =
-      type === "pickaxe" ? "forge-pickaxe" : type === "axe" ? "forge-axe" : "forge-rod";
+    const actionMap = {
+      pickaxe: "forge-pickaxe",
+      axe: "forge-axe",
+      rod: "forge-rod",
+      weapon: "forge-weapon",
+      armor: "forge-armor",
+    };
+    button.dataset.action = actionMap[type] || "forge";
     button.dataset.id = tool.id;
     const alreadyOwned =
       type === "pickaxe"
         ? state.ownedPickaxes.has(tool.id)
         : type === "axe"
         ? state.ownedAxes.has(tool.id)
-        : state.ownedRods.has(tool.id);
+        : type === "rod"
+        ? state.ownedRods.has(tool.id)
+        : type === "weapon"
+        ? state.ownedWeapons.has(tool.id)
+        : state.ownedArmors.has(tool.id);
     button.textContent = alreadyOwned ? "Forged" : "Forge";
 
     const meetsLevel = smithing.level >= tool.smithingLevelRequirement;
@@ -2648,19 +3448,40 @@ function renderForgeList(tools, listElement, type) {
     if (!meetsLevel) {
       messages.push(`Requires smithing level ${tool.smithingLevelRequirement}.`);
     }
-    const usageRequirement =
-      type === "pickaxe"
-        ? tool.miningLevelRequirement
-        : type === "axe"
-        ? tool.woodcuttingLevelRequirement
-        : tool.fishingLevelRequirement;
-    const usageSkillId = type === "pickaxe" ? "mining" : type === "axe" ? "woodcutting" : "fishing";
-    const usageSkill = getSkill(usageSkillId);
-    const usageSkillDefinition = getSkillDefinition(usageSkillId);
-    if (usageSkill && usageSkillDefinition && usageSkill.level < usageRequirement) {
-      messages.push(
-        `Using well requires ${usageSkillDefinition.name} level ${usageRequirement}.`
-      );
+    if (type === "pickaxe" || type === "axe" || type === "rod") {
+      const usageRequirement =
+        type === "pickaxe"
+          ? tool.miningLevelRequirement
+          : type === "axe"
+          ? tool.woodcuttingLevelRequirement
+          : tool.fishingLevelRequirement;
+      const usageSkillId =
+        type === "pickaxe" ? "mining" : type === "axe" ? "woodcutting" : "fishing";
+      const usageSkill = getSkill(usageSkillId);
+      const usageSkillDefinition = getSkillDefinition(usageSkillId);
+      if (usageSkill && usageSkillDefinition && usageSkill.level < usageRequirement) {
+        messages.push(
+          `Using well requires ${usageSkillDefinition.name} level ${usageRequirement}.`
+        );
+      }
+    } else if (type === "weapon") {
+      const attackSkill = getSkill("attack");
+      const strengthSkill = getSkill("strength");
+      if (attackSkill.level < tool.attackLevelRequirement) {
+        messages.push(`Requires attack level ${tool.attackLevelRequirement} to wield.`);
+      }
+      if (strengthSkill.level < tool.strengthLevelRequirement) {
+        messages.push(`Requires strength level ${tool.strengthLevelRequirement} to wield.`);
+      }
+    } else if (type === "armor") {
+      const defenseSkill = getSkill("defense");
+      const hitpointsSkill = getSkill("hitpoints");
+      if (defenseSkill.level < tool.defenseLevelRequirement) {
+        messages.push(`Requires defense level ${tool.defenseLevelRequirement} to wear.`);
+      }
+      if (hitpointsSkill.level < tool.hitpointsLevelRequirement) {
+        messages.push(`Requires hitpoints level ${tool.hitpointsLevelRequirement} to wear.`);
+      }
     }
     if (!hasResources) {
       Object.entries(tool.cost).forEach(([resourceId, amount]) => {
@@ -2704,6 +3525,10 @@ function handleSmithingAction(event) {
     attemptForge("axe", id);
   } else if (action === "forge-rod") {
     attemptForge("rod", id);
+  } else if (action === "forge-weapon") {
+    attemptForge("weapon", id);
+  } else if (action === "forge-armor") {
+    attemptForge("armor", id);
   }
 }
 
@@ -2908,6 +3733,11 @@ function getSaleValue(resourceId, quantity) {
 function attemptSmelt(recipeId) {
   const recipe = SMELTING_RECIPES.find((entry) => entry.id === recipeId);
   if (!recipe) return;
+  if (state.smelting.active) {
+    pushLog("You are already tending a crucible. Let it finish first.");
+    return;
+  }
+
   const smithing = getSkill("smithing");
   if (smithing.level < recipe.levelRequirement) {
     pushLog(`You need smithing level ${recipe.levelRequirement} to smelt ${recipe.name}.`);
@@ -2918,11 +3748,95 @@ function attemptSmelt(recipeId) {
     return;
   }
 
+  ensureExclusiveTraining("smithing");
+  beginTraining("smithing");
+
   state.inventory[recipe.oreId] -= recipe.oreAmount;
-  state.inventory[recipe.id] = (state.inventory[recipe.id] || 0) + 1;
-  pushLog(`You smelt ${recipe.name} and earn ${formatNumber(recipe.xp)} smithing xp.`);
-  gainSkillXp("smithing", recipe.xp);
+  state.smelting.active = true;
+  state.smelting.currentRecipeId = recipe.id;
+  state.smelting.startTime = Date.now();
+  state.smelting.currentDurationMs = getSmeltingDuration(recipe);
+  updateSmithingProgressLabel("Smelting");
+  setTrainingStatus("smithing", "Smelting");
+
   renderInventory();
+  renderSmithingOptions();
+
+  tickSmelting();
+}
+
+function tickSmelting() {
+  if (!state.smelting.active) return;
+  const now = Date.now();
+  const elapsed = now - state.smelting.startTime;
+  const duration = state.smelting.currentDurationMs;
+  const progress = Math.min(1, duration ? elapsed / duration : 0);
+
+  if (elements.smithingProgressBar) {
+    elements.smithingProgressBar.style.width = `${progress * 100}%`;
+  }
+  const label = `${Math.round(progress * 100)}%`;
+  updateSmithingProgressLabel(label);
+  setTrainingProgress("smithing", progress, label);
+
+  if (progress >= 1) {
+    completeSmeltingCycle();
+    return;
+  }
+
+  state.smelting.timerId = setTimeout(tickSmelting, 120);
+}
+
+function completeSmeltingCycle() {
+  const recipe = SMELTING_RECIPES.find((entry) => entry.id === state.smelting.currentRecipeId);
+  state.smelting.active = false;
+  if (state.smelting.timerId) {
+    clearTimeout(state.smelting.timerId);
+    state.smelting.timerId = null;
+  }
+  if (recipe) {
+    state.inventory[recipe.id] = (state.inventory[recipe.id] || 0) + 1;
+    pushLog(`You smelt ${recipe.name} and earn ${formatNumber(recipe.xp)} smithing xp.`);
+    gainSkillXp("smithing", recipe.xp);
+  }
+  updateSmithingProgressLabel("Cooling");
+  setTrainingStatus("smithing", "Cooling");
+  renderInventory();
+  renderSmithingOptions();
+
+  setTimeout(() => {
+    if (elements.smithingProgressBar) {
+      elements.smithingProgressBar.style.width = "0%";
+    }
+    updateSmithingProgressLabel("Idle");
+    clearTrainingIndicator("smithing");
+
+    if (recipe && state.autoContinue.smithing) {
+      if ((state.inventory[recipe.oreId] || 0) >= recipe.oreAmount) {
+        attemptSmelt(recipe.id);
+      }
+    }
+  }, 400);
+}
+
+function cancelSmeltingCycle(message) {
+  if (!state.smelting.active) {
+    if (message) {
+      updateSmithingProgressLabel("Idle");
+      clearTrainingIndicator("smithing", message);
+    }
+    return;
+  }
+  state.smelting.active = false;
+  if (state.smelting.timerId) {
+    clearTimeout(state.smelting.timerId);
+    state.smelting.timerId = null;
+  }
+  if (elements.smithingProgressBar) {
+    elements.smithingProgressBar.style.width = "0%";
+  }
+  updateSmithingProgressLabel("Idle");
+  clearTrainingIndicator("smithing", message || "You pause the furnace.");
   renderSmithingOptions();
 }
 
@@ -2948,6 +3862,16 @@ function attemptForge(type, toolId) {
     ownedSet = state.ownedRods;
     equipKey = "rodId";
     usageSkillId = "fishing";
+  } else if (type === "weapon") {
+    collection = WEAPONS;
+    ownedSet = state.ownedWeapons;
+    equipKey = "weaponId";
+    usageSkillId = "attack";
+  } else if (type === "armor") {
+    collection = ARMORS;
+    ownedSet = state.ownedArmors;
+    equipKey = "armorId";
+    usageSkillId = "defense";
   } else {
     return;
   }
@@ -2962,6 +3886,30 @@ function attemptForge(type, toolId) {
   if (smithing.level < tool.smithingLevelRequirement) {
     pushLog(`You need smithing level ${tool.smithingLevelRequirement} to forge a ${tool.name}.`);
     return;
+  }
+
+  if (type === "weapon") {
+    const attackSkill = getSkill("attack");
+    const strengthSkill = getSkill("strength");
+    if (attackSkill.level < tool.attackLevelRequirement) {
+      pushLog(`You need attack level ${tool.attackLevelRequirement} to wield a ${tool.name}.`);
+      return;
+    }
+    if (strengthSkill.level < tool.strengthLevelRequirement) {
+      pushLog(`You need strength level ${tool.strengthLevelRequirement} to wield a ${tool.name}.`);
+      return;
+    }
+  } else if (type === "armor") {
+    const defenseSkill = getSkill("defense");
+    const hitpointsSkill = getSkill("hitpoints");
+    if (defenseSkill.level < tool.defenseLevelRequirement) {
+      pushLog(`You need defense level ${tool.defenseLevelRequirement} to wear a ${tool.name}.`);
+      return;
+    }
+    if (hitpointsSkill.level < tool.hitpointsLevelRequirement) {
+      pushLog(`You need hitpoints level ${tool.hitpointsLevelRequirement} to wear a ${tool.name}.`);
+      return;
+    }
   }
 
   const missing = Object.entries(tool.cost).filter(([resourceId, amount]) => {
@@ -2985,16 +3933,16 @@ function attemptForge(type, toolId) {
 
   ownedSet.add(tool.id);
   state.equipment[equipKey] = tool.id;
-  if (type === "rod") {
-    state.inventory[`${tool.id}_item`] = (state.inventory[`${tool.id}_item`] || 0) + 1;
-  }
+  state.inventory[`${tool.id}_item`] = (state.inventory[`${tool.id}_item`] || 0) + 1;
   refreshEquipmentLabels();
   if (type === "pickaxe") {
     updateMiningStats();
   } else if (type === "axe") {
     updateWoodcuttingStats();
-  } else {
+  } else if (type === "rod") {
     updateFishingStats();
+  } else {
+    updateCombatStats();
   }
 
   pushLog(`You forge a ${tool.name}, gaining ${formatNumber(tool.xp)} smithing xp.`);
